@@ -1,0 +1,15 @@
+before_install:
+    - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/before-install_linux.sh ; fi
+
+install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/install_linux.sh ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
+
+language: cpp
+
+compiler:
+  - gcc
+
+script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./travis/script_linux.sh ; fi
+
