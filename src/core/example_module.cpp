@@ -3,7 +3,7 @@
 using namespace core;
 
 int ExampleModule::getme(void){
-    return value;
+    return -value;
 }
 
 void ExampleModule::setme(int newvalue){

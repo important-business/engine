@@ -5,4 +5,7 @@ echo "########################################################################"
 cd build
 cmake ..
 make
-./src/engine
+
+# Run unit tests with verbose output
+make test ARGS='-V'
+
