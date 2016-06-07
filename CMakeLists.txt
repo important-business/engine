@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.3)
 INCLUDE(FindPkgConfig)
 
 enable_testing()
-project(engine CXX)
+project(engine CXX C)
 
 include(${CMAKE_ROOT}/Modules/CheckIncludeFile.cmake)
 include(CheckCXXSourceCompiles)
