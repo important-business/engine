@@ -29,6 +29,6 @@ foreach(case_file ${test_cases})
     add_executable(${case_name} ${case_file} test_main.cpp)
     target_link_libraries(${case_name} PUBLIC libgtest libengine)
     add_test(NAME ${case_name}
-    COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/${case_name}
+    COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/${case_name} --gtest_color=yes
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
 endforeach()
