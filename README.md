@@ -5,16 +5,15 @@ a game engine
 ## Build Dependencies
  * SDL2
  * SDL2_image
+ * Make
+ * CMake 3.3
 
 ## Build Instructions
 There isn't a whole lot to build at the moment, but...
 ```
 git clone https://github.com/important-business/engine.git engine
 cd engine
-cd build
-cmake ..
 make
-./src/engine
 ```
 
 TODO: Add information about build options
