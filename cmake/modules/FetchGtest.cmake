@@ -10,7 +10,8 @@ include(ExternalProject)
 # TODO: Update Gtest?
 ExternalProject_Add(
     gtest
-    URL https://googletest.googlecode.com/files/gtest-1.7.0.zip
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.7.0
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
     # Disable install step
     INSTALL_COMMAND ""
