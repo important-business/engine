@@ -6,6 +6,9 @@ enable_testing()
 
 project(engine CXX C)
 
+# Add the project CMake modules to the CMake module path
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
+
 #Do debug build by default
 if (NOT CMAKE_BUILD_TYPE)
     message("-- Defaulting to debug build (use -DCMAKE_BUILD_TYPE:STRING=Release for release build)")
