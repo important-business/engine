@@ -1,5 +1,6 @@
 # Use the FetchGtest module to get libgtest
 include(FetchGtest)
+FetchGoogleTest()
 
 # Define the list of test modules
 set(test_modules core)
