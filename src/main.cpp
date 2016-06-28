@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include <anax/anax.hpp>
+
 #include <sdl/wrap.hpp>
 #include "core/example_module.hpp"
 
