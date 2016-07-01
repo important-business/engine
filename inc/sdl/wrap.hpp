@@ -25,6 +25,7 @@ class Window
             int         h,
             Uint32      flags
         );
+        Window(const Window&) = delete;
         ~Window();
         SDL_Window* get_pointer();
 };
@@ -36,6 +37,7 @@ class Renderer
 
     public:
         Renderer(Window &window, int index, Uint32 flags);
+        Renderer(const Renderer&) = delete;
         ~Renderer();
         int clear();
         int copy(
@@ -64,6 +66,7 @@ class Texture
 
     public:
         Texture(std::string path, Renderer &renderer);
+        Texture(const Texture&) = delete;
         SDL_Texture* get_pointer();
 };
 }

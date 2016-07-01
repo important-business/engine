@@ -27,21 +27,21 @@ int main(int argc, char* argv[])
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    auto window = sdl::Window(
+    sdl::Window window{
         WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
         SDL_WINDOW_SHOWN
-    );
-    auto renderer = sdl::Renderer(window, -1, SDL_RENDERER_ACCELERATED);
+    };
+    sdl::Renderer renderer { window, -1, SDL_RENDERER_ACCELERATED };
     renderer.set_draw_color(150,150,150,100);
 
-    auto goose_texture = sdl::Texture(
+    sdl::Texture goose_texture{
             "resources/angry_goose_head.png",
             renderer
-            );
+            };
 
     auto is_not_done = true;
     while (is_not_done)
