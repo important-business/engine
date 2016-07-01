@@ -35,15 +35,15 @@ int main(int argc, char* argv[])
         WINDOW_HEIGHT,
         SDL_WINDOW_SHOWN
     );
-    auto renderer = sdl::Renderer(window, -1, SDL_RENDERER_SOFTWARE);
-    auto goose_texture = sdl::Texture("resources/angry_goose_head.png", renderer);
+    auto renderer = sdl::Renderer(&window, -1, SDL_RENDERER_SOFTWARE);
+    auto goose_texture = sdl::Texture("resources/angry_goose_head.png", &renderer);
 
     auto is_not_done = true;
     while (is_not_done)
     {
         is_not_done = handle_input();
         renderer.clear();
-        renderer.copy(goose_texture, nullptr, nullptr);
+        renderer.copy(&goose_texture, nullptr, nullptr);
         renderer.present();
     }
 }

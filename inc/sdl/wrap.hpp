@@ -35,11 +35,11 @@ class Renderer
         SDL_Renderer* prenderer;
 
     public:
-        Renderer(Window, int index, Uint32 flags);
+        Renderer(Window *pwindow, int index, Uint32 flags);
         ~Renderer();
         int clear();
         int copy(
-                Texture texture,
+                Texture *ptexture,
                 const SDL_Rect* srcrect,
                 const SDL_Rect* dstrect
                 );
@@ -55,7 +55,7 @@ class Texture
         int mHeight = 0;
 
     public:
-        Texture(std::string path, Renderer render);
+        Texture(std::string path, Renderer *prender);
         SDL_Texture* get_pointer();
 };
 }

@@ -31,6 +31,7 @@ Window::Window(
 
 Window::~Window()
 {
+    std::cout << "Entering window destructor\n";
     if (window != nullptr)
     {
         SDL_DestroyWindow(window);
@@ -42,9 +43,9 @@ SDL_Window* Window::get_pointer()
     return window;
 }
 
-Renderer::Renderer(Window window, int index, Uint32 flags)
+Renderer::Renderer(Window *pwindow, int index, Uint32 flags)
 {
-    prenderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
+    prenderer = SDL_CreateRenderer(pwindow->get_pointer(), index, flags);
     if (prenderer == nullptr){
         std::ostringstream error;
         error << "Error:Renderer: " << SDL_GetError() << "\n";
@@ -55,6 +56,7 @@ Renderer::Renderer(Window window, int index, Uint32 flags)
 
 Renderer::~Renderer()
 {
+    std::cout << "Entering renderer destructor\n";
     if ( prenderer == nullptr ){
         SDL_DestroyRenderer(prenderer);
     }
@@ -65,11 +67,11 @@ int Renderer::clear(){
 }
 
 int Renderer::copy(
-    Texture texture,
+    Texture *ptexture,
     const SDL_Rect* srcrect,
     const SDL_Rect* dstrect
 ){
-    return SDL_RenderCopy(prenderer, texture.get_pointer(), srcrect, dstrect);
+    return SDL_RenderCopy(prenderer, ptexture->get_pointer(), srcrect, dstrect);
 }
 
 void Renderer::present(){
@@ -78,7 +80,7 @@ void Renderer::present(){
 SDL_Renderer* Renderer::get_pointer(){
     return prenderer;
 }
-Texture::Texture(std::string path, Renderer render)
+Texture::Texture(std::string path, Renderer *prender)
 {
     SDL_Surface* surface = IMG_Load( path.c_str() );
     if (surface == nullptr)
@@ -89,7 +91,7 @@ Texture::Texture(std::string path, Renderer render)
         throw error_str;
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(render.get_pointer(), surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(prender->get_pointer(), surface);
     if ( texture == nullptr)
     {
         std::ostringstream error;
