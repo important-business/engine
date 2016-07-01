@@ -5,21 +5,22 @@ using namespace sdl;
 
 Window::Window(
     const std::string title,
-    int         x,
-    int         y,
-    int         w,
-    int         h,
-    Uint32      flags
+    int x,
+    int y,
+    int w,
+    int h,
+    Uint32 flags
 )
 {
     window = SDL_CreateWindow(
-        title.c_str(),
-        x,
-        y,
-        w,
-        h,
-        flags
-    );
+            title.c_str(),
+            x,
+            y,
+            w,
+            h,
+            flags
+        );
+
     if (window == nullptr)
     {
         std::ostringstream error;
@@ -46,7 +47,8 @@ SDL_Window* Window::get_pointer()
 Renderer::Renderer(Window &window, int index, Uint32 flags)
 {
     prenderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
-    if (prenderer == nullptr){
+    if (prenderer == nullptr)
+    {
         std::ostringstream error;
         error << "Error:Renderer: " << SDL_GetError() << "\n";
         auto error_str = error.str();
@@ -57,12 +59,14 @@ Renderer::Renderer(Window &window, int index, Uint32 flags)
 Renderer::~Renderer()
 {
     std::cout << "Entering renderer destructor\n";
-    if ( prenderer == nullptr ){
+    if ( prenderer == nullptr )
+    {
         SDL_DestroyRenderer(prenderer);
     }
 }
 
-int Renderer::clear(){
+int Renderer::clear()
+{
     return SDL_RenderClear(prenderer);
 }
 
@@ -70,11 +74,13 @@ int Renderer::copy(
     Texture &texture,
     const SDL_Rect* srcrect,
     const SDL_Rect* dstrect
-){
+)
+{
     return SDL_RenderCopy(prenderer, texture.get_pointer(), srcrect, dstrect);
 }
 
-void Renderer::present(){
+void Renderer::present()
+{
     SDL_RenderPresent(prenderer);
 }
 
@@ -83,13 +89,16 @@ int Renderer::set_draw_color(
         Uint8 blue,
         Uint8 green,
         Uint8 alpha
-        ){
+    )
+{
     return SDL_SetRenderDrawColor(prenderer, red, blue, green, alpha);
 }
 
-SDL_Renderer* Renderer::get_pointer(){
+SDL_Renderer* Renderer::get_pointer()
+{
     return prenderer;
 }
+
 Texture::Texture(std::string path, Renderer &renderer)
 {
     SDL_Surface* surface = IMG_Load( path.c_str() );
@@ -121,6 +130,7 @@ Texture::Texture(std::string path, Renderer &renderer)
     this->mTexture = texture;
 }
 
-SDL_Texture* Texture::get_pointer(){
+SDL_Texture* Texture::get_pointer()
+{
     return mTexture;
 }
