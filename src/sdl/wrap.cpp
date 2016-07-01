@@ -77,6 +77,16 @@ int Renderer::copy(
 void Renderer::present(){
     SDL_RenderPresent(prenderer);
 }
+
+int Renderer::set_draw_color(
+        Uint8 red,
+        Uint8 blue,
+        Uint8 green,
+        Uint8 alpha
+        ){
+    return SDL_SetRenderDrawColor(prenderer, red, blue, green, alpha);
+}
+
 SDL_Renderer* Renderer::get_pointer(){
     return prenderer;
 }

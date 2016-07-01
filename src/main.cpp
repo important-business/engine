@@ -36,6 +36,8 @@ int main(int argc, char* argv[])
         SDL_WINDOW_SHOWN
     );
     auto renderer = sdl::Renderer(&window, -1, SDL_RENDERER_SOFTWARE);
+    renderer.set_draw_color(150,150,150,100);
+
     auto goose_texture = sdl::Texture("resources/angry_goose_head.png", &renderer);
 
     auto is_not_done = true;

@@ -44,6 +44,14 @@ class Renderer
                 const SDL_Rect* dstrect
                 );
         void present();
+
+        int set_draw_color(
+                Uint8 red,
+                Uint8 blue,
+                Uint8 green,
+                Uint8 alpha
+                );
+
         SDL_Renderer* get_pointer();
 };
 
