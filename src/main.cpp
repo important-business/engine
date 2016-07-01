@@ -23,7 +23,10 @@ int main(int argc, char* argv[])
     auto a = core::ExampleModule(4);
     auto i = a.getme();
     std::cout << "Returned value " << i << "\n";
-    std::cout << "Returned value " << i << "\n";
+
+    SDL_Init(SDL_INIT_VIDEO);
+    IMG_Init(IMG_INIT_PNG);
+
     auto window = sdl::Window(
         WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
