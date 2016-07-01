@@ -42,11 +42,44 @@ SDL_Window* Window::get_pointer()
     return window;
 }
 
-
-Texture::Texture(std::string path)
+Renderer::Renderer(Window window, int index, Uint32 flags)
 {
-    SDL_Renderer* render = NULL;
+    prenderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
+    if (prenderer == nullptr){
+        std::ostringstream error;
+        error << "Error:Renderer: " << SDL_GetError() << "\n";
+        auto error_str = error.str();
+        throw error_str;
+    }
+}
 
+Renderer::~Renderer()
+{
+    if ( prenderer == nullptr ){
+        SDL_DestroyRenderer(prenderer);
+    }
+}
+
+int Renderer::clear(){
+    return SDL_RenderClear(prenderer);
+}
+
+int Renderer::copy(
+    Texture texture,
+    const SDL_Rect* srcrect,
+    const SDL_Rect* dstrect
+){
+    return SDL_RenderCopy(prenderer, texture.get_pointer(), srcrect, dstrect);
+}
+
+void Renderer::present(){
+    SDL_RenderPresent(prenderer);
+}
+SDL_Renderer* Renderer::get_pointer(){
+    return prenderer;
+}
+Texture::Texture(std::string path, Renderer render)
+{
     SDL_Surface* surface = IMG_Load( path.c_str() );
     if (surface == nullptr)
     {
@@ -56,7 +89,7 @@ Texture::Texture(std::string path)
         throw error_str;
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(render, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(render.get_pointer(), surface);
     if ( texture == nullptr)
     {
         std::ostringstream error;
@@ -71,4 +104,8 @@ Texture::Texture(std::string path)
     SDL_FreeSurface(surface);
 
     this->mTexture = texture;
+}
+
+SDL_Texture* Texture::get_pointer(){
+    return mTexture;
 }

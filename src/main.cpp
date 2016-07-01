@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     auto a = core::ExampleModule(4);
     auto i = a.getme();
     std::cout << "Returned value " << i << "\n";
-
+    std::cout << "Returned value " << i << "\n";
     auto window = sdl::Window(
         WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
@@ -32,14 +32,16 @@ int main(int argc, char* argv[])
         WINDOW_HEIGHT,
         SDL_WINDOW_SHOWN
     );
-    auto pWindow = window.get_pointer();
-    // SDL_Surface* surface = SDL_GetWindowSurface(pWindow);
+    auto renderer = sdl::Renderer(window, -1, SDL_RENDERER_SOFTWARE);
+    auto goose_texture = sdl::Texture("resources/angry_goose_head.png", renderer);
 
     auto is_not_done = true;
     while (is_not_done)
     {
         is_not_done = handle_input();
-        SDL_UpdateWindowSurface(pWindow);
+        renderer.clear();
+        renderer.copy(goose_texture, nullptr, nullptr);
+        renderer.present();
     }
 }
 

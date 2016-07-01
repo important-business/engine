@@ -9,6 +9,8 @@
 namespace sdl
 {
 
+class Texture;
+
 class Window
 {
     private:
@@ -27,6 +29,23 @@ class Window
         SDL_Window* get_pointer();
 };
 
+class Renderer
+{
+    private:
+        SDL_Renderer* prenderer;
+
+    public:
+        Renderer(Window, int index, Uint32 flags);
+        ~Renderer();
+        int clear();
+        int copy(
+                Texture texture,
+                const SDL_Rect* srcrect,
+                const SDL_Rect* dstrect
+                );
+        void present();
+        SDL_Renderer* get_pointer();
+};
 
 class Texture
 {
@@ -36,7 +55,8 @@ class Texture
         int mHeight = 0;
 
     public:
-        Texture(std::string path);
+        Texture(std::string path, Renderer render);
+        SDL_Texture* get_pointer();
 };
 }
 #endif
