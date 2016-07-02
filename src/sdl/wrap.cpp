@@ -13,13 +13,13 @@ Window::Window(
 )
 {
     window = SDL_CreateWindow(
-            title.c_str(),
-            x,
-            y,
-            w,
-            h,
-            flags
-        );
+        title.c_str(),
+        x,
+        y,
+        w,
+        h,
+        flags
+    );
 
     if (window == nullptr)
     {
@@ -85,11 +85,11 @@ void Renderer::present()
 }
 
 int Renderer::set_draw_color(
-        Uint8 red,
-        Uint8 blue,
-        Uint8 green,
-        Uint8 alpha
-    )
+    Uint8 red,
+    Uint8 blue,
+    Uint8 green,
+    Uint8 alpha
+)
 {
     return SDL_SetRenderDrawColor(prenderer, red, blue, green, alpha);
 }

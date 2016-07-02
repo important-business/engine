@@ -11,8 +11,8 @@
 #include "core/example_module.hpp"
 
 const int WINDOW_WIDTH { 640 };
-const int WINDOW_HEIGHT = { 480 };
-const char* WINDOW_TITLE = { "Engine" };
+const int WINDOW_HEIGHT { 480 };
+const char* WINDOW_TITLE { "Engine" };
 
 bool handle_input();
 
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     sdl::Renderer renderer { window, -1, SDL_RENDERER_ACCELERATED };
     renderer.set_draw_color(150,150,150,100);
 
-    sdl::Texture goose_texture{
+    sdl::Texture goose_texture {
             "resources/angry_goose_head.png",
             renderer
         };
