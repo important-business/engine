@@ -7,8 +7,8 @@ add_subdirectory(sdl)
 
 # Define engine executable
 add_executable(engine main.cpp)
-target_link_libraries(engine libcore libsdl)
-target_link_libraries(engine libanax)
+target_link_libraries(engine core sdl)
+target_link_libraries(engine anax)
 
 # We don't need these yet, but check that they link OK
 target_link_libraries(engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})

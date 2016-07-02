@@ -1,4 +1,4 @@
-# Use the FetchGtest module to get libgtest
+# Use the FetchGtest module to get gtest library
 include(FetchGtest)
 FetchGoogleTest()
 
@@ -14,9 +14,9 @@ foreach(test_mod ${test_modules})
     add_executable(${test_exe_name} ${test_cases} test_main.cpp)
 
     # WTF: Why public?
-    target_link_libraries(${test_exe_name} PUBLIC libgtest lib${test_mod})
+    target_link_libraries(${test_exe_name} PUBLIC gtest ${test_mod})
 
-    # Add the test executables to ctest
+    # Add the test executable to ctest
     add_test(NAME ${test_exe_name}
     COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/${test_exe_name} --gtest_color=yes
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR})

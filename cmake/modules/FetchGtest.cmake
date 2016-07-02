@@ -10,7 +10,7 @@ function(FetchGoogleTest)
     # Thanks to David Corvoysier and Henry Schreiner
     # TODO: Update Gtest?
     ExternalProject_Add(
-        gtest
+        gtest_proj
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_TAG release-1.7.0
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
@@ -18,11 +18,16 @@ function(FetchGoogleTest)
         INSTALL_COMMAND ""
     )
 
-    ExternalProject_Get_Property(gtest source_dir binary_dir)
+    ExternalProject_Get_Property(gtest_proj source_dir binary_dir)
 
     # Create an interface library for tests to link against
-    add_library(libgtest INTERFACE)
-    add_dependencies(libgtest gtest)
-    target_link_libraries(libgtest INTERFACE Threads::Threads "${binary_dir}/libgtest.a")
-    target_include_directories(libgtest INTERFACE "${source_dir}/include")
+    add_library(gtest INTERFACE)
+    add_dependencies(gtest gtest_proj)
+    target_link_libraries(
+        gtest
+        INTERFACE
+        Threads::Threads
+        "${binary_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    )
+    target_include_directories(gtest INTERFACE "${source_dir}/include")
 endfunction(FetchGoogleTest)

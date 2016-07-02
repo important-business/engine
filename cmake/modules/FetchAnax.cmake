@@ -8,7 +8,7 @@ function(FetchAnax)
     # Thanks to David Corvoysier and Henry Schreiner
     # TODO: Select version of Anax
     ExternalProject_Add(
-        anax
+        anax_proj
         GIT_REPOSITORY https://github.com/miguelmartin75/anax.git
         GIT_TAG v2.1.0
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/anax
@@ -16,11 +16,15 @@ function(FetchAnax)
         INSTALL_COMMAND ""
     )
 
-    ExternalProject_Get_Property(anax source_dir binary_dir)
+    ExternalProject_Get_Property(anax_proj source_dir binary_dir)
 
     # Create an interface library for tests to link against
-    add_library(libanax INTERFACE)
-    add_dependencies(libanax anax)
-    target_link_libraries(libanax INTERFACE "${binary_dir}/lib/libanax.so")
-    target_include_directories(libanax INTERFACE "${source_dir}/include")
+    add_library(anax INTERFACE)
+    add_dependencies(anax anax_proj)
+    target_link_libraries(
+        anax
+        INTERFACE
+        "${binary_dir}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}anax${CMAKE_SHARED_LIBRARY_SUFFIX}"
+    )
+    target_include_directories(anax INTERFACE "${source_dir}/include")
 endfunction(FetchAnax)
