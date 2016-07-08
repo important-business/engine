@@ -29,8 +29,14 @@ void RenderSystem::render(){
     for(auto& entity : entities)
     {
         auto texturecomponent = entity.getComponent<components::TextureComponent>();
-
-        prenderer->copy(*texturecomponent.ptexture, nullptr, nullptr);
+        auto transformcomponent = entity.getComponent<components::TransformComponent>();
+        SDL_Rect dstrect = {
+            (int)transformcomponent.pos_x,
+            (int)transformcomponent.pos_y,
+            (int)transformcomponent.size_x,
+            (int)transformcomponent.size_y,
+        };
+        prenderer->copy(*texturecomponent.ptexture, nullptr, &dstrect);
     }
     prenderer->present();
 }

@@ -4,10 +4,11 @@
 #include <string>
 #include <anax/System.hpp>
 #include "components/render.hpp"
+#include "components/transform.hpp"
 
 namespace systems{
 
-struct RenderSystem : anax::System<anax::Requires<components::TextureComponent>>
+struct RenderSystem : anax::System<anax::Requires<components::TextureComponent, components::TransformComponent>>
 {
     RenderSystem(std::string title, int posx, int posy, int width, int height, Uint32 windowflags, Uint32 renderflags);
     ~RenderSystem();

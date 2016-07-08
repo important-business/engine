@@ -10,6 +10,8 @@
 #include <sdl/wrap.hpp>
 #include "core/example_module.hpp"
 #include "systems/rendersystem.hpp"
+#include "components/transform.hpp"
+#include "components/render.hpp"
 
 const int WINDOW_WIDTH { 640 };
 const int WINDOW_HEIGHT { 480 };
@@ -49,6 +51,8 @@ int main(int argc, char* argv[])
     auto is_not_done = true;
 
     auto& sprite = player.addComponent<components::TextureComponent>();
+    (void) player.addComponent<components::TransformComponent>(
+        100.0f, 300.0f, 128.0f, 128.0f, 0.0f);
     sprite.ptexture = &goose_texture;
 
     player.activate();
