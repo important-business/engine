@@ -50,7 +50,9 @@ class Renderer
         int copy(
                 Texture &texture,
                 const SDL_Rect* srcrect,
-                const SDL_Rect* dstrect
+                const SDL_Rect* dstrect,
+                int angle,
+                SDL_RendererFlip flip
             );
 
         void present();

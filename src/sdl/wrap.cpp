@@ -73,10 +73,12 @@ int Renderer::clear()
 int Renderer::copy(
     Texture &texture,
     const SDL_Rect* srcrect,
-    const SDL_Rect* dstrect
+    const SDL_Rect* dstrect,
+    int angle,
+    SDL_RendererFlip flip
 )
 {
-    return SDL_RenderCopy(prenderer, texture.get_pointer(), srcrect, dstrect);
+    return SDL_RenderCopyEx(prenderer, texture.get_pointer(), srcrect, dstrect, angle, nullptr, flip);
 }
 
 void Renderer::present()

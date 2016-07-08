@@ -36,7 +36,14 @@ void RenderSystem::render(){
             (int)transformcomponent.size_x,
             (int)transformcomponent.size_y,
         };
-        prenderer->copy(*texturecomponent.ptexture, nullptr, &dstrect);
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
+        if (transformcomponent.flip_vert){
+            flip = (SDL_RendererFlip)((SDL_RendererFlip)SDL_FLIP_VERTICAL | flip);
+        }
+        if (transformcomponent.flip_horiz){
+            flip = (SDL_RendererFlip)((SDL_RendererFlip)SDL_FLIP_HORIZONTAL | flip);
+        }
+        prenderer->copy(*texturecomponent.ptexture, nullptr, &dstrect, (int)transformcomponent.rotation, flip);
     }
     prenderer->present();
 }

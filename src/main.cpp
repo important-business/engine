@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 
     auto& sprite = player.addComponent<components::TextureComponent>();
     (void) player.addComponent<components::TransformComponent>(
-        100.0f, 300.0f, 128.0f, 128.0f, 0.0f);
+        100.0f, 300.0f, 128.0f, 128.0f, 0.0f, false, true);
     sprite.ptexture = &goose_texture;
 
     player.activate();
