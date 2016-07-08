@@ -9,10 +9,11 @@
 
 #include <sdl/wrap.hpp>
 #include "core/example_module.hpp"
+#include "systems/rendersystem.hpp"
 
 const int WINDOW_WIDTH { 640 };
 const int WINDOW_HEIGHT { 480 };
-const char* WINDOW_TITLE { "Engine" };
+const std::string WINDOW_TITLE { "Engine" };
 
 bool handle_input();
 
@@ -27,30 +28,37 @@ int main(int argc, char* argv[])
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    sdl::Window window {
-            WINDOW_TITLE,
-            SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED,
-            WINDOW_WIDTH,
-            WINDOW_HEIGHT,
-            SDL_WINDOW_SHOWN
-        };
-
-    sdl::Renderer renderer { window, -1, SDL_RENDERER_ACCELERATED };
-    renderer.set_draw_color(150,150,150,100);
+    systems::RenderSystem rendersystem {
+        WINDOW_TITLE,
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
+        SDL_WINDOW_SHOWN,
+        SDL_RENDERER_SOFTWARE
+    };
 
     sdl::Texture goose_texture {
             "resources/angry_goose_head.png",
-            renderer
+            *rendersystem.getRenderer()
         };
 
+
+    anax::World world{};
+    auto player = world.createEntity();
     auto is_not_done = true;
+
+    auto& sprite = player.addComponent<components::TextureComponent>();
+    sprite.ptexture = &goose_texture;
+
+    player.activate();
+
+    world.addSystem(rendersystem);
     while (is_not_done)
     {
+        world.refresh();
+        rendersystem.render();
         is_not_done = handle_input();
-        renderer.clear();
-        renderer.copy(goose_texture, nullptr, nullptr);
-        renderer.present();
     }
 }
 

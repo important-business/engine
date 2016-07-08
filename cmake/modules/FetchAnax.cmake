@@ -26,5 +26,6 @@ function(FetchAnax)
         INTERFACE
         "${binary_dir}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}anax${CMAKE_SHARED_LIBRARY_SUFFIX}"
     )
-    target_include_directories(anax INTERFACE "${source_dir}/include")
+    # TODO: Is this the best way to export the include directory?
+    set(ANAX_INCLUDE_DIR "${source_dir}/include" PARENT_SCOPE)
 endfunction(FetchAnax)
