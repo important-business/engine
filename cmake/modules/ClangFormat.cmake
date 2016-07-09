@@ -12,7 +12,7 @@ function(ClangFormat)
 
     add_custom_target(
             clangformat
-            COMMAND /usr/bin/clang-format -i ${ClangFormat_CLANGFORMAT_FILES} -style=${ClangFormat_STYLE}
+            COMMAND clang-format -i ${ClangFormat_CLANGFORMAT_FILES} -style=${ClangFormat_STYLE}
     )
 
 endfunction(ClangFormat)
