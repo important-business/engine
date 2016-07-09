@@ -14,11 +14,12 @@ add_subdirectory(components)
 add_subdirectory(systems)
 
 # Define engine executable
-add_executable(engine main.cpp)
+# TODO: Add SRCS_COMPONENTS once components with cpp files are added
+add_executable(engine main.cpp ${SRCS_SYSTEMS})
 
 # TODO: Link to components once they have been added
 # Link to local modules
-target_link_libraries(engine core sdl systems)
+target_link_libraries(engine core sdl)
 
 # Link to libanax and use its include directories
 target_link_libraries(engine anax)
