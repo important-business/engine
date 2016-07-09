@@ -13,45 +13,39 @@
 #include "components/transform.hpp"
 #include "components/render.hpp"
 
-const int WINDOW_WIDTH { 640 };
-const int WINDOW_HEIGHT { 480 };
-const std::string WINDOW_TITLE { "Engine" };
+const int WINDOW_WIDTH{640};
+const int WINDOW_HEIGHT{480};
+const std::string WINDOW_TITLE{"Engine"};
 
 bool handle_input();
-
 
 int main(int argc, char* argv[])
 {
     std::cout << "Yay, you built code!\n";
-    core::ExampleModule a { 4 };
+    core::ExampleModule a{4};
     auto i = a.getme();
     std::cout << "Returned value " << i << "\n";
 
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    systems::RenderSystem rendersystem {
-        WINDOW_TITLE,
+    systems::RenderSystem rendersystem{WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
         SDL_WINDOW_SHOWN,
-        SDL_RENDERER_SOFTWARE
-    };
+        SDL_RENDERER_SOFTWARE};
 
-    sdl::Texture goose_texture {
-            "resources/angry_goose_head.png",
-            *rendersystem.getRenderer()
-        };
-
+    sdl::Texture goose_texture{
+        "resources/angry_goose_head.png", *rendersystem.getRenderer()};
 
     anax::World world{};
     auto player = world.createEntity();
     auto is_not_done = true;
 
     auto& sprite = player.addComponent<components::TextureComponent>();
-    (void) player.addComponent<components::TransformComponent>(
+    (void)player.addComponent<components::TransformComponent>(
         100.0f, 300.0f, 128.0f, 128.0f, 0.0f, false, true);
     sprite.ptexture = &goose_texture;
 
@@ -65,7 +59,6 @@ int main(int argc, char* argv[])
         is_not_done = handle_input();
     }
 }
-
 
 bool handle_input()
 {

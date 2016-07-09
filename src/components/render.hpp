@@ -4,13 +4,13 @@
 #include <anax/Component.hpp>
 #include <sdl/wrap.hpp>
 
-namespace components{
+namespace components
+{
 
 struct TextureComponent : anax::Component
 {
-    sdl::Texture *ptexture;
+    sdl::Texture* ptexture;
 };
-
 }
 
 #endif /* COMPONENTS_RENDER_HPP */

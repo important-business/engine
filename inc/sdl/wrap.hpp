@@ -13,73 +13,58 @@ class Texture;
 
 class Window
 {
-    private:
-        SDL_Window* window;
+private:
+    SDL_Window* window;
 
-    public:
-        Window(
-                const std::string title,
-                int x,
-                int y,
-                int w,
-                int h,
-                Uint32 flags
-            );
+public:
+    Window(const std::string title, int x, int y, int w, int h, Uint32 flags);
 
-        Window(const Window&) = delete;
+    Window(const Window&) = delete;
 
-        ~Window();
-        SDL_Window* get_pointer();
+    ~Window();
+    SDL_Window* get_pointer();
 };
 
 class Renderer
 {
-    private:
-        SDL_Renderer* prenderer;
+private:
+    SDL_Renderer* prenderer;
 
-    public:
+public:
+    Renderer(Window& window, int index, Uint32 flags);
 
-        Renderer(Window &window, int index, Uint32 flags);
+    Renderer(const Renderer&) = delete;
 
-        Renderer(const Renderer&) = delete;
+    ~Renderer();
 
-        ~Renderer();
+    int clear();
 
-        int clear();
+    int copy(Texture& texture,
+        const SDL_Rect* srcrect,
+        const SDL_Rect* dstrect,
+        int angle,
+        SDL_RendererFlip flip);
 
-        int copy(
-                Texture &texture,
-                const SDL_Rect* srcrect,
-                const SDL_Rect* dstrect,
-                int angle,
-                SDL_RendererFlip flip
-            );
+    void present();
 
-        void present();
+    int set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha);
 
-        int set_draw_color(
-                Uint8 red,
-                Uint8 blue,
-                Uint8 green,
-                Uint8 alpha
-            );
-
-        SDL_Renderer* get_pointer();
+    SDL_Renderer* get_pointer();
 };
 
 class Texture
 {
-    private:
-        SDL_Texture* mTexture = NULL;
-        int mWidth { 0 };
-        int mHeight = { 0 };
+private:
+    SDL_Texture* mTexture = NULL;
+    int mWidth{0};
+    int mHeight = {0};
 
-    public:
-        Texture(std::string path, Renderer &renderer);
+public:
+    Texture(std::string path, Renderer& renderer);
 
-        Texture(const Texture&) = delete;
+    Texture(const Texture&) = delete;
 
-        SDL_Texture* get_pointer();
+    SDL_Texture* get_pointer();
 };
 }
 #endif
