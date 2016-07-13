@@ -1,6 +1,4 @@
-# Define sources for libcore
-set(SRCS_CORE example_module.cpp)
-
-# Define library libcore
-add_library(core SHARED ${SRCS_CORE})
-
+set(SRCS_CORE
+    "${CMAKE_CURRENT_SOURCE_DIR}/example_module.cpp"
+    PARENT_SCOPE
+)
