@@ -19,6 +19,26 @@ const std::string WINDOW_TITLE{"Engine"};
 
 bool handle_input();
 
+anax::Entity goose_factory(anax::World* pworld,
+    core::ResourceManagerTexture* ptexturemanager,
+    float posx,
+    float posy)
+{
+    auto pgoose_texture =
+        ptexturemanager->get(std::string("resources/angry_goose_head.png"));
+
+    auto player = pworld->createEntity();
+
+    auto& sprite = player.addComponent<components::TextureComponent>();
+    (void)player.addComponent<components::TransformComponent>(
+        posx, posy, 128.0f, 128.0f, 0.0f, false, true);
+    sprite.ptexture = pgoose_texture;
+
+    player.activate();
+
+    return player;
+}
+
 int main(int argc, char* argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
@@ -32,26 +52,19 @@ int main(int argc, char* argv[])
         SDL_WINDOW_SHOWN,
         SDL_RENDERER_SOFTWARE};
 
+    anax::World world{};
     core::ResourceManagerTexture texturemanager{};
 
     texturemanager.setDefaultRenderer(rendersystem.getRenderer());
-    auto pgoose_texture =
-        texturemanager.get(std::string("resources/angry_goose_head.png"));
-    /* sdl::Texture pgoose_texture{ */
-    /*     "resources/angry_goose_head.png", *rendersystem.getRenderer()}; */
 
-    anax::World world{};
-    auto player = world.createEntity();
-    auto is_not_done = true;
+    (void)goose_factory(&world, &texturemanager, 100.0, 300.0);
 
-    auto& sprite = player.addComponent<components::TextureComponent>();
-    (void)player.addComponent<components::TransformComponent>(
-        100.0f, 300.0f, 128.0f, 128.0f, 0.0f, false, true);
-    sprite.ptexture = pgoose_texture;
+    (void)goose_factory(&world, &texturemanager, 100.0, 200.0);
 
-    player.activate();
+    (void)goose_factory(&world, &texturemanager, 100.0, 100.0);
 
     world.addSystem(rendersystem);
+    auto is_not_done = true;
     while (is_not_done)
     {
         world.refresh();

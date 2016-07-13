@@ -18,10 +18,12 @@ sdl::Texture* ResourceManagerTexture::get(
     auto search = loadedtextures.find(texturepath);
     if (search != loadedtextures.end())
     {
+        std::cout << "Already loaded texture " << texturepath << std::endl;
         return search->second;
     }
     else
     {
+        std::cout << "Loading new texture" << texturepath << std::endl;
         auto ptexture = new sdl::Texture(texturepath, *prenderer);
         // Do some checking of ptexture here
         loadedtextures[texturepath] = ptexture;
