@@ -8,10 +8,10 @@
 #include <anax/anax.hpp>
 
 #include <sdl/wrap.hpp>
-#include "core/example_module.hpp"
 #include "systems/rendersystem.hpp"
 #include "components/transform.hpp"
 #include "components/render.hpp"
+#include "core/resourcemanager.hpp"
 
 const int WINDOW_WIDTH{640};
 const int WINDOW_HEIGHT{480};
@@ -21,11 +21,6 @@ bool handle_input();
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Yay, you built code!\n";
-    core::ExampleModule a{4};
-    auto i = a.getme();
-    std::cout << "Returned value " << i << "\n";
-
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
@@ -37,8 +32,13 @@ int main(int argc, char* argv[])
         SDL_WINDOW_SHOWN,
         SDL_RENDERER_SOFTWARE};
 
-    sdl::Texture goose_texture{
-        "resources/angry_goose_head.png", *rendersystem.getRenderer()};
+    core::ResourceManagerTexture texturemanager{};
+
+    texturemanager.setDefaultRenderer(rendersystem.getRenderer());
+    auto pgoose_texture =
+        texturemanager.get(std::string("resources/angry_goose_head.png"));
+    /* sdl::Texture pgoose_texture{ */
+    /*     "resources/angry_goose_head.png", *rendersystem.getRenderer()}; */
 
     anax::World world{};
     auto player = world.createEntity();
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     auto& sprite = player.addComponent<components::TextureComponent>();
     (void)player.addComponent<components::TransformComponent>(
         100.0f, 300.0f, 128.0f, 128.0f, 0.0f, false, true);
-    sprite.ptexture = &goose_texture;
+    sprite.ptexture = pgoose_texture;
 
     player.activate();
 
