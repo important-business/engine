@@ -12,7 +12,7 @@ ResourceManagerTexture::~ResourceManagerTexture()
 {
 }
 
-sdl::Texture* ResourceManagerTexture::get(
+std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
     std::string texturepath, sdl::Renderer* prenderer)
 {
     auto search = loadedtextures.find(texturepath);
@@ -23,15 +23,16 @@ sdl::Texture* ResourceManagerTexture::get(
     }
     else
     {
-        std::cout << "Loading new texture" << texturepath << std::endl;
-        auto ptexture = new sdl::Texture(texturepath, *prenderer);
+        std::cout << "Loading new texture " << texturepath << std::endl;
+        auto ptexture = std::make_shared<sdl::Texture>(texturepath, *prenderer);
         // Do some checking of ptexture here
         loadedtextures[texturepath] = ptexture;
         return ptexture;
     }
 }
 
-sdl::Texture* ResourceManagerTexture::get(const std::string texturepath)
+std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
+    const std::string texturepath)
 {
     return get(texturepath, defaultrenderer);
 }
@@ -52,10 +53,23 @@ void ResourceManagerTexture::setDefaultRenderer(sdl::Renderer* prenderer)
 {
     defaultrenderer = prenderer;
 }
-void ResourceManagerTexture::unload(const std::string texturepath)
-{
-}
 
-void ResourceManagerTexture::unload(sdl::Texture*)
+void ResourceManagerTexture::unloadUnused(void)
 {
+
+    auto it = loadedtextures.begin();
+    while (it != loadedtextures.end())
+    {
+        if (it->second.use_count() <= 1)
+        {
+            std::cout << "Unloading texture " << it->first << std::endl;
+            it = loadedtextures.erase(it);
+        }
+        else
+        {
+            std::cout << "Not unloading texture " << it->first << " still used "
+                      << it->second.use_count() << " times" << std::endl;
+            it++;
+        }
+    }
 }

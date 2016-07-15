@@ -2,6 +2,7 @@
 #define CORE_RESOURCEMANAGER_HPP
 
 #include <string>
+#include <memory>
 #include <unordered_map>
 #include <sdl/wrap.hpp>
 namespace core
@@ -13,16 +14,18 @@ public:
     ResourceManagerTexture();
     ~ResourceManagerTexture();
 
-    sdl::Texture* get(const std::string texturepath, sdl::Renderer* prenderer);
-    sdl::Texture* get(const std::string texturepath);
+    std::shared_ptr<sdl::Texture> get(
+        const std::string texturepath, sdl::Renderer* prenderer);
+    std::shared_ptr<sdl::Texture> get(const std::string texturepath);
     void setDefaultRenderer(sdl::Renderer* prenderer);
-    void unload(const std::string texturepath);
-    void unload(sdl::Texture*);
 
     bool isLoaded(const std::string texturepath) const;
 
+    void unloadUnused(void);
+
 private:
-    std::unordered_map<std::string, sdl::Texture*> loadedtextures;
+    std::unordered_map<std::string, std::shared_ptr<sdl::Texture>>
+        loadedtextures;
     sdl::Renderer* defaultrenderer;
 };
 }
