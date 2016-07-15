@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <exception>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -41,35 +42,52 @@ anax::Entity goose_factory(anax::World* pworld,
 
 int main(int argc, char* argv[])
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    IMG_Init(IMG_INIT_PNG);
-
-    systems::RenderSystem rendersystem{WINDOW_TITLE,
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        WINDOW_WIDTH,
-        WINDOW_HEIGHT,
-        SDL_WINDOW_SHOWN,
-        SDL_RENDERER_SOFTWARE};
-
-    anax::World world{};
-    core::ResourceManagerTexture texturemanager{};
-
-    texturemanager.setDefaultRenderer(rendersystem.getRenderer());
-
-    (void)goose_factory(&world, &texturemanager, 100.0, 300.0);
-
-    (void)goose_factory(&world, &texturemanager, 100.0, 200.0);
-
-    (void)goose_factory(&world, &texturemanager, 100.0, 100.0);
-
-    world.addSystem(rendersystem);
-    auto is_not_done = true;
-    while (is_not_done)
+    try
     {
+        SDL_Init(SDL_INIT_VIDEO);
+        IMG_Init(IMG_INIT_PNG);
+
+        systems::RenderSystem rendersystem{WINDOW_TITLE,
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            WINDOW_WIDTH,
+            WINDOW_HEIGHT,
+            SDL_WINDOW_SHOWN,
+            SDL_RENDERER_SOFTWARE};
+
+        anax::World world{};
+        core::ResourceManagerTexture texturemanager{};
+
+        texturemanager.setDefaultRenderer(rendersystem.getRenderer());
+
+        auto goose1 = goose_factory(&world, &texturemanager, 100.0, 300.0);
+
+        auto goose2 = goose_factory(&world, &texturemanager, 100.0, 200.0);
+
+        auto goose3 = goose_factory(&world, &texturemanager, 100.0, 100.0);
+
+        world.addSystem(rendersystem);
+        auto is_not_done = true;
+        while (is_not_done)
+        {
+            world.refresh();
+            rendersystem.render();
+            is_not_done = handle_input();
+        }
+        goose1.kill();
+        goose2.kill();
+        // Refresh call needed for entity and components to be deleted
         world.refresh();
-        rendersystem.render();
-        is_not_done = handle_input();
+        texturemanager.unloadUnused();
+        goose3.kill();
+        world.refresh();
+        texturemanager.unloadUnused();
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exiting with exception:" << std::endl << "\t";
+        std::cerr << e.what() << std::endl;
+        return 1;
     }
 }
 

@@ -12,8 +12,7 @@ Window::Window(
     {
         std::ostringstream error;
         error << "Error:SDL_CreateWindow: " << SDL_GetError() << "\n";
-        auto error_str = error.str();
-        throw error_str;
+        throw sdlexception(error.str());
     }
 }
 
@@ -38,8 +37,7 @@ Renderer::Renderer(Window& window, int index, Uint32 flags)
     {
         std::ostringstream error;
         error << "Error:Renderer: " << SDL_GetError() << "\n";
-        auto error_str = error.str();
-        throw error_str;
+        throw sdlexception(error.str());
     }
 }
 
@@ -94,8 +92,7 @@ Texture::Texture(std::string path, Renderer& renderer)
     {
         std::ostringstream error;
         error << "Error:Texture: " << IMG_GetError() << "\n";
-        auto error_str = error.str();
-        throw error_str;
+        throw sdlexception(error.str());
     }
 
     SDL_Texture* texture =
@@ -104,8 +101,7 @@ Texture::Texture(std::string path, Renderer& renderer)
     {
         std::ostringstream error;
         error << "Error:Texture: " << SDL_GetError() << "\n";
-        auto error_str = error.str();
-        throw error_str;
+        throw sdlexception(error.str());
     }
 
     this->mWidth = surface->w;
@@ -119,4 +115,9 @@ Texture::Texture(std::string path, Renderer& renderer)
 SDL_Texture* Texture::get_pointer()
 {
     return mTexture;
+}
+
+const char* sdlexception::what() const throw()
+{
+    return exceptionstring.c_str();
 }

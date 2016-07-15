@@ -1,6 +1,7 @@
 #ifndef __SDL_WRAP_HPP
 #define __SDL_WRAP_HPP
 
+#include <exception>
 #include <iostream>
 
 #include <SDL.h>
@@ -65,6 +66,19 @@ public:
     Texture(const Texture&) = delete;
 
     SDL_Texture* get_pointer();
+};
+
+class sdlexception : public std::exception
+{
+public:
+    sdlexception(std::string exceptionstring) : exceptionstring(exceptionstring)
+    {
+    }
+
+    virtual const char* what() const throw();
+
+private:
+    std::string exceptionstring;
 };
 }
 #endif
