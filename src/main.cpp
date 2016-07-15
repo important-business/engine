@@ -10,6 +10,7 @@
 
 #include <sdl/wrap.hpp>
 #include "systems/rendersystem.hpp"
+#include "systems/movementsystem.hpp"
 #include "components/transform.hpp"
 #include "components/render.hpp"
 #include "components/velocity.hpp"
@@ -37,7 +38,7 @@ anax::Entity goose_factory(anax::World* pworld,
     (void)player.addComponent<components::TransformComponent>(
         posx, posy, 128.0f, 128.0f, 0.0f, false, true);
 
-    auto velocity = player.addComponent<components::VelocityComponent>();
+    auto& velocity = player.addComponent<components::VelocityComponent>();
     velocity.x = 1;
     velocity.y = 1;
 
@@ -61,6 +62,8 @@ int main(int argc, char* argv[])
             SDL_WINDOW_SHOWN,
             SDL_RENDERER_SOFTWARE};
 
+        systems::MovementSystem movementsystem;
+
         anax::World world{};
         core::ResourceManagerTexture texturemanager{};
 
@@ -73,11 +76,13 @@ int main(int argc, char* argv[])
         auto goose3 = goose_factory(&world, &texturemanager, 100.0, 100.0);
 
         world.addSystem(rendersystem);
+        world.addSystem(movementsystem);
         auto is_not_done = true;
         while (is_not_done)
         {
             world.refresh();
             rendersystem.render();
+            movementsystem.update(1);
             is_not_done = handle_input();
         }
         goose1.kill();
