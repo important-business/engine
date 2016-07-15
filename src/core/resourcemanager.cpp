@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-using namespace core;
+namespace core
+{
 
 ResourceManagerTexture::ResourceManagerTexture()
 {
@@ -72,4 +73,5 @@ void ResourceManagerTexture::unloadUnused(void)
             it++;
         }
     }
+}
 }
