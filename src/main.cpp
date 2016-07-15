@@ -12,6 +12,7 @@
 #include "systems/rendersystem.hpp"
 #include "components/transform.hpp"
 #include "components/render.hpp"
+#include "components/velocity.hpp"
 #include "core/resourcemanager.hpp"
 
 const int WINDOW_WIDTH{640};
@@ -31,9 +32,14 @@ anax::Entity goose_factory(anax::World* pworld,
     auto player = pworld->createEntity();
 
     auto& sprite = player.addComponent<components::TextureComponent>();
+    sprite.ptexture = pgoose_texture;
+
     (void)player.addComponent<components::TransformComponent>(
         posx, posy, 128.0f, 128.0f, 0.0f, false, true);
-    sprite.ptexture = pgoose_texture;
+
+    auto velocity = player.addComponent<components::VelocityComponent>();
+    velocity.x = 1;
+    velocity.y = 1;
 
     player.activate();
 
