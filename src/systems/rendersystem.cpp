@@ -5,16 +5,9 @@
 
 using namespace systems;
 
-RenderSystem::RenderSystem(std::string title,
-    int posx,
-    int posy,
-    int width,
-    int height,
-    Uint32 windowflags,
-    Uint32 renderflags)
+RenderSystem::RenderSystem(sdl::Window* pwindowtouse, Uint32 renderflags)
 {
-    pwindow = new sdl::Window{
-        title.c_str(), posx, posy, width, height, SDL_WINDOW_SHOWN};
+    pwindow = pwindowtouse;
 
     prenderer = new sdl::Renderer{*pwindow, -1, renderflags};
     prenderer->set_draw_color(150, 150, 150, 100);

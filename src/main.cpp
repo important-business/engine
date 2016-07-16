@@ -54,14 +54,16 @@ int main(int argc, char* argv[])
         SDL_Init(SDL_INIT_VIDEO);
         IMG_Init(IMG_INIT_PNG);
 
-        systems::RenderSystem rendersystem{WINDOW_TITLE,
+        auto pwindow = new sdl::Window{
+            WINDOW_TITLE,
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
             WINDOW_WIDTH,
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN,
-            SDL_RENDERER_SOFTWARE};
+        };
 
+        systems::RenderSystem rendersystem{pwindow, SDL_RENDERER_SOFTWARE};
         systems::MovementSystem movementsystem;
 
         anax::World world{};
