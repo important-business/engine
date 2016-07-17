@@ -1,11 +1,41 @@
 #!/usr/bin/env sh
+
+script_exit_code=0
+step_count=1
+
+check_result(){
+    desc=$1
+    shift
+    "$@"
+    exit_code=$?
+    if [ $exit_code -ne 0 ];then
+        echo "[TravisScript] Step $step_count: Error running step \"$desc\" command \"$@\""
+        script_exit_code=$step_count
+    else
+        echo "[TravisScript] Step $step_count: Success running \"$desc\""
+    fi
+    step_count=$(($step_count+1))
+}
+
 echo "########################################################################"
 echo "# Travix Linux Script"
 echo "########################################################################"
-cd build
-cmake ..
-make
+check_result "Enter Build directory" "cd" "build"
+check_result "Generate Makefiles" "cmake" ".."
+check_result "Build engine" "make" "engine"
 
 # Run unit tests with verbose output
-make test ARGS='-V'
+check_result "Execute tests" "make" "test" "ARGS='-V'"
 
+if [ $exit_code -eq 0 ];then
+    echo "########################################################################"
+    echo "# Success! "
+    echo "########################################################################"
+else
+    echo "########################################################################"
+    echo "# Error: Failed running step $script_exit_code."
+    echo "########################################################################"
+fi
+
+# Exit with the number of the last step that failed
+exit $script_exit_code
