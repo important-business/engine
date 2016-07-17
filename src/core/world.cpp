@@ -74,6 +74,7 @@ void World::execute(float dt)
 
 void World::deinit()
 {
+    panaxworld->clear();
     panaxworld->refresh();
 
     panaxworld.release();

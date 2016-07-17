@@ -58,6 +58,7 @@ void ResourceManagerTexture::setDefaultRenderer(sdl::Renderer* prenderer)
 void ResourceManagerTexture::unloadUnused(void)
 {
 
+    std::cout << "Unloading textures " << std::endl;
     auto it = loadedtextures.begin();
     while (it != loadedtextures.end())
     {

@@ -20,12 +20,13 @@ bool handle_input();
 
 int main(int argc, char* argv[])
 {
+    int toreturn = 0;
     try
     {
         SDL_Init(SDL_INIT_VIDEO);
         IMG_Init(IMG_INIT_PNG);
 
-        auto pwindow = new sdl::Window{
+        sdl::Window window = {
             WINDOW_TITLE,
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
@@ -33,25 +34,27 @@ int main(int argc, char* argv[])
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN,
         };
-        auto pworld = new core::World{pwindow};
-        pworld->init(SDL_RENDERER_SOFTWARE);
+        core::World world = {&window};
+        world.init(SDL_RENDERER_SOFTWARE);
         float time = (float)SDL_GetTicks();
         float lasttime = time;
-        while (not pworld->isToQuit())
+        while (not world.isToQuit())
         {
             // TODO: Make this loop not suck as hard
             float dt = (time - lasttime) / MS_TO_SECONDS;
             lasttime = time;
-            pworld->execute(dt);
+            world.execute(dt);
             time = SDL_GetTicks();
         }
+        world.deinit();
     }
     catch (std::exception& e)
     {
         std::cerr << "Exiting with exception:" << std::endl << "\t";
         std::cerr << e.what() << std::endl;
-        return 1;
+        toreturn = 1;
     }
+    return toreturn;
 }
 
 bool handle_input()
