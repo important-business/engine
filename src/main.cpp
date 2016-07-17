@@ -11,9 +11,11 @@
 #include <sdl/wrap.hpp>
 #include "systems/rendersystem.hpp"
 #include "systems/movementsystem.hpp"
+#include "systems/playerinputsystem.hpp"
 #include "components/transform.hpp"
 #include "components/render.hpp"
 #include "components/velocity.hpp"
+#include "components/player.hpp"
 #include "core/resourcemanager.hpp"
 
 const int WINDOW_WIDTH{640};
@@ -30,21 +32,21 @@ anax::Entity goose_factory(anax::World* pworld,
     auto pgoose_texture =
         ptexturemanager->get(std::string("resources/angry_goose_head.png"));
 
-    auto player = pworld->createEntity();
+    auto entity = pworld->createEntity();
 
-    auto& sprite = player.addComponent<components::TextureComponent>();
+    auto& sprite = entity.addComponent<components::TextureComponent>();
     sprite.ptexture = pgoose_texture;
 
-    (void)player.addComponent<components::TransformComponent>(
+    (void)entity.addComponent<components::TransformComponent>(
         posx, posy, 128.0f, 128.0f, 0.0f, false, true);
 
-    auto& velocity = player.addComponent<components::VelocityComponent>();
-    velocity.x = 1;
-    velocity.y = 1;
+    (void)entity.addComponent<components::VelocityComponent>();
 
-    player.activate();
+    (void)entity.addComponent<components::PlayerComponent>();
 
-    return player;
+    entity.activate();
+
+    return entity;
 }
 
 int main(int argc, char* argv[])
@@ -63,6 +65,7 @@ int main(int argc, char* argv[])
             SDL_RENDERER_SOFTWARE};
 
         systems::MovementSystem movementsystem;
+        systems::PlayerInputSystem playerinputsystem;
 
         anax::World world{};
         core::ResourceManagerTexture texturemanager{};
@@ -77,12 +80,16 @@ int main(int argc, char* argv[])
 
         world.addSystem(rendersystem);
         world.addSystem(movementsystem);
+        world.addSystem(playerinputsystem);
+
         auto is_not_done = true;
+        auto tick = 1;
         while (is_not_done)
         {
             world.refresh();
             rendersystem.render();
-            movementsystem.update(1);
+            movementsystem.update(tick);
+            playerinputsystem.update(tick);
             is_not_done = handle_input();
         }
         goose1.kill();
