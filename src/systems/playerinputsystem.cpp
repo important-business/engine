@@ -1,5 +1,4 @@
 #include <SDL.h>
-
 #include <systems/playerinputsystem.hpp>
 
 using namespace systems;
@@ -15,11 +14,11 @@ void PlayerInputSystem::update(double deltaTime)
         const auto& key_states = SDL_GetKeyboardState(NULL);
         if (key_states[player.controls.left])
         {
-            velocity.x = -player.base_speed * deltaTime;
+            velocity.x = -player.base_speed;
         }
         else if (key_states[player.controls.right])
         {
-            velocity.x = player.base_speed * deltaTime;
+            velocity.x = player.base_speed;
         }
         else
         {
@@ -28,11 +27,11 @@ void PlayerInputSystem::update(double deltaTime)
 
         if (key_states[player.controls.up])
         {
-            velocity.y = -player.base_speed * deltaTime;
+            velocity.y = -player.base_speed;
         }
         else if (key_states[player.controls.down])
         {
-            velocity.y = player.base_speed * deltaTime;
+            velocity.y = player.base_speed;
         }
         else
         {
