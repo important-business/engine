@@ -6,15 +6,15 @@
 
 using namespace core;
 
-anax::Entity goose_factory(anax::World* pworld,
-    core::ResourceManagerTexture* ptexturemanager,
+anax::Entity goose_factory(anax::World& world,
+    core::ResourceManagerTexture& texturemanager,
     float posx,
     float posy)
 {
     auto pgoose_texture =
-        ptexturemanager->get(std::string("resources/angry_goose_head.png"));
+        texturemanager.get(std::string("resources/angry_goose_head.png"));
 
-    auto player = pworld->createEntity();
+    auto player = world.createEntity();
 
     auto& sprite = player.addComponent<components::TextureComponent>();
     sprite.ptexture = pgoose_texture;
@@ -36,20 +36,20 @@ void World::init(Uint32 sdlrenderflags)
     // TODO: Remove SDL window initialization from world?
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
-    panaxworld = new anax::World{};
-    prendersystem = new systems::RenderSystem{pwindow, sdlrenderflags};
+    panaxworld = std::make_unique<anax::World>();
+    prendersystem = std::make_unique<systems::RenderSystem>(pwindow, sdlrenderflags);
 
-    pmovementsystem = new systems::MovementSystem{};
+    pmovementsystem = std::make_unique<systems::MovementSystem>();
 
-    core::ResourceManagerTexture texturemanager{};
+    ptexturemanager = std::make_unique<core::ResourceManagerTexture>();
 
-    texturemanager.setDefaultRenderer(prendersystem->getRenderer());
+    ptexturemanager->setDefaultRenderer(prendersystem->getRenderer());
 
-    (void)goose_factory(panaxworld, &texturemanager, 100.0, 300.0);
+    (void)goose_factory(*panaxworld, *ptexturemanager, 100.0, 300.0);
 
-    (void)goose_factory(panaxworld, &texturemanager, 100.0, 200.0);
+    (void)goose_factory(*panaxworld, *ptexturemanager, 100.0, 200.0);
 
-    (void)goose_factory(panaxworld, &texturemanager, 100.0, 100.0);
+    (void)goose_factory(*panaxworld, *ptexturemanager, 100.0, 100.0);
 
     panaxworld->addSystem(*prendersystem);
     panaxworld->addSystem(*pmovementsystem);
@@ -74,14 +74,13 @@ void World::execute(float dt)
 
 void World::deinit()
 {
-    /* goose1.kill(); */
-    /* goose2.kill(); */
-    /* // Refresh call needed for entity and components to be deleted */
-    /* panaxworld->refresh(); */
-    /* texturemanager.unloadUnused(); */
-    /* goose3.kill(); */
-    /* panaxworld->refresh(); */
-    /* texturemanager.unloadUnused(); */
+    panaxworld->refresh();
+
+    panaxworld.release();
+    prendersystem.release();
+    pmovementsystem.release();
+    ptexturemanager->unloadUnused();
+    ptexturemanager.release();
 }
 
 void World::handle_input()

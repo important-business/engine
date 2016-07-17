@@ -1,6 +1,7 @@
 #ifndef CORE_WORLD_HPP
 #define CORE_WORLD_HPP
 
+#include <memory>
 #include <anax/anax.hpp>
 #include <sdl/wrap.hpp>
 #include "systems/rendersystem.hpp"
@@ -24,13 +25,13 @@ public:
 
 private:
     sdl::Window* pwindow;
-    anax::World* panaxworld;
+    std::unique_ptr<anax::World>panaxworld;
 
-    systems::RenderSystem* prendersystem;
+    std::unique_ptr<systems::RenderSystem> prendersystem;
 
-    systems::MovementSystem* pmovementsystem;
+    std::unique_ptr<systems::MovementSystem> pmovementsystem;
 
-    core::ResourceManagerTexture* ptexturemanager;
+    std::unique_ptr<core::ResourceManagerTexture> ptexturemanager;
     bool toquit;
 };
 }
