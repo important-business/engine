@@ -9,43 +9,14 @@
 #include <anax/anax.hpp>
 
 #include <sdl/wrap.hpp>
-#include "systems/rendersystem.hpp"
-#include "systems/movementsystem.hpp"
-#include "components/transform.hpp"
-#include "components/render.hpp"
-#include "components/velocity.hpp"
-#include "core/resourcemanager.hpp"
+#include "core/world.hpp"
 
 const int WINDOW_WIDTH{640};
 const int WINDOW_HEIGHT{480};
 const std::string WINDOW_TITLE{"Engine"};
+const int MS_TO_SECONDS{1000};
 
 bool handle_input();
-
-anax::Entity goose_factory(anax::World* pworld,
-    core::ResourceManagerTexture* ptexturemanager,
-    float posx,
-    float posy)
-{
-    auto pgoose_texture =
-        ptexturemanager->get(std::string("resources/angry_goose_head.png"));
-
-    auto player = pworld->createEntity();
-
-    auto& sprite = player.addComponent<components::TextureComponent>();
-    sprite.ptexture = pgoose_texture;
-
-    (void)player.addComponent<components::TransformComponent>(
-        posx, posy, 128.0f, 128.0f, 0.0f, false, true);
-
-    auto& velocity = player.addComponent<components::VelocityComponent>();
-    velocity.x = 1;
-    velocity.y = 1;
-
-    player.activate();
-
-    return player;
-}
 
 int main(int argc, char* argv[])
 {
@@ -62,39 +33,18 @@ int main(int argc, char* argv[])
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN,
         };
-
-        systems::RenderSystem rendersystem{pwindow, SDL_RENDERER_SOFTWARE};
-        systems::MovementSystem movementsystem;
-
-        anax::World world{};
-        core::ResourceManagerTexture texturemanager{};
-
-        texturemanager.setDefaultRenderer(rendersystem.getRenderer());
-
-        auto goose1 = goose_factory(&world, &texturemanager, 100.0, 300.0);
-
-        auto goose2 = goose_factory(&world, &texturemanager, 100.0, 200.0);
-
-        auto goose3 = goose_factory(&world, &texturemanager, 100.0, 100.0);
-
-        world.addSystem(rendersystem);
-        world.addSystem(movementsystem);
-        auto is_not_done = true;
-        while (is_not_done)
+        auto pworld = new core::World{pwindow};
+        pworld->init(SDL_RENDERER_SOFTWARE);
+        float time = (float)SDL_GetTicks();
+        float lasttime = time;
+        while (not pworld->isToQuit())
         {
-            world.refresh();
-            rendersystem.render();
-            movementsystem.update(1);
-            is_not_done = handle_input();
+            // TODO: Make this loop not suck as hard
+            float dt = (time - lasttime) / MS_TO_SECONDS;
+            lasttime = time;
+            pworld->execute(dt);
+            time = SDL_GetTicks();
         }
-        goose1.kill();
-        goose2.kill();
-        // Refresh call needed for entity and components to be deleted
-        world.refresh();
-        texturemanager.unloadUnused();
-        goose3.kill();
-        world.refresh();
-        texturemanager.unloadUnused();
     }
     catch (std::exception& e)
     {
