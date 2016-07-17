@@ -1,6 +1,11 @@
 #!/usr/bin/env sh
 # Note - must be run from the build directory
-echo "ClangFormat version output: $(clang-format --version)"
+
+if [ -z "$CLANG_FORMAT" ]; then
+    CLANG_FORMAT="clang-format"
+fi
+
+echo "ClangFormat version output: $(${CLANG_FORMAT} --version)"
 make clangformat
 gitoutput=$(git status -s)
 if [[ -z $gitoutput ]]; then
