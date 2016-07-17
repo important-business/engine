@@ -38,7 +38,8 @@ void World::init(Uint32 sdlrenderflags)
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     panaxworld = std::make_unique<anax::World>();
-    prendersystem = std::make_unique<systems::RenderSystem>(pwindow, sdlrenderflags);
+    prendersystem =
+        std::make_unique<systems::RenderSystem>(pwindow, sdlrenderflags);
 
     pmovementsystem = std::make_unique<systems::MovementSystem>();
     pplayerinputsystem = std::make_unique<systems::PlayerInputSystem>();

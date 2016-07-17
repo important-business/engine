@@ -26,7 +26,7 @@ public:
 
 private:
     sdl::Window* pwindow;
-    std::unique_ptr<anax::World>panaxworld;
+    std::unique_ptr<anax::World> panaxworld;
 
     std::unique_ptr<systems::RenderSystem> prendersystem;
 
