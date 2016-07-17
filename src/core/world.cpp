@@ -69,9 +69,9 @@ void World::execute(float dt)
     if (not toquit)
     {
         panaxworld->refresh();
-        prendersystem->render();
         pplayerinputsystem->update(dt);
         pmovementsystem->update(dt);
+        prendersystem->render();
         handle_input();
     }
 }
