@@ -27,6 +27,9 @@ check_result "Build engine" "make" "engine"
 # Run unit tests with verbose output
 check_result "Execute tests" "make" "test" "ARGS='-V'"
 
+# Check ClangFormat output
+check_result "Check formatting" "../travis/check_clang_format.sh"
+
 if [ $exit_code -eq 0 ];then
     echo "########################################################################"
     echo "# Success! "
