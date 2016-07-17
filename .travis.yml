@@ -24,6 +24,7 @@ language: cpp
 
 compiler:
   - gcc
+  - clang
 
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./travis/script_linux.sh ; fi
