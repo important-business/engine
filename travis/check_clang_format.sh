@@ -8,7 +8,7 @@ fi
 echo "ClangFormat version output: $(${CLANG_FORMAT} --version)"
 make clangformat
 gitoutput=$(git status -s)
-if [[ -z $gitoutput ]]; then
+if [ -z "$gitoutput" ]; then
     echo "No changes made by ClangFormat"
     exit 0
 else
