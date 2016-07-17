@@ -1,9 +1,18 @@
-before_install:
-    - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/before-install_linux.sh ; fi
+addons:
+    apt:
+        sources:
+            - llvm-toolchain-precise
+            - ubuntu-toolchain-r-test
+            - sourceline: 'ppa:zoogie/sdl2-snapshots'
+        packages:
+            - clang-3.7
+            - g++-5
+            - gcc-5
+            - libsdl2-dev
+            - libsdl2-image-dev
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/install_linux.sh ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ../travis/linux_cmake.sh ; fi
 
 language: cpp
 
