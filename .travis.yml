@@ -2,12 +2,12 @@
 addons:
     apt:
         sources:
-            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-precise-3.8
             - ubuntu-toolchain-r-test
             - sourceline: 'ppa:zoogie/sdl2-snapshots'
         packages:
-            - clang-3.7
-            - clang-format-3.7
+            - clang-3.8
+            - clang-format-3.8
             - g++-5
             - gcc-5
             - libsdl2-dev
@@ -17,8 +17,8 @@ install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/linux_cmake.sh ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
-  - export CLANG_FORMAT=clang-format-3.7
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
+  - export CLANG_FORMAT=clang-format-3.8
 
 language: cpp
 
