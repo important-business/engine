@@ -20,7 +20,7 @@ function(ClangFormat)
 
     add_custom_target(
             clangformat
-            COMMAND clang-format -i ${ClangFormat_CLANGFORMAT_FILES} -style=${ClangFormat_STYLE}
+            COMMAND ${CLANG_FORMAT_BIN} -i ${ClangFormat_CLANGFORMAT_FILES} -style=${ClangFormat_STYLE}
     )
 
 endfunction(ClangFormat)
