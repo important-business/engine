@@ -12,7 +12,7 @@ addons:
             - libsdl2-image-dev
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ../travis/linux_cmake.sh ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo source ./travis/linux_cmake.sh ; fi
 
 language: cpp
 
