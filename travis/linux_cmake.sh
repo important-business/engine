@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
-# Note: This file should be sourced
+
+# Note: You require the following line in .travis.yml in addition to running
+# this script:
+#  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
 
 echo "########################################################################"
 echo "# Travis CMake upgrade script"
