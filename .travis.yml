@@ -1,3 +1,4 @@
+# See https://jonasw.de/blog/2015/07/22/develop/cplusplus14-on-travis-with-cmake/
 addons:
     apt:
         sources:
@@ -14,6 +15,8 @@ addons:
 install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/linux_cmake.sh ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
 
 language: cpp
 
