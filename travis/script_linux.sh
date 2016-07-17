@@ -6,6 +6,7 @@ step_count=1
 check_result(){
     desc=$1
     shift
+    echo "[TravisScript] Step $step_count: Executing step \"$desc\" command \"$@\""
     "$@"
     exit_code=$?
     if [ $exit_code -ne 0 ];then
@@ -18,7 +19,7 @@ check_result(){
 }
 
 echo "########################################################################"
-echo "# Travix Linux Script"
+echo "# Entering Travix Linux Script"
 echo "########################################################################"
 check_result "Enter Build directory" "cd" "build"
 check_result "Generate Makefiles" "cmake" ".."
@@ -32,11 +33,11 @@ check_result "Check formatting" "../travis/check_clang_format.sh"
 
 if [ $exit_code -eq 0 ];then
     echo "########################################################################"
-    echo "# Success! "
+    echo "# Exiting Travis Linux Script - Success! "
     echo "########################################################################"
 else
     echo "########################################################################"
-    echo "# Error: Failed running step $script_exit_code."
+    echo "# Exiting Travis Linux Script - Error: Failed running step $script_exit_code."
     echo "########################################################################"
 fi
 
