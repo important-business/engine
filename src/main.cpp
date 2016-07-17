@@ -16,8 +16,6 @@ const int WINDOW_HEIGHT{480};
 const std::string WINDOW_TITLE{"Engine"};
 const int MS_TO_SECONDS{1000};
 
-bool handle_input();
-
 int main(int argc, char* argv[])
 {
     int toreturn = 0;

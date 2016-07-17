@@ -2,6 +2,7 @@
 #include "world.hpp"
 #include "components/transform.hpp"
 #include "components/render.hpp"
+#include "components/player.hpp"
 #include "components/velocity.hpp"
 
 using namespace core;
@@ -14,21 +15,21 @@ anax::Entity goose_factory(anax::World& world,
     auto pgoose_texture =
         texturemanager.get(std::string("resources/angry_goose_head.png"));
 
-    auto player = world.createEntity();
+    auto entity = world.createEntity();
 
-    auto& sprite = player.addComponent<components::TextureComponent>();
+    auto& sprite = entity.addComponent<components::TextureComponent>();
     sprite.ptexture = pgoose_texture;
 
-    (void)player.addComponent<components::TransformComponent>(
+    (void)entity.addComponent<components::TransformComponent>(
         posx, posy, 128.0f, 128.0f, 0.0f, false, true);
 
-    auto& velocity = player.addComponent<components::VelocityComponent>();
-    velocity.x = 100;
-    velocity.y = 100;
+    (void)entity.addComponent<components::PlayerComponent>();
 
-    player.activate();
+    (void)entity.addComponent<components::VelocityComponent>();
 
-    return player;
+    entity.activate();
+
+    return entity;
 }
 
 void World::init(Uint32 sdlrenderflags)
@@ -40,6 +41,7 @@ void World::init(Uint32 sdlrenderflags)
     prendersystem = std::make_unique<systems::RenderSystem>(pwindow, sdlrenderflags);
 
     pmovementsystem = std::make_unique<systems::MovementSystem>();
+    pplayerinputsystem = std::make_unique<systems::PlayerInputSystem>();
 
     ptexturemanager = std::make_unique<core::ResourceManagerTexture>();
 
@@ -53,6 +55,7 @@ void World::init(Uint32 sdlrenderflags)
 
     panaxworld->addSystem(*prendersystem);
     panaxworld->addSystem(*pmovementsystem);
+    panaxworld->addSystem(*pplayerinputsystem);
     toquit = false;
 }
 
@@ -67,6 +70,7 @@ void World::execute(float dt)
     {
         panaxworld->refresh();
         prendersystem->render();
+        pplayerinputsystem->update(dt);
         pmovementsystem->update(dt);
         handle_input();
     }
@@ -79,6 +83,7 @@ void World::deinit()
 
     panaxworld.release();
     prendersystem.release();
+    pplayerinputsystem.release();
     pmovementsystem.release();
     ptexturemanager->unloadUnused();
     ptexturemanager.release();
