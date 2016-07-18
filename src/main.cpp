@@ -54,19 +54,3 @@ int main(int argc, char* argv[])
     }
     return toreturn;
 }
-
-bool handle_input()
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event) != 0)
-    {
-        if (event.type == SDL_QUIT)
-        {
-            return false;
-        }
-        else
-        {
-        }
-    }
-    return true;
-}
