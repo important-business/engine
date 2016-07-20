@@ -57,24 +57,15 @@ void World::init(Uint32 sdlrenderflags)
     panaxworld->addSystem(*prendersystem);
     panaxworld->addSystem(*pmovementsystem);
     panaxworld->addSystem(*pplayerinputsystem);
-    toquit = false;
-}
-
-bool World::isToQuit()
-{
-    return toquit;
 }
 
 void World::execute(float dt)
 {
-    if (not toquit)
-    {
-        panaxworld->refresh();
-        pplayerinputsystem->update(dt);
-        pmovementsystem->update(dt);
-        prendersystem->render();
-        handle_input();
-    }
+    panaxworld->refresh();
+    pplayerinputsystem->update(dt);
+    pmovementsystem->update(dt);
+    prendersystem->render();
+    handle_input();
 }
 
 void World::deinit()
@@ -97,7 +88,7 @@ void World::handle_input()
     {
         if (event.type == SDL_QUIT)
         {
-            toquit = true;
+            papplication->quit();
         }
         else
         {
