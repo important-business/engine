@@ -13,7 +13,7 @@ struct MovementSystem
     : anax::System<anax::Requires<components::TransformComponent,
           components::VelocityComponent>>
 {
-    void update(double deltaTime);
+    void update(double delta_time);
 };
 }
 #endif /* SYSTEMS_MOVEMENTSYSTEM_HPP */

@@ -16,18 +16,26 @@ public:
     Application(int argc, char** argv) : argc(argc), argv(argv)
     {
     }
+
     void init();
+
     void deinit();
+
     int loop();
+
     void handle_input();
+
     void quit();
 
 private:
-    std::unique_ptr<core::World> pworld;
-    std::unique_ptr<sdl::Window> pwindow;
+    std::unique_ptr<core::World> m_up_world;
 
-    bool toquit;
+    std::unique_ptr<sdl::Window> m_up_window;
+
+    bool m_has_quit;
+
     int argc;
+
     char** argv;
 };
 }

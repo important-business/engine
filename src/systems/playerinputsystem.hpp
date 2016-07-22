@@ -13,7 +13,7 @@ struct PlayerInputSystem
           components::VelocityComponent>>
 {
 public:
-    void update(double deltaTime);
+    void update(double delta_time);
 };
 }
 

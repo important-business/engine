@@ -7,14 +7,14 @@ namespace core
 class ExampleModule
 {
 public:
-    ExampleModule(int initval = 0) : value(initval)
+    ExampleModule(int init_val = 0) : m_value(init_val)
     {
     }
-    void setme(int newvalue);
-    int getme();
+    void set_me(int new_value);
+    int get_me();
 
 private:
-    int value;
+    int m_value;
 };
 }
 #endif // ndef __EXAMPLE_MODULE_HPP

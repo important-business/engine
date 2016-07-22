@@ -7,41 +7,42 @@ namespace core
 
 ResourceManagerTexture::ResourceManagerTexture()
 {
-    defaultrenderer = nullptr;
+    m_p_default_renderer = nullptr;
 }
 ResourceManagerTexture::~ResourceManagerTexture()
 {
 }
 
 std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
-    std::string texturepath, sdl::Renderer* prenderer)
+    std::string texture_path, sdl::Renderer* p_renderer)
 {
-    auto search = loadedtextures.find(texturepath);
-    if (search != loadedtextures.end())
+    auto search = m_loaded_textures.find(texture_path);
+    if (search != m_loaded_textures.end())
     {
-        std::cout << "Already loaded texture " << texturepath << std::endl;
+        std::cout << "Already loaded texture " << texture_path << std::endl;
         return search->second;
     }
     else
     {
-        std::cout << "Loading new texture " << texturepath << std::endl;
-        auto ptexture = std::make_shared<sdl::Texture>(texturepath, *prenderer);
-        // Do some checking of ptexture here
-        loadedtextures[texturepath] = ptexture;
-        return ptexture;
+        std::cout << "Loading new texture " << texture_path << std::endl;
+        auto p_texture =
+            std::make_shared<sdl::Texture>(texture_path, *p_renderer);
+        // Do some checking of p_texture here
+        m_loaded_textures[texture_path] = p_texture;
+        return p_texture;
     }
 }
 
 std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
-    const std::string texturepath)
+    const std::string texture_path)
 {
-    return get(texturepath, defaultrenderer);
+    return get(texture_path, m_p_default_renderer);
 }
 
-bool ResourceManagerTexture::isLoaded(const std::string texturepath) const
+bool ResourceManagerTexture::is_loaded(const std::string texture_path) const
 {
-    auto search = loadedtextures.find(texturepath);
-    if (search != loadedtextures.end())
+    auto search = m_loaded_textures.find(texture_path);
+    if (search != m_loaded_textures.end())
     {
         return true;
     }
@@ -50,22 +51,22 @@ bool ResourceManagerTexture::isLoaded(const std::string texturepath) const
         return false;
     }
 }
-void ResourceManagerTexture::setDefaultRenderer(sdl::Renderer* prenderer)
+void ResourceManagerTexture::set_default_renderer(sdl::Renderer* p_renderer)
 {
-    defaultrenderer = prenderer;
+    m_p_default_renderer = p_renderer;
 }
 
-void ResourceManagerTexture::unloadUnused(void)
+void ResourceManagerTexture::unload_unused(void)
 {
 
     std::cout << "Unloading textures " << std::endl;
-    auto it = loadedtextures.begin();
-    while (it != loadedtextures.end())
+    auto it = m_loaded_textures.begin();
+    while (it != m_loaded_textures.end())
     {
         if (it->second.use_count() <= 1)
         {
             std::cout << "Unloading texture " << it->first << std::endl;
-            it = loadedtextures.erase(it);
+            it = m_loaded_textures.erase(it);
         }
         else
         {

@@ -7,18 +7,18 @@
 
 int main(int argc, char* argv[])
 {
-    int toreturn = 0;
+    int to_return = 0;
     try
     {
         core::Application app{argc, argv};
         app.init();
-        toreturn = app.loop();
+        to_return = app.loop();
     }
     catch (std::exception& e)
     {
         std::cerr << "Exiting with exception:" << std::endl << "\t";
         std::cerr << e.what() << std::endl;
-        toreturn = 1;
+        to_return = 1;
     }
-    return toreturn;
+    return to_return;
 }

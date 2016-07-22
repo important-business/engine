@@ -10,7 +10,7 @@ namespace components
 
 struct TextureComponent : anax::Component
 {
-    std::shared_ptr<sdl::Texture> ptexture;
+    std::shared_ptr<sdl::Texture> p_texture;
 };
 }
 

@@ -3,7 +3,7 @@
 
 using namespace systems;
 
-void PlayerInputSystem::update(double deltaTime)
+void PlayerInputSystem::update(double delta_time)
 {
     auto entities = getEntities();
     for (auto e : entities)

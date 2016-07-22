@@ -16,17 +16,20 @@ public:
 
     std::shared_ptr<sdl::Texture> get(
         const std::string texturepath, sdl::Renderer* prenderer);
+
     std::shared_ptr<sdl::Texture> get(const std::string texturepath);
-    void setDefaultRenderer(sdl::Renderer* prenderer);
 
-    bool isLoaded(const std::string texturepath) const;
+    void set_default_renderer(sdl::Renderer* prenderer);
 
-    void unloadUnused(void);
+    bool is_loaded(const std::string texturepath) const;
+
+    void unload_unused(void);
 
 private:
     std::unordered_map<std::string, std::shared_ptr<sdl::Texture>>
-        loadedtextures;
-    sdl::Renderer* defaultrenderer;
+        m_loaded_textures;
+
+    sdl::Renderer* m_p_default_renderer;
 };
 }
 #endif /* CORE_RESOURCEMANAGER_HPP */

@@ -12,33 +12,33 @@ void Application::init()
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    pwindow = std::make_unique<sdl::Window>(WINDOW_TITLE,
+    m_up_window = std::make_unique<sdl::Window>(WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
         SDL_WINDOW_SHOWN);
-    pworld = std::make_unique<core::World>(pwindow.get(), this);
-    pworld->init(SDL_RENDERER_SOFTWARE);
+    m_up_world = std::make_unique<core::World>(m_up_window.get(), this);
+    m_up_world->init(SDL_RENDERER_SOFTWARE);
 }
 
 int Application::loop()
 {
-    float time = (float)SDL_GetTicks();
-    float lasttime = time;
-    while (not toquit)
+    float time = SDL_GetTicks();
+    auto last_time = time;
+    while (not m_has_quit)
     {
         // TODO: Make this loop not suck as hard
-        float dt = (time - lasttime) / MS_TO_SECONDS;
-        lasttime = time;
-        pworld->execute(dt);
+        auto delta_time = (time - last_time) / MS_TO_SECONDS;
+        last_time = time;
+        m_up_world->execute(delta_time);
         time = SDL_GetTicks();
     }
-    pworld->deinit();
+    m_up_world->deinit();
     return 0;
 }
 
 void Application::quit()
 {
-    toquit = true;
+    m_has_quit = true;
 }

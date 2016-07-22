@@ -18,28 +18,33 @@ class Application;
 class World
 {
 public:
-    World(sdl::Window* pwindow, core::Application* papplication)
-        : pwindow(pwindow), papplication(papplication)
+    World(sdl::Window* pwindow, core::Application* p_application)
+        : m_p_window(pwindow), m_p_application(p_application)
     {
     }
-    void init(Uint32 sdlrenderflags);
+
+    void init(Uint32 sdl_render_flags);
+
     void deinit();
+
     void execute(float dt);
+
     void handle_input();
 
 private:
-    sdl::Window* pwindow;
-    core::Application* papplication;
+    sdl::Window* m_p_window;
 
-    std::unique_ptr<anax::World> panaxworld;
+    core::Application* m_p_application;
 
-    std::unique_ptr<systems::RenderSystem> prendersystem;
+    std::unique_ptr<anax::World> m_up_anax_world;
 
-    std::unique_ptr<systems::MovementSystem> pmovementsystem;
+    std::unique_ptr<systems::RenderSystem> m_up_render_system;
 
-    std::unique_ptr<systems::PlayerInputSystem> pplayerinputsystem;
+    std::unique_ptr<systems::MovementSystem> m_up_movement_system;
 
-    std::unique_ptr<core::ResourceManagerTexture> ptexturemanager;
+    std::unique_ptr<systems::PlayerInputSystem> m_up_player_input_system;
+
+    std::unique_ptr<core::ResourceManagerTexture> m_up_texture_manager;
 };
 }
 

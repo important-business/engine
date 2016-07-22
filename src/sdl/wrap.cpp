@@ -6,65 +6,65 @@ using namespace sdl;
 Window::Window(
     const std::string title, int x, int y, int w, int h, Uint32 flags)
 {
-    window = SDL_CreateWindow(title.c_str(), x, y, w, h, flags);
+    m_p_window = SDL_CreateWindow(title.c_str(), x, y, w, h, flags);
 
-    if (window == nullptr)
+    if (m_p_window == nullptr)
     {
         std::ostringstream error;
         error << "Error:SDL_CreateWindow: " << SDL_GetError() << "\n";
-        throw sdlexception(error.str());
+        throw Exception(error.str());
     }
 }
 
 Window::~Window()
 {
     std::cout << "Entering window destructor\n";
-    if (window != nullptr)
+    if (m_p_window != nullptr)
     {
-        SDL_DestroyWindow(window);
+        SDL_DestroyWindow(m_p_window);
     }
 }
 
 SDL_Window* Window::get_pointer()
 {
-    return window;
+    return m_p_window;
 }
 
 Renderer::Renderer(Window& window, int index, Uint32 flags)
 {
-    prenderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
-    if (prenderer == nullptr)
+    m_p_renderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
+    if (m_p_renderer == nullptr)
     {
         std::ostringstream error;
         error << "Error:Renderer: " << SDL_GetError() << "\n";
-        throw sdlexception(error.str());
+        throw Exception(error.str());
     }
 }
 
 Renderer::~Renderer()
 {
     std::cout << "Entering renderer destructor\n";
-    if (prenderer == nullptr)
+    if (m_p_renderer == nullptr)
     {
-        SDL_DestroyRenderer(prenderer);
+        SDL_DestroyRenderer(m_p_renderer);
     }
 }
 
 int Renderer::clear()
 {
-    return SDL_RenderClear(prenderer);
+    return SDL_RenderClear(m_p_renderer);
 }
 
 int Renderer::copy(Texture& texture,
-    const SDL_Rect* srcrect,
-    const SDL_Rect* dstrect,
+    const SDL_Rect* src_rect,
+    const SDL_Rect* dest_rect,
     int angle,
     SDL_RendererFlip flip)
 {
-    return SDL_RenderCopyEx(prenderer,
+    return SDL_RenderCopyEx(m_p_renderer,
         texture.get_pointer(),
-        srcrect,
-        dstrect,
+        src_rect,
+        dest_rect,
         angle,
         nullptr,
         flip);
@@ -72,17 +72,17 @@ int Renderer::copy(Texture& texture,
 
 void Renderer::present()
 {
-    SDL_RenderPresent(prenderer);
+    SDL_RenderPresent(m_p_renderer);
 }
 
 int Renderer::set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha)
 {
-    return SDL_SetRenderDrawColor(prenderer, red, blue, green, alpha);
+    return SDL_SetRenderDrawColor(m_p_renderer, red, blue, green, alpha);
 }
 
 SDL_Renderer* Renderer::get_pointer()
 {
-    return prenderer;
+    return m_p_renderer;
 }
 
 Texture::Texture(std::string path, Renderer& renderer)
@@ -92,7 +92,7 @@ Texture::Texture(std::string path, Renderer& renderer)
     {
         std::ostringstream error;
         error << "Error:Texture: " << IMG_GetError() << "\n";
-        throw sdlexception(error.str());
+        throw Exception(error.str());
     }
 
     SDL_Texture* texture =
@@ -101,23 +101,23 @@ Texture::Texture(std::string path, Renderer& renderer)
     {
         std::ostringstream error;
         error << "Error:Texture: " << SDL_GetError() << "\n";
-        throw sdlexception(error.str());
+        throw Exception(error.str());
     }
 
-    this->mWidth = surface->w;
-    this->mHeight = surface->h;
+    m_width = surface->w;
+    m_height = surface->h;
 
     SDL_FreeSurface(surface);
 
-    this->mTexture = texture;
+    m_p_texture = texture;
 }
 
 SDL_Texture* Texture::get_pointer()
 {
-    return mTexture;
+    return m_p_texture;
 }
 
-const char* sdlexception::what() const throw()
+const char* Exception::what() const throw()
 {
-    return exceptionstring.c_str();
+    return m_message.c_str();
 }

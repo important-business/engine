@@ -2,12 +2,12 @@
 
 using namespace core;
 
-int ExampleModule::getme(void)
+int ExampleModule::get_me(void)
 {
-    return value;
+    return m_value;
 }
 
-void ExampleModule::setme(int newvalue)
+void ExampleModule::set_me(int new_value)
 {
-    value = newvalue;
+    m_value = new_value;
 }

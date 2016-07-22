@@ -1,16 +1,15 @@
 #include "rendersystem.hpp"
-#include "components/render.hpp"
 
 #include <iostream>
 
 using namespace systems;
 
-RenderSystem::RenderSystem(sdl::Window* pwindowtouse, Uint32 renderflags)
+RenderSystem::RenderSystem(sdl::Window* p_window, Uint32 render_flags)
 {
-    pwindow = pwindowtouse;
+    m_p_window = p_window;
 
-    prenderer = new sdl::Renderer{*pwindow, -1, renderflags};
-    prenderer->set_draw_color(150, 150, 150, 100);
+    m_p_renderer = new sdl::Renderer{*m_p_window, -1, render_flags};
+    m_p_renderer->set_draw_color(150, 150, 150, 100);
 }
 RenderSystem::~RenderSystem()
 {
@@ -20,45 +19,45 @@ void RenderSystem::render()
 {
     auto entities = getEntities();
 
-    prenderer->clear();
+    m_p_renderer->clear();
     for (auto& entity : entities)
     {
-        auto texturecomponent =
+        auto texture_component =
             entity.getComponent<components::TextureComponent>();
-        auto transformcomponent =
+        auto transform_component =
             entity.getComponent<components::TransformComponent>();
-        SDL_Rect dstrect = {
-            (int)transformcomponent.pos_x,
-            (int)transformcomponent.pos_y,
-            (int)transformcomponent.size_x,
-            (int)transformcomponent.size_y,
+        SDL_Rect dest_rect = {
+            (int)transform_component.pos_x,
+            (int)transform_component.pos_y,
+            (int)transform_component.size_x,
+            (int)transform_component.size_y,
         };
         SDL_RendererFlip flip = SDL_FLIP_NONE;
-        if (transformcomponent.flip_vert)
+        if (transform_component.flip_vert)
         {
             flip =
                 (SDL_RendererFlip)((SDL_RendererFlip)SDL_FLIP_VERTICAL | flip);
         }
-        if (transformcomponent.flip_horiz)
+        if (transform_component.flip_horiz)
         {
             flip = (SDL_RendererFlip)(
                 (SDL_RendererFlip)SDL_FLIP_HORIZONTAL | flip);
         }
-        prenderer->copy(*texturecomponent.ptexture,
+        m_p_renderer->copy(*texture_component.p_texture,
             nullptr,
-            &dstrect,
-            (int)transformcomponent.rotation,
+            &dest_rect,
+            (int)transform_component.rotation,
             flip);
     }
-    prenderer->present();
+    m_p_renderer->present();
 }
 
-sdl::Renderer* RenderSystem::getRenderer() const
+sdl::Renderer* RenderSystem::get_renderer() const
 {
-    return prenderer;
+    return m_p_renderer;
 }
 
-sdl::Window* RenderSystem::getWindow() const
+sdl::Window* RenderSystem::get_window() const
 {
-    return pwindow;
+    return m_p_window;
 }
