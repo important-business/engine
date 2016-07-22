@@ -15,7 +15,9 @@ add_subdirectory(systems)
 
 # Define engine executable
 # TODO: Add SRCS_COMPONENTS once components with cpp files are added
-add_executable(engine main.cpp ${SRCS_CORE} ${SRCS_SYSTEMS})
+set(SRCS_ENGINE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${SRCS_CORE} ${SRCS_SYSTEMS})
+add_executable(engine ${SRCS_ENGINE})
+
 
 # TODO: Link to components once they have been added
 # Link to local modules
@@ -29,3 +31,6 @@ target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
 target_link_libraries(engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
 target_include_directories(engine PUBLIC ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
+include(ClangTidy)
+get_target_property(INCLUDEDIRS_ENGINE engine INCLUDE_DIRECTORIES)
+ClangTidy(TARGETNAME engine FILES ${SRCS_ENGINE} INCLUDEDIRS ${INCLUDEDIRS_ENGINE})
