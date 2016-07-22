@@ -5,10 +5,9 @@ add_custom_target (
 function(ClangTidy)
     # Parse Arguments
     set(options OPTIONAL)
-    set(oneValueArgs DESTINATION STYLE TARGETNAME CONFIG)
+    set(oneValueArgs DESTINATION STYLE TARGETNAME CONFIG CXX_STANDARD)
     set(multiValueArgs TARGETS FILES INCLUDEDIRS)
     cmake_parse_arguments(ClangTidy "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
-    message("Including ${ClangTidy_INCLUDEDIRS}")
     # Set defaults for unprovided arguments
     if(NOT ClangTidy_STYLE)
         set(ClangTidy_STYLE "file")
@@ -27,7 +26,7 @@ function(ClangTidy)
 
     add_custom_target(
         clangtidy_${ClangTidy_TARGETNAME}
-        COMMAND ${CLANG_TIDY_BIN} ${ClangTidy_FILES} -config="${ClangTidy_CONFIG}" -- ${INCLUDE_ARGS} -std=c++14
+        COMMAND ${CLANG_TIDY_BIN} ${ClangTidy_FILES} -config="${ClangTidy_CONFIG}" -- ${INCLUDE_ARGS} -std=c++${ClangTidy_CXX_STANDARD}
     )
 
 add_dependencies(clangtidy_all clangtidy_${ClangTidy_TARGETNAME})
