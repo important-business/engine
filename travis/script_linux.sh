@@ -28,6 +28,9 @@ check_result "Build engine" "make" "engine"
 # Run unit tests with verbose output
 check_result "Execute tests" "make" "test" "ARGS='-V'"
 
+# Run Clang-Tidy (but don't check output yet)
+check_result "Run Clang-Tidy" "make" "clangtidy_all"
+
 # Check ClangFormat output
 check_result "Check formatting" "../travis/check_clang_format.sh"
 
