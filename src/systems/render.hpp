@@ -12,21 +12,21 @@ namespace systems
 struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
-    Render(sdl::Window* p_window, Uint32 render_flags);
+    Render(sdl_wrap::Window* p_window, Uint32 render_flags);
     ~Render();
 
     void render();
 
     bool is_valid() const;
 
-    sdl::Renderer* get_renderer() const;
+    sdl_wrap::Renderer* get_renderer() const;
 
-    sdl::Window* get_window() const;
+    sdl_wrap::Window* get_window() const;
 
 private:
-    sdl::Window* m_p_window;
+    sdl_wrap::Window* m_p_window;
 
-    sdl::Renderer* m_p_renderer;
+    sdl_wrap::Renderer* m_p_renderer;
 };
 }
 #endif /* SYSTEMS_RENDERSYSTEM_HPP */

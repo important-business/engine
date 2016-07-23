@@ -1,7 +1,7 @@
-#include "sdl/wrap.hpp"
+#include "sdl_wrap/wrap.hpp"
 #include <sstream>
 
-namespace sdl
+namespace sdl_wrap
 {
 
 Window::Window(

@@ -3,14 +3,14 @@
 
 #include <memory>
 #include <anax/Component.hpp>
-#include <sdl/wrap.hpp>
+#include <sdl_wrap/wrap.hpp>
 
 namespace components
 {
 
 struct TextureComponent : anax::Component
 {
-    std::shared_ptr<sdl::Texture> p_texture;
+    std::shared_ptr<sdl_wrap::Texture> p_texture;
 };
 }
 

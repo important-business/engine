@@ -13,7 +13,7 @@ void Application::init()
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    m_up_window = std::make_unique<sdl::Window>(WINDOW_TITLE,
+    m_up_window = std::make_unique<sdl_wrap::Window>(WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH,

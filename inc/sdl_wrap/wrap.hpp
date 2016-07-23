@@ -7,7 +7,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-namespace sdl
+namespace sdl_wrap
 {
 
 class Texture;

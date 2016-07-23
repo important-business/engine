@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <anax/anax.hpp>
-#include <sdl/wrap.hpp>
+#include <sdl_wrap/wrap.hpp>
 #include "systems/render.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
@@ -18,7 +18,7 @@ class Application;
 class World
 {
 public:
-    World(sdl::Window* pwindow, core::Application* p_application)
+    World(sdl_wrap::Window* pwindow, core::Application* p_application)
         : m_p_window(pwindow), m_p_application(p_application)
     {
     }
@@ -32,7 +32,7 @@ public:
     void handle_input();
 
 private:
-    sdl::Window* m_p_window;
+    sdl_wrap::Window* m_p_window;
 
     core::Application* m_p_application;
 

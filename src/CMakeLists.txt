@@ -9,7 +9,7 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
 # Load CMakeLists for modules
 add_subdirectory(core)
-add_subdirectory(sdl)
+add_subdirectory(sdl_wrap)
 add_subdirectory(components)
 add_subdirectory(systems)
 
@@ -21,7 +21,7 @@ add_executable(engine ${SRCS_ENGINE})
 
 # TODO: Link to components once they have been added
 # Link to local modules
-target_link_libraries(engine sdl)
+target_link_libraries(engine sdl_wrap)
 
 # Link to libanax and use its include directories
 target_link_libraries(engine anax)

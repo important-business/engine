@@ -30,7 +30,7 @@ public:
 private:
     std::unique_ptr<core::World> m_up_world;
 
-    std::unique_ptr<sdl::Window> m_up_window;
+    std::unique_ptr<sdl_wrap::Window> m_up_window;
 
     bool m_has_quit;
 
