@@ -2,7 +2,7 @@ BUILD_DIR:=build
 
 .PHONY: all clean build ${BUILD_DIR}/Makefile derp
 
-all: project test
+all: format project test
 
 clean:
 	@([ -d ${BUILD_DIR} ] && make --directory=${BUILD_DIR} clean && rm -rf ${BUILD_DIR}/*) || echo Nothing to clean
@@ -12,6 +12,9 @@ project: ${BUILD_DIR}/Makefile
 
 test: ${BUILD_DIR}/Makefile
 	@make --directory=${BUILD_DIR} test ARGS='-V'
+
+format:
+	@make --directory=${BUILD_DIR} clangformat
 
 ${BUILD_DIR}/Makefile:
 	@[ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
