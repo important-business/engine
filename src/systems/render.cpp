@@ -5,18 +5,18 @@
 namespace systems
 {
 
-RenderSystem::RenderSystem(sdl::Window* p_window, Uint32 render_flags)
+Render::Render(sdl::Window* p_window, Uint32 render_flags)
 {
     m_p_window = p_window;
 
     m_p_renderer = new sdl::Renderer{*m_p_window, -1, render_flags};
     m_p_renderer->set_draw_color(150, 150, 150, 100);
 }
-RenderSystem::~RenderSystem()
+Render::~Render()
 {
 }
 
-void RenderSystem::render()
+void Render::render()
 {
     auto entities = getEntities();
 
@@ -53,12 +53,12 @@ void RenderSystem::render()
     m_p_renderer->present();
 }
 
-sdl::Renderer* RenderSystem::get_renderer() const
+sdl::Renderer* Render::get_renderer() const
 {
     return m_p_renderer;
 }
 
-sdl::Window* RenderSystem::get_window() const
+sdl::Window* Render::get_window() const
 {
     return m_p_window;
 }

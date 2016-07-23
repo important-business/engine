@@ -4,7 +4,7 @@
 namespace systems
 {
 
-void PlayerInputSystem::update(double delta_time)
+void PlayerInput::update(double delta_time)
 {
     auto entities = getEntities();
     for (auto e : entities)

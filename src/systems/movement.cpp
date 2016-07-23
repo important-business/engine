@@ -4,7 +4,7 @@
 namespace systems
 {
 
-void MovementSystem::update(double delta_time)
+void Movement::update(double delta_time)
 {
     auto entities = getEntities();
     for (auto& entity : entities)

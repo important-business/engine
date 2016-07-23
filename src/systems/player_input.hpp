@@ -8,9 +8,8 @@
 namespace systems
 {
 
-struct PlayerInputSystem
-    : anax::System<anax::Requires<components::PlayerComponent,
-          components::VelocityComponent>>
+struct PlayerInput : anax::System<anax::Requires<components::PlayerComponent,
+                         components::VelocityComponent>>
 {
 public:
     void update(double delta_time);

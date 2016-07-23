@@ -40,10 +40,10 @@ void World::init(Uint32 sdl_render_flags)
     IMG_Init(IMG_INIT_PNG);
     m_up_anax_world = std::make_unique<anax::World>();
     m_up_render_system =
-        std::make_unique<systems::RenderSystem>(m_p_window, sdl_render_flags);
+        std::make_unique<systems::Render>(m_p_window, sdl_render_flags);
 
-    m_up_movement_system = std::make_unique<systems::MovementSystem>();
-    m_up_player_input_system = std::make_unique<systems::PlayerInputSystem>();
+    m_up_movement_system = std::make_unique<systems::Movement>();
+    m_up_player_input_system = std::make_unique<systems::PlayerInput>();
 
     m_up_texture_manager = std::make_unique<core::ResourceManagerTexture>();
 

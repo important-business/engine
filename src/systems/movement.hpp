@@ -9,9 +9,8 @@
 namespace systems
 {
 
-struct MovementSystem
-    : anax::System<anax::Requires<components::TransformComponent,
-          components::VelocityComponent>>
+struct Movement : anax::System<anax::Requires<components::TransformComponent,
+                      components::VelocityComponent>>
 {
     void update(double delta_time);
 };

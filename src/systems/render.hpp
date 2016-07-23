@@ -9,12 +9,11 @@
 namespace systems
 {
 
-struct RenderSystem : anax::System<anax::Requires<components::TextureComponent,
-                          components::TransformComponent>>
+struct Render : anax::System<anax::Requires<components::TextureComponent,
+                    components::TransformComponent>>
 {
-    RenderSystem(sdl::Window* p_window, Uint32 render_flags);
-
-    ~RenderSystem();
+    Render(sdl::Window* p_window, Uint32 render_flags);
+    ~Render();
 
     void render();
 
