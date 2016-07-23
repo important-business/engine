@@ -4,9 +4,9 @@
 #include <memory>
 #include <anax/anax.hpp>
 #include <sdl/wrap.hpp>
-#include "systems/rendersystem.hpp"
-#include "systems/movementsystem.hpp"
-#include "systems/playerinputsystem.hpp"
+#include "systems/render.hpp"
+#include "systems/movement.hpp"
+#include "systems/player_input.hpp"
 #include "core/resourcemanager.hpp"
 #include "core/application.hpp"
 

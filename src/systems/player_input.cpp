@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include <systems/playerinputsystem.hpp>
+#include <systems/player_input.hpp>
 
 namespace systems
 {
