@@ -2,7 +2,7 @@
 
 using namespace core;
 
-int ExampleModule::get_me(void)
+int ExampleModule::get_me()
 {
     return m_value;
 }

@@ -56,7 +56,7 @@ void ResourceManagerTexture::set_default_renderer(sdl::Renderer* p_renderer)
     m_p_default_renderer = p_renderer;
 }
 
-void ResourceManagerTexture::unload_unused(void)
+void ResourceManagerTexture::unload_unused()
 {
 
     std::cout << "Unloading textures " << std::endl;

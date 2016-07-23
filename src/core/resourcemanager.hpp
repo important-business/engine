@@ -23,7 +23,7 @@ public:
 
     bool is_loaded(const std::string texture_path) const;
 
-    void unload_unused(void);
+    void unload_unused();
 
 private:
     std::unordered_map<std::string, std::shared_ptr<sdl::Texture>>

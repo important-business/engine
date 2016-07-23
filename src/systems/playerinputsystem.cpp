@@ -11,7 +11,7 @@ void PlayerInputSystem::update(double delta_time)
         auto& player = e.getComponent<components::PlayerComponent>();
         auto& velocity = e.getComponent<components::VelocityComponent>();
 
-        const auto& key_states = SDL_GetKeyboardState(NULL);
+        const auto& key_states = SDL_GetKeyboardState(nullptr);
         if (key_states[player.controls.left])
         {
             velocity.x = -player.base_speed;
