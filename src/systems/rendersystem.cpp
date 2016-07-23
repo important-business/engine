@@ -27,26 +27,26 @@ void RenderSystem::render()
         auto transform_component =
             entity.getComponent<components::TransformComponent>();
         SDL_Rect dest_rect = {
-            (int)transform_component.pos_x,
-            (int)transform_component.pos_y,
-            (int)transform_component.size_x,
-            (int)transform_component.size_y,
+            static_cast<int>(transform_component.pos_x),
+            static_cast<int>(transform_component.pos_y),
+            static_cast<int>(transform_component.size_x),
+            static_cast<int>(transform_component.size_y),
         };
         SDL_RendererFlip flip = SDL_FLIP_NONE;
         if (transform_component.flip_vert)
         {
-            flip =
-                (SDL_RendererFlip)((SDL_RendererFlip)SDL_FLIP_VERTICAL | flip);
+            flip = static_cast<SDL_RendererFlip>(
+                static_cast<SDL_RendererFlip>(SDL_FLIP_VERTICAL) | flip);
         }
         if (transform_component.flip_horiz)
         {
-            flip = (SDL_RendererFlip)(
-                (SDL_RendererFlip)SDL_FLIP_HORIZONTAL | flip);
+            flip = static_cast<SDL_RendererFlip>(
+                static_cast<SDL_RendererFlip>(SDL_FLIP_HORIZONTAL) | flip);
         }
         m_p_renderer->copy(*texture_component.p_texture,
             nullptr,
             &dest_rect,
-            (int)transform_component.rotation,
+            static_cast<int>(transform_component.rotation),
             flip);
     }
     m_p_renderer->present();
