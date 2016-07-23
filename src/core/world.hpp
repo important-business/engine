@@ -7,7 +7,7 @@
 #include "systems/render.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
-#include "core/resourcemanager.hpp"
+#include "core/resource_manager.hpp"
 #include "core/application.hpp"
 
 namespace core
