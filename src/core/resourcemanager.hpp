@@ -15,13 +15,13 @@ public:
     ~ResourceManagerTexture();
 
     std::shared_ptr<sdl::Texture> get(
-        const std::string texturepath, sdl::Renderer* prenderer);
+        const std::string texture_path, sdl::Renderer* p_renderer);
 
-    std::shared_ptr<sdl::Texture> get(const std::string texturepath);
+    std::shared_ptr<sdl::Texture> get(const std::string texture_path);
 
-    void set_default_renderer(sdl::Renderer* prenderer);
+    void set_default_renderer(sdl::Renderer* p_renderer);
 
-    bool is_loaded(const std::string texturepath) const;
+    bool is_loaded(const std::string texture_path) const;
 
     void unload_unused(void);
 

@@ -3,7 +3,7 @@
 
 using namespace systems;
 
-void MovementSystem::update(double deltaTime)
+void MovementSystem::update(double delta_time)
 {
     auto entities = getEntities();
     for (auto& entity : entities)
