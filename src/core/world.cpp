@@ -13,23 +13,36 @@ anax::Entity goose_factory(anax::World& world,
     float pos_x,
     float pos_y)
 {
-    auto p_goose_texture =
-        texture_manager.get(std::string("resources/angry_goose_head.png"));
-
     auto entity = world.createEntity();
-
     auto& sprite = entity.addComponent<components::TextureComponent>();
-    sprite.p_texture = p_goose_texture;
+    sprite.p_texture =
+        texture_manager.get(std::string("resources/angry_goose_head.png"));
 
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
-
-    (void)entity.addComponent<components::PlayerComponent>();
-
     (void)entity.addComponent<components::VelocityComponent>();
 
     entity.activate();
 
+    return entity;
+}
+
+anax::Entity player_factory(anax::World& world,
+    core::ResourceManagerTexture& texture_manager,
+    float pos_x,
+    float pos_y)
+{
+    auto entity = world.createEntity();
+    auto& sprite = entity.addComponent<components::TextureComponent>();
+    sprite.p_texture =
+        texture_manager.get(std::string("resources/angry_goose_head.png"));
+
+    (void)entity.addComponent<components::TransformComponent>(
+        pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
+    (void)entity.addComponent<components::PlayerComponent>();
+    (void)entity.addComponent<components::VelocityComponent>();
+
+    entity.activate();
     return entity;
 }
 
@@ -50,10 +63,8 @@ void World::init(Uint32 sdl_render_flags)
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
 
-    (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
-
+    (void)player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 200.0);
-
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 100.0);
 
     m_up_anax_world->addSystem(*m_up_render_system);
