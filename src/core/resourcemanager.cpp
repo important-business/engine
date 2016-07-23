@@ -17,10 +17,11 @@ std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
     std::string texture_path, sdl::Renderer* p_renderer)
 {
     auto search = m_loaded_textures.find(texture_path);
+    std::shared_ptr<sdl::Texture> p_texture;
     if (search != m_loaded_textures.end())
     {
         std::cout << "Already loaded texture " << texture_path << std::endl;
-        return search->second;
+        p_texture = search->second;
     }
     else
     {
@@ -29,8 +30,8 @@ std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
             std::make_shared<sdl::Texture>(texture_path, *p_renderer);
         // Do some checking of p_texture here
         m_loaded_textures[texture_path] = p_texture;
-        return p_texture;
     }
+    return p_texture;
 }
 
 std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
@@ -42,14 +43,7 @@ std::shared_ptr<sdl::Texture> ResourceManagerTexture::get(
 bool ResourceManagerTexture::is_loaded(const std::string texture_path) const
 {
     auto search = m_loaded_textures.find(texture_path);
-    if (search != m_loaded_textures.end())
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (search != m_loaded_textures.end());
 }
 void ResourceManagerTexture::set_default_renderer(sdl::Renderer* p_renderer)
 {
