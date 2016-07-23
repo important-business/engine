@@ -1,7 +1,8 @@
 #include <SDL.h>
 #include <systems/playerinputsystem.hpp>
 
-using namespace systems;
+namespace systems
+{
 
 void PlayerInputSystem::update(double delta_time)
 {
@@ -39,3 +40,5 @@ void PlayerInputSystem::update(double delta_time)
         }
     }
 }
+
+} // namespace systems

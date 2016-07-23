@@ -5,7 +5,8 @@
 #include "components/player.hpp"
 #include "components/velocity.hpp"
 
-using namespace core;
+namespace core
+{
 
 anax::Entity goose_factory(anax::World& world,
     core::ResourceManagerTexture& texture_manager,
@@ -96,3 +97,5 @@ void World::handle_input()
         }
     }
 }
+
+} // namespace core

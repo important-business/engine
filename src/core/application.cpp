@@ -1,6 +1,7 @@
 #include "application.hpp"
 
-using namespace core;
+namespace core
+{
 
 const int WINDOW_WIDTH{640};
 const int WINDOW_HEIGHT{480};
@@ -42,3 +43,5 @@ void Application::quit()
 {
     m_has_quit = true;
 }
+
+} // namespace core

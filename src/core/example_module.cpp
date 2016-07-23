@@ -1,6 +1,7 @@
 #include "core/example_module.hpp"
 
-using namespace core;
+namespace core
+{
 
 int ExampleModule::get_me()
 {
@@ -11,3 +12,5 @@ void ExampleModule::set_me(int new_value)
 {
     m_value = new_value;
 }
+
+} // namespace core

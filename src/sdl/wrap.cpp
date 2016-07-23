@@ -1,7 +1,8 @@
 #include "sdl/wrap.hpp"
 #include <sstream>
 
-using namespace sdl;
+namespace sdl
+{
 
 Window::Window(
     const std::string title, int x, int y, int w, int h, Uint32 flags)
@@ -121,3 +122,5 @@ const char* Exception::what() const throw()
 {
     return m_message.c_str();
 }
+
+} // namespace sdl

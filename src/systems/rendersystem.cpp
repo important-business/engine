@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-using namespace systems;
+namespace systems
+{
 
 RenderSystem::RenderSystem(sdl::Window* p_window, Uint32 render_flags)
 {
@@ -61,3 +62,5 @@ sdl::Window* RenderSystem::get_window() const
 {
     return m_p_window;
 }
+
+} // namespace systems

@@ -76,4 +76,5 @@ void ResourceManagerTexture::unload_unused()
         }
     }
 }
-}
+
+} // namespace core

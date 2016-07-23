@@ -1,7 +1,8 @@
 #include "movementsystem.hpp"
 #include <iostream>
 
-using namespace systems;
+namespace systems
+{
 
 void MovementSystem::update(double delta_time)
 {
@@ -18,3 +19,5 @@ void MovementSystem::update(double delta_time)
         transform.pos_y += distance_moved_y;
     }
 }
+
+} // namespace systems
