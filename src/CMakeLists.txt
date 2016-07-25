@@ -31,6 +31,7 @@ target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
 
 # Use spdlog include directories (no library file)
 target_include_directories(engine PUBLIC ${SPDLOG_INCLUDE_DIR})
+add_dependencies(engine spdlog)
 
 # Link to SDL2 and modules and use their include directories
 target_link_libraries(engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})

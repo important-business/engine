@@ -18,6 +18,9 @@ function(FetchSpdlog)
 
     ExternalProject_Get_Property(spdlog_proj source_dir binary_dir)
 
+    add_library(spdlog INTERFACE)
+    add_dependencies(spdlog spdlog_proj)
+
     # TODO: Is this the best way to export the include directory?
     set(SPDLOG_INCLUDE_DIR "${source_dir}/include" PARENT_SCOPE)
 endfunction(FetchSpdlog)
