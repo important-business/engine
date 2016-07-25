@@ -1,5 +1,7 @@
 include(FetchAnax)
 FetchAnax()
+include(FetchSpdlog)
+FetchSpdlog()
 
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -26,6 +28,9 @@ target_link_libraries(engine sdl_wrap)
 # Link to libanax and use its include directories
 target_link_libraries(engine anax)
 target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
+
+# Use spdlog include directories (no library file)
+target_include_directories(engine PUBLIC ${SPDLOG_INCLUDE_DIR})
 
 # Link to SDL2 and modules and use their include directories
 target_link_libraries(engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})

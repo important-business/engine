@@ -1,4 +1,5 @@
 #include "application.hpp"
+#include <iostream>
 
 namespace core
 {
@@ -21,6 +22,7 @@ void Application::init()
         SDL_WINDOW_SHOWN);
     m_up_world = std::make_unique<core::World>(m_up_window.get(), this);
     m_up_world->init(SDL_RENDERER_SOFTWARE);
+    m_has_quit = false;
 }
 
 int Application::loop()

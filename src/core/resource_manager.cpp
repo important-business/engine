@@ -8,6 +8,7 @@ namespace core
 ResourceManagerTexture::ResourceManagerTexture()
 {
     m_p_default_renderer = nullptr;
+    m_sp_logger = logging_get_logger("resource_manager");
 }
 ResourceManagerTexture::~ResourceManagerTexture()
 {
@@ -20,12 +21,12 @@ std::shared_ptr<sdl_wrap::Texture> ResourceManagerTexture::get(
     std::shared_ptr<sdl_wrap::Texture> p_texture = nullptr;
     if (search != m_loaded_textures.end())
     {
-        std::cout << "Already loaded texture " << texture_path << std::endl;
+        m_sp_logger->info("Already loaded texture {}", texture_path);
         p_texture = search->second;
     }
     else
     {
-        std::cout << "Loading new texture " << texture_path << std::endl;
+        m_sp_logger->info("Loading new texture {}", texture_path);
         p_texture =
             std::make_shared<sdl_wrap::Texture>(texture_path, *p_renderer);
         // Do some checking of p_texture here
@@ -54,19 +55,21 @@ void ResourceManagerTexture::set_default_renderer(
 void ResourceManagerTexture::unload_unused()
 {
 
-    std::cout << "Unloading textures " << std::endl;
+    m_sp_logger->info("Unloading unused textures");
     auto it = m_loaded_textures.begin();
     while (it != m_loaded_textures.end())
     {
         if (it->second.use_count() <= 1)
         {
-            std::cout << "Unloading texture " << it->first << std::endl;
+            m_sp_logger->info("Unloading unused texture {}", it->first);
             it = m_loaded_textures.erase(it);
         }
         else
         {
-            std::cout << "Not unloading texture " << it->first << " still used "
-                      << it->second.use_count() << " times" << std::endl;
+            m_sp_logger->info(
+                "Not unloading unused texture {}, still used {} times",
+                it->first,
+                it->second.use_count());
             it++;
         }
     }
