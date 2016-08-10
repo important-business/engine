@@ -1,0 +1,19 @@
+---
+- name: MacOSX
+  tags: llvm
+  when: ansible_distribution == 'MacOSX'
+  with_items: "{{packages[ansible_distribution | lower]}}"
+  homebrew:
+    name: "{{item.name}}"
+    state: latest
+    options: "{{item.options | default()}}"
+
+- name: openSUSE
+  tags: llvm
+  become: yes
+  when: ansible_distribution == 'openSUSE'
+  with_items: "{{packages[ansible_distribution | lower]}}"
+  zypper:
+    name: "{{item.name}}"
+    state: latest
+    disable_recommends: no
