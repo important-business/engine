@@ -1,4 +1,14 @@
 # See https://jonasw.de/blog/2015/07/22/develop/cplusplus14-on-travis-with-cmake/
+os:
+  - linux
+  - osx
+
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
 addons:
     apt:
         sources:
@@ -15,19 +25,20 @@ addons:
             - libsdl2-image-dev
 
 install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade cmake; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sdl2; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sdl2_image; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install llvm --with-clang; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH="${PATH}:/usr/local/opt/llvm/bin/"; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install clang-format; fi
+
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./travis/linux_cmake.sh ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
-  - export CLANG_FORMAT=clang-format-3.8
-  - export CLANG_TIDY=clang-tidy-3.8
-
-language: cpp
-
-compiler:
-  - gcc
-  - clang
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CXX" = "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CLANG_FORMAT=clang-format-3.8; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CLANG_TIDY=clang-tidy-3.8; fi
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./travis/script_linux.sh ; fi
-
+  - ./travis/script.sh
