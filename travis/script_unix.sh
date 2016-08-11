@@ -19,7 +19,7 @@ check_result(){
 }
 
 echo "########################################################################"
-echo "# Entering Travix Linux Script"
+echo "# Entering Travix Unix Script"
 echo "########################################################################"
 check_result "Enter Build directory" "cd" "build"
 check_result "Generate Makefiles" "cmake" ".."
@@ -36,11 +36,11 @@ check_result "Check formatting" "../travis/check_clang_format.sh"
 
 if [ $exit_code -eq 0 ];then
     echo "########################################################################"
-    echo "# Exiting Travis Linux Script - Success! "
+    echo "# Exiting Travis Unix Script - Success! "
     echo "########################################################################"
 else
     echo "########################################################################"
-    echo "# Exiting Travis Linux Script - Error: Failed running step $script_exit_code."
+    echo "# Exiting Travis Unix Script - Error: Failed running step $script_exit_code."
     echo "########################################################################"
 fi
 
