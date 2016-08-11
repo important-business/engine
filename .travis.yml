@@ -41,4 +41,4 @@ install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CLANG_TIDY=clang-tidy-3.8; fi
 
 script:
-  - ./travis/script.sh
+  - ./travis/script_unix.sh
