@@ -56,4 +56,7 @@ endforeach ()
 
 include(ClangFormat)
 ClangFormat(CLANGFORMAT_FILES ${CHECK_SRCS})
-
+add_custom_target (
+    lint
+    )
+add_dependencies(lint clangtidy)

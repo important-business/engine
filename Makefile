@@ -16,6 +16,9 @@ test: ${BUILD_DIR}/Makefile
 format:
 	@make --directory=${BUILD_DIR} clangformat
 
+lint:
+	@make --directory=${BUILD_DIR} lint
+
 ${BUILD_DIR}/Makefile:
 	@[ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
 	@[ -f ${BUILD_DIR}/Makefile ] || (cd ${BUILD_DIR} && cmake ${CMAKE_OPTS} ..)

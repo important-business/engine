@@ -1,5 +1,5 @@
 add_custom_target (
-    clangtidy_all
+    clangtidy
     )
 
 function(ClangTidy)
@@ -29,6 +29,6 @@ function(ClangTidy)
         COMMAND ${CLANG_TIDY_BIN} ${ClangTidy_FILES} -config="${ClangTidy_CONFIG}" -- ${INCLUDE_ARGS} -std=c++${ClangTidy_CXX_STANDARD}
     )
 
-add_dependencies(clangtidy_all clangtidy_${ClangTidy_TARGETNAME})
+add_dependencies(clangtidy clangtidy_${ClangTidy_TARGETNAME})
 
 endfunction(ClangTidy)
