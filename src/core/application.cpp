@@ -6,7 +6,7 @@ namespace core
 
 const int WINDOW_WIDTH{640};
 const int WINDOW_HEIGHT{480};
-const std::string WINDOW_TITLE{"Engine"};
+const char* WINDOW_TITLE{"Engine"};
 const float MS_TO_SECONDS{1000.0};
 
 void Application::init()
