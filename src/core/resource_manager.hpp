@@ -1,6 +1,8 @@
 #ifndef CORE_RESOURCEMANAGER_HPP
 #define CORE_RESOURCEMANAGER_HPP
 
+#include "logging.hpp"
+
 #include <memory>
 #include <sdl_wrap/wrap.hpp>
 #include <string>
@@ -31,6 +33,7 @@ private:
         m_loaded_textures;
 
     sdl_wrap::Renderer* m_p_default_renderer;
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
 #endif /* CORE_RESOURCEMANAGER_HPP */

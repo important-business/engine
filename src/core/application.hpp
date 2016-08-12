@@ -35,7 +35,7 @@ private:
 
     std::unique_ptr<sdl_wrap::Window> m_up_window;
 
-    bool m_has_quit;
+    bool m_has_quit = true;
 
     int argc;
 
