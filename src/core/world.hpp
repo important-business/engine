@@ -1,14 +1,15 @@
 #ifndef CORE_WORLD_HPP
 #define CORE_WORLD_HPP
 
-#include <memory>
-#include <anax/anax.hpp>
-#include <sdl_wrap/wrap.hpp>
-#include "systems/render.hpp"
+#include "core/application.hpp"
+#include "core/resource_manager.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
-#include "core/resource_manager.hpp"
-#include "core/application.hpp"
+#include "systems/render.hpp"
+
+#include <anax/anax.hpp>
+#include <memory>
+#include <sdl_wrap/wrap.hpp>
 
 namespace core
 {

@@ -1,10 +1,11 @@
 #ifndef CORE_RESOURCEMANAGER_HPP
 #define CORE_RESOURCEMANAGER_HPP
 
-#include <string>
 #include <memory>
-#include <unordered_map>
 #include <sdl_wrap/wrap.hpp>
+#include <string>
+#include <unordered_map>
+
 namespace core
 {
 
@@ -12,7 +13,7 @@ class ResourceManagerTexture
 {
 public:
     ResourceManagerTexture();
-    ~ResourceManagerTexture();
+    ~ResourceManagerTexture() = default;
 
     std::shared_ptr<sdl_wrap::Texture> get(
         const std::string texture_path, sdl_wrap::Renderer* p_renderer);

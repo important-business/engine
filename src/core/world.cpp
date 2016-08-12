@@ -1,9 +1,11 @@
-#include <anax/anax.hpp>
 #include "world.hpp"
-#include "components/transform.hpp"
-#include "components/render.hpp"
+
 #include "components/player.hpp"
+#include "components/render.hpp"
+#include "components/transform.hpp"
 #include "components/velocity.hpp"
+
+#include <anax/anax.hpp>
 
 namespace core
 {
@@ -48,7 +50,7 @@ anax::Entity player_factory(anax::World& world,
 
 void World::init(Uint32 sdl_render_flags)
 {
-    // TODO: Remove SDL window initialization from world?
+    // TODO(Keegan): Remove SDL window initialization from world?
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     m_up_anax_world = std::make_unique<anax::World>();
@@ -75,7 +77,7 @@ void World::init(Uint32 sdl_render_flags)
 void World::execute(float dt)
 {
     m_up_anax_world->refresh();
-    m_up_player_input_system->update(dt);
+    m_up_player_input_system->update();
     m_up_movement_system->update(dt);
     m_up_render_system->render();
     handle_input();

@@ -1,9 +1,12 @@
 #ifndef CORE_APPLICATION_HPP
 #define CORE_APPLICATION_HPP
 
+#include "core/world.hpp"
+
+#include <sdl_wrap/wrap.hpp>
+
 #include <memory>
 #include <SDL.h>
-#include "core/world.hpp"
 
 namespace core
 {

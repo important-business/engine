@@ -9,9 +9,6 @@ ResourceManagerTexture::ResourceManagerTexture()
 {
     m_p_default_renderer = nullptr;
 }
-ResourceManagerTexture::~ResourceManagerTexture()
-{
-}
 
 std::shared_ptr<sdl_wrap::Texture> ResourceManagerTexture::get(
     std::string texture_path, sdl_wrap::Renderer* p_renderer)

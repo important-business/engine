@@ -29,7 +29,7 @@ int Application::loop()
     auto last_time = time;
     while (not m_has_quit)
     {
-        // TODO: Make this loop not suck as hard
+        // TODO(Keegan): Make this loop not suck as hard
         auto delta_time = (time - last_time) / MS_TO_SECONDS;
         last_time = time;
         m_up_world->execute(delta_time);

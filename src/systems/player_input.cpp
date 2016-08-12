@@ -1,10 +1,11 @@
+#include "systems/player_input.hpp"
+
 #include <SDL.h>
-#include <systems/player_input.hpp>
 
 namespace systems
 {
 
-void PlayerInput::update(double delta_time)
+void PlayerInput::update()
 {
     auto entities = getEntities();
     for (auto e : entities)
@@ -13,11 +14,11 @@ void PlayerInput::update(double delta_time)
         auto& velocity = e.getComponent<components::VelocityComponent>();
 
         const auto& key_states = SDL_GetKeyboardState(nullptr);
-        if (key_states[player.controls.left])
+        if (static_cast<bool>(key_states[player.controls.left]))
         {
             velocity.x = -player.base_speed;
         }
-        else if (key_states[player.controls.right])
+        else if (static_cast<bool>(key_states[player.controls.right]))
         {
             velocity.x = player.base_speed;
         }
@@ -26,11 +27,11 @@ void PlayerInput::update(double delta_time)
             velocity.x = 0;
         }
 
-        if (key_states[player.controls.up])
+        if (static_cast<bool>(key_states[player.controls.up]))
         {
             velocity.y = -player.base_speed;
         }
-        else if (key_states[player.controls.down])
+        else if (static_cast<bool>(key_states[player.controls.down]))
         {
             velocity.y = player.base_speed;
         }

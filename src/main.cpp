@@ -1,9 +1,9 @@
+#include "core/application.hpp"
+
+#include <exception>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <exception>
-
-#include "core/application.hpp"
 
 int main(int argc, char* argv[])
 {

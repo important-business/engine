@@ -1,4 +1,5 @@
 #include "sdl_wrap/wrap.hpp"
+
 #include <sstream>
 
 namespace sdl_wrap

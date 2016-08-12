@@ -1,8 +1,8 @@
 #ifndef COMPONENTS_RENDER_HPP
 #define COMPONENTS_RENDER_HPP
 
-#include <memory>
 #include <anax/Component.hpp>
+#include <memory>
 #include <sdl_wrap/wrap.hpp>
 
 namespace components

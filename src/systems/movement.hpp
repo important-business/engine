@@ -1,10 +1,10 @@
 #ifndef SYSTEMS_MOVEMENTSYSTEM_HPP
 #define SYSTEMS_MOVEMENTSYSTEM_HPP
 
-#include <anax/System.hpp>
-
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
+
+#include <anax/System.hpp>
 
 namespace systems
 {

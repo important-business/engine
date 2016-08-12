@@ -1,10 +1,11 @@
 #ifndef SYSTEMS_RENDERSYSTEM_HPP
 #define SYSTEMS_RENDERSYSTEM_HPP
 
-#include <string>
-#include <anax/System.hpp>
 #include "components/render.hpp"
 #include "components/transform.hpp"
+
+#include <string>
+#include <anax/System.hpp>
 
 namespace systems
 {
@@ -13,7 +14,7 @@ struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
     Render(sdl_wrap::Window* p_window, Uint32 render_flags);
-    ~Render();
+    ~Render() = default;
 
     void render();
 
