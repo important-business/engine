@@ -2,31 +2,37 @@
 #define CORE_LEVEL_HPP
 
 #include "core/logging.hpp"
+#include "sdl_wrap/wrap.hpp"
 
 #include <cstdint>
 #include <memory>
 namespace core
 {
 
+// TODO: don't duplicate all the data for each tile
 class LevelTile
 {
 public:
-    LevelTile(char tilechar = ' ') : m_tilechar(tilechar)
+    LevelTile(char tilechar = ' ') : m_tilechar(tilechar), p_texture(nullptr)
     {
     }
     bool collides();
+
+    void get_color(uint8_t& red, uint8_t& blue, uint8_t& green);
 
     void set_char(char tilechar);
 
     char m_tilechar;
 
 private:
+    std::shared_ptr<sdl_wrap::Texture> p_texture;
 };
 
 class Level
 {
 public:
-    Level(uint16_t size_x, uint16_t size_y) : m_size_x(size_x), m_size_y(size_y)
+    Level(uint16_t size_x, uint16_t size_y, float scale)
+        : m_size_x(size_x), m_size_y(size_y), m_scale(scale)
     {
         m_p_tiles = new LevelTile[size_x * size_y];
         m_sp_logger = logging_get_logger("level");
@@ -38,13 +44,24 @@ public:
         m_p_tiles = nullptr;
     }
 
-    LevelTile* get(uint16_t x, uint16_t y);
+    LevelTile* get(uint16_t x, uint16_t y) const;
+
+    float get_scale(void) const;
+
+    void get_size(uint16_t& x, uint16_t& y) const;
+
+    void get_tile(
+        float world_x, float world_y, uint16_t& tile_x, uint16_t& tile_y) const;
 
     void load(const char* initialdata, uint16_t size_x, uint16_t size_y);
-    void print();
+
+    void print() const;
 
 private:
     const uint16_t m_size_x, m_size_y;
+
+    // Number of world units per tile
+    const float m_scale;
 
     LevelTile* m_p_tiles;
 
