@@ -72,6 +72,11 @@ int Renderer::copy(Texture& texture,
         flip);
 }
 
+int Renderer::fill_rect(const SDL_Rect* p_rect)
+{
+    return SDL_RenderFillRect(m_p_renderer, p_rect);
+}
+
 void Renderer::present()
 {
     SDL_RenderPresent(m_p_renderer);

@@ -40,6 +40,8 @@ public:
         int angle,
         SDL_RendererFlip flip);
 
+    int fill_rect(const SDL_Rect* p_rect);
+
     void present();
 
     int set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha);
