@@ -2,6 +2,7 @@
 #define CORE_WORLD_HPP
 
 #include "core/application.hpp"
+#include "core/level.hpp"
 #include "core/resource_manager.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
@@ -46,6 +47,8 @@ private:
     std::unique_ptr<systems::PlayerInput> m_up_player_input_system;
 
     std::unique_ptr<core::ResourceManagerTexture> m_up_texture_manager;
+
+    std::unique_ptr<core::Level> m_up_level;
 };
 }
 

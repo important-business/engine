@@ -9,6 +9,36 @@
 
 namespace core
 {
+/* const uint16_t LEVEL_SIZE_X = 5; */
+/* const uint16_t LEVEL_SIZE_Y = 5; */
+#define LEVEL_SIZE_X 5
+#define LEVEL_SIZE_Y 5
+
+const char LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {'|',
+    '-',
+    '-',
+    '-',
+    '-',
+    '|',
+    ' ',
+    '|',
+    ' ',
+    ' ',
+    '|',
+    ' ',
+    '|',
+    ' ',
+    ' ',
+    '|',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    '|',
+    '-',
+    '-',
+    '-',
+    '-'};
 
 anax::Entity goose_factory(anax::World& world,
     core::ResourceManagerTexture& texture_manager,
@@ -72,6 +102,11 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world->addSystem(*m_up_render_system);
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
+
+    m_up_level = std::make_unique<core::Level>(LEVEL_SIZE_X, LEVEL_SIZE_Y);
+    m_up_level->print();
+    m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y);
+    m_up_level->print();
 }
 
 void World::execute(float dt)
