@@ -23,6 +23,27 @@ const LevelTile* Level::get(uint16_t x, uint16_t y) const
     return m_p_tiles[x + y * m_size_x];
 }
 
+Level::Level(uint16_t size_x, uint16_t size_y, float scale)
+    : m_size_x(size_x), m_size_y(size_y), m_scale(scale)
+{
+    m_p_tiles = new const LevelTile*[size_x * size_y];
+    for (uint16_t posx = 0; posx < size_x; posx++)
+    {
+        for (uint16_t posy = 0; posy < size_y; posy++)
+        {
+            // TODO(keegan): Use universal setter method instead
+            m_p_tiles[posx + posy * m_size_y] = tileset[tiledata];
+        }
+    }
+    m_sp_logger = logging_get_logger("level");
+}
+
+Level::~Level()
+{
+    delete[] m_p_tiles;
+    m_p_tiles = nullptr;
+}
+
 float Level::get_scale() const
 {
     return m_scale;

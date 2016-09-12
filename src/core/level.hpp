@@ -40,18 +40,9 @@ private:
 class Level
 {
 public:
-    Level(uint16_t size_x, uint16_t size_y, float scale)
-        : m_size_x(size_x), m_size_y(size_y), m_scale(scale)
-    {
-        m_p_tiles = new const LevelTile*[size_x * size_y];
-        m_sp_logger = logging_get_logger("level");
-    }
+    Level(uint16_t size_x, uint16_t size_y, float scale);
 
-    ~Level()
-    {
-        delete[] m_p_tiles;
-        m_p_tiles = nullptr;
-    }
+    ~Level();
 
     const LevelTile* get(uint16_t x, uint16_t y) const;
 
