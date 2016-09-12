@@ -9,6 +9,8 @@ Render::Render(sdl_wrap::Window* p_window, Uint32 render_flags)
 
     m_p_renderer = new sdl_wrap::Renderer{*m_p_window, -1, render_flags};
     m_p_renderer->set_draw_color(150, 150, 150, 100);
+
+    m_sp_logger = core::logging_get_logger("render");
 }
 
 void Render::render(core::Level* plevel)

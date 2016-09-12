@@ -4,6 +4,7 @@
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "core/level.hpp"
+#include "core/logging.hpp"
 
 #include <string>
 #include <anax/System.hpp>
@@ -34,6 +35,8 @@ private:
     sdl_wrap::Window* m_p_window;
 
     sdl_wrap::Renderer* m_p_renderer;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
 #endif /* SYSTEMS_RENDERSYSTEM_HPP */
