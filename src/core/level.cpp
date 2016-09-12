@@ -31,8 +31,7 @@ Level::Level(uint16_t size_x, uint16_t size_y, float scale)
     {
         for (uint16_t posy = 0; posy < size_y; posy++)
         {
-            // TODO(keegan): Use universal setter method instead
-            m_p_tiles[posx + posy * m_size_y] = tileset[tiledata];
+            set(posx, posy, nullptr);
         }
     }
     m_sp_logger = logging_get_logger("level");
@@ -62,20 +61,20 @@ void Level::get_tile(
     tile_x = world_x * m_scale;
     tile_y = world_y * m_scale;
 }
+
 void Level::load(const std::string* initialdata,
     uint16_t size_x,
     uint16_t size_y,
     std::map<std::string, const LevelTile*> tileset)
 {
-    const LevelTile* p_currtile = nullptr;
     for (uint16_t posx = 0; posx < size_x; posx++)
     {
         for (uint16_t posy = 0; posy < size_y; posy++)
         {
             auto tiledata = initialdata[posx + posy * size_x];
             m_sp_logger->info("Loading {} into {},{}", tiledata, posx, posy);
-            // TODO: Use universal setter method instead
-            m_p_tiles[posx + posy * m_size_y] = tileset[tiledata];
+            // TODO: Check for and handle missing tile type
+            set(posx, posy, tileset[tiledata]);
         }
     }
 }
@@ -99,6 +98,11 @@ void Level::print() const
         std::cout << std::endl;
     }
     std::cout << std::endl;
+}
+
+void Level::set(uint16_t posx, uint16_t posy, const LevelTile* p_tile)
+{
+    m_p_tiles[posx + posy * m_size_y] = p_tile;
 }
 
 } // namespace core
