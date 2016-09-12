@@ -14,31 +14,38 @@ namespace core
 #define LEVEL_SIZE_X 5
 #define LEVEL_SIZE_Y 5
 
-const char LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {'|',
-    '-',
-    '-',
-    '-',
-    '-',
-    '|',
-    ' ',
-    '|',
-    ' ',
-    ' ',
-    '|',
-    ' ',
-    '|',
-    ' ',
-    ' ',
-    '|',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    '|',
-    '-',
-    '-',
-    '-',
-    '-'};
+const LevelTile LEVEL_TILE_WALL = {true, 0, 255, 0};
+const LevelTile LEVEL_TILE_FLOOR = {false, 0, 0, 0};
+
+// TODO(keegan): Try initialize the level tile thing here
+std::map<std::string, const LevelTile*> LEVEL_TILES{
+    {"wall", &LEVEL_TILE_WALL}, {"floor", &LEVEL_TILE_FLOOR}};
+
+const std::string LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {"wall",
+    "wall",
+    "wall",
+    "wall",
+    "wall",
+    "wall",
+    "floor",
+    "wall",
+    "floor",
+    "floor",
+    "wall",
+    "floor",
+    "wall",
+    "floor",
+    "floor",
+    "wall",
+    "floor",
+    "floor",
+    "floor",
+    "floor",
+    "wall",
+    "wall",
+    "wall",
+    "wall",
+    "wall"};
 
 const float LEVEL_DEFAULT_SCALE = 100.0;
 
@@ -107,9 +114,9 @@ void World::init(Uint32 sdl_render_flags)
 
     m_up_level = std::make_unique<core::Level>(
         LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_DEFAULT_SCALE);
-    m_up_level->print();
-    m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y);
-    m_up_level->print();
+    /* m_up_level->print(); */
+    m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_TILES);
+    /* m_up_level->print(); */
 }
 
 void World::execute(float dt)

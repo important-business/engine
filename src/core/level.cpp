@@ -3,59 +3,24 @@
 namespace core
 {
 
-bool LevelTile::collides()
+bool LevelTile::collides() const
 {
-    switch (m_tilechar)
-    {
-    case ' ':
-        return false;
-    case '.':
-        return false;
-    case ',':
-        return false;
-    default:
-        return true;
-    }
+    return m_collides;
 }
-void LevelTile::get_color(uint8_t& red, uint8_t& blue, uint8_t& green)
+void LevelTile::get_color(uint8_t& red, uint8_t& blue, uint8_t& green) const
 {
-    switch (m_tilechar)
-    {
-    case ' ':
-        red = 0;
-        blue = 0;
-        green = 0;
-        break;
-    case '.':
-        red = 0;
-        blue = 0;
-        green = 0;
-        break;
-    case ',':
-        red = 0;
-        blue = 0;
-        green = 0;
-        break;
-    default:
-        red = 0;
-        blue = 255;
-        green = 0;
-        break;
-    }
+    red = m_red;
+    blue = m_blue;
+    green = m_green;
 }
 
-void LevelTile::set_char(char tilechar)
-{
-    m_tilechar = tilechar;
-}
-
-LevelTile* Level::get(uint16_t x, uint16_t y) const
+const LevelTile* Level::get(uint16_t x, uint16_t y) const
 {
     if ((x > m_size_x) || (y > m_size_y))
     {
         return nullptr;
     }
-    return &m_p_tiles[x + y * m_size_x];
+    return m_p_tiles[x + y * m_size_x];
 }
 
 float Level::get_scale() const
@@ -76,31 +41,27 @@ void Level::get_tile(
     tile_x = world_x * m_scale;
     tile_y = world_y * m_scale;
 }
-void Level::load(const char* initialdata, uint16_t size_x, uint16_t size_y)
+void Level::load(const std::string* initialdata,
+    uint16_t size_x,
+    uint16_t size_y,
+    std::map<std::string, const LevelTile*> tileset)
 {
-    LevelTile* p_currtile = nullptr;
+    const LevelTile* p_currtile = nullptr;
     for (uint16_t posx = 0; posx < size_x; posx++)
     {
         for (uint16_t posy = 0; posy < size_y; posy++)
         {
-            p_currtile = get(posx, posy);
-            if (p_currtile != nullptr)
-            {
-                char c = initialdata[posx + posy * size_x];
-                m_sp_logger->info("Loading {} into {},{}", c, posx, posy);
-                p_currtile->set_char(c);
-            }
-            else
-            {
-                // Maybe do an assert instead
-            }
+            auto tiledata = initialdata[posx + posy * size_x];
+            m_sp_logger->info("Loading {} into {},{}", tiledata, posx, posy);
+            // TODO: Use universal setter method instead
+            m_p_tiles[posx + posy * m_size_y] = tileset[tiledata];
         }
     }
 }
 
 void Level::print() const
 {
-    LevelTile* p_currtile = nullptr;
+    const LevelTile* p_currtile = nullptr;
     for (uint16_t posy = 0; posy < m_size_y; posy++)
     {
         for (uint16_t posx = 0; posx < m_size_x; posx++)

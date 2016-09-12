@@ -73,9 +73,16 @@ void Render::render_level(core::Level* plevel)
             uint8_t red, blue, green;
 
             auto ptile = plevel->get(pos_x, pos_y);
-            ptile->get_color(red, blue, green);
-            m_p_renderer->set_draw_color(red, blue, green, 255);
-            m_p_renderer->fill_rect(&dest_rect);
+            if (ptile != nullptr)
+            {
+                ptile->get_color(red, blue, green);
+                m_p_renderer->set_draw_color(red, blue, green, 255);
+                m_p_renderer->fill_rect(&dest_rect);
+            }
+            else
+            {
+                m_sp_logger->error("Tile {},{} is nullptr", pos_x, pos_y);
+            }
         }
     }
 }
