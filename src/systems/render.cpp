@@ -27,9 +27,9 @@ void Render::render_entities()
 
     for (auto& entity : entities)
     {
-        auto texture_component =
+        auto& texture_component =
             entity.getComponent<components::TextureComponent>();
-        auto transform_component =
+        auto& transform_component =
             entity.getComponent<components::TransformComponent>();
         SDL_Rect dest_rect = {
             static_cast<int>(transform_component.pos_x),
