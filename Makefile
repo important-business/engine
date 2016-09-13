@@ -13,7 +13,7 @@ project: ${BUILD_DIR}/Makefile
 test: ${BUILD_DIR}/Makefile
 	@make --directory=${BUILD_DIR} test ARGS='-V'
 
-format:
+format: ${BUILD_DIR}/Makefile
 	@make --directory=${BUILD_DIR} clangformat
 
 lint:
