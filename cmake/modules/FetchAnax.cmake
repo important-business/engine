@@ -1,5 +1,14 @@
 # TODO: Add option to link statically
 function(FetchAnax)
+    set(options)
+    set(oneValueArgs GITVERSION)
+    set(multiValueArgs)
+    cmake_parse_arguments(FetchAnax "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+    # Set defaults for unprovided arguments
+    if(NOT FetchAnax_GITVERSION)
+        set(FetchAnax_GITVERSION "master")
+    endif()
+
     # Enable ExternalProject CMake module
     include(ExternalProject)
 
@@ -10,7 +19,7 @@ function(FetchAnax)
     ExternalProject_Add(
         anax_proj
         GIT_REPOSITORY https://github.com/miguelmartin75/anax.git
-        GIT_TAG v2.1.0
+        GIT_TAG ${FetchAnax_GITVERSION}
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/anax
         # Disable install step
         INSTALL_COMMAND ""
@@ -27,5 +36,5 @@ function(FetchAnax)
         "${binary_dir}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}anax${CMAKE_SHARED_LIBRARY_SUFFIX}"
     )
     # TODO: Is this the best way to export the include directory?
-    set(ANAX_INCLUDE_DIR "${source_dir}/include" PARENT_SCOPE)
+    set(ANAX_INCLUDE_DIR "${source_dir}/include" "${binary_dir}/include" PARENT_SCOPE)
 endfunction(FetchAnax)

@@ -1,5 +1,14 @@
 # TODO: Add option to link statically
 function(FetchSpdlog)
+    set(options)
+    set(oneValueArgs GITVERSION)
+    set(multiValueArgs)
+    cmake_parse_arguments(FetchSpdlog "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+    # Set defaults for unprovided arguments
+    if(NOT FetchSpdlog_GITVERSION)
+        set(FetchSpdlog_GITVERSION "master")
+    endif()
+
     # Enable ExternalProject CMake module
     include(ExternalProject)
 
@@ -10,7 +19,7 @@ function(FetchSpdlog)
     ExternalProject_Add(
         spdlog_proj
         GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG master
+        GIT_TAG ${FetchSpdlog_GITVERSION}
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/spdlog
         # Disable install step
         INSTALL_COMMAND ""
