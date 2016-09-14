@@ -1,5 +1,5 @@
 include(FetchAnax)
-FetchAnax(GITVERSION "v2.1.0")
+FetchAnax(GITVERSION "d68526bfad15ed6e2f1c66c90eb8993c086e9d30")
 include(FetchSpdlog)
 FetchSpdlog()
 
