@@ -1,5 +1,6 @@
 #include "world.hpp"
 
+#include "components/camera.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
@@ -49,6 +50,20 @@ const std::string LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {"wall",
 
 const float LEVEL_DEFAULT_SCALE = 100.0;
 
+anax::Entity camera_factory(anax::World& world, float pos_x, float pos_y)
+{
+    auto entity = world.createEntity();
+
+    (void)entity.addComponent<components::TransformComponent>(
+        pos_x, pos_y, 0.0f, 0.0f, 0.0f, false, true);
+    (void)entity.addComponent<components::PlayerComponent>();
+    (void)entity.addComponent<components::VelocityComponent>();
+    (void)entity.addComponent<components::CameraComponent>();
+
+    entity.activate();
+    return entity;
+}
+
 anax::Entity goose_factory(anax::World& world,
     core::ResourceManagerTexture& texture_manager,
     float pos_x,
@@ -93,8 +108,10 @@ void World::init(Uint32 sdl_render_flags)
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     m_up_anax_world = std::make_unique<anax::World>();
-    m_up_render_system =
-        std::make_unique<systems::Render>(m_p_window, sdl_render_flags);
+    m_up_camera_system = std::make_unique<systems::Camera>();
+
+    m_up_render_system = std::make_unique<systems::Render>(
+        m_p_window, sdl_render_flags, *m_up_camera_system);
 
     m_up_movement_system = std::make_unique<systems::Movement>();
     m_up_player_input_system = std::make_unique<systems::PlayerInput>();
@@ -105,10 +122,12 @@ void World::init(Uint32 sdl_render_flags)
         m_up_render_system->get_renderer());
 
     (void)player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
+    (void)camera_factory(*m_up_anax_world, 100.0, 300.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 200.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 100.0);
 
     m_up_anax_world->addSystem(*m_up_render_system);
+    m_up_anax_world->addSystem(*m_up_camera_system);
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
 
@@ -123,6 +142,7 @@ void World::execute(float dt)
 {
     m_up_anax_world->refresh();
     m_up_player_input_system->update();
+    m_up_camera_system->update();
     m_up_movement_system->update(dt);
     m_up_render_system->render(m_up_level.get());
     handle_input();
@@ -135,6 +155,7 @@ void World::deinit()
 
     m_up_anax_world.release();
     m_up_render_system.release();
+    m_up_camera_system.release();
     m_up_player_input_system.release();
     m_up_movement_system.release();
     m_up_texture_manager->unload_unused();

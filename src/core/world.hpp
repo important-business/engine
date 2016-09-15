@@ -40,6 +40,8 @@ private:
 
     std::unique_ptr<anax::World> m_up_anax_world;
 
+    std::unique_ptr<systems::Camera> m_up_camera_system;
+
     std::unique_ptr<systems::Render> m_up_render_system;
 
     std::unique_ptr<systems::Movement> m_up_movement_system;

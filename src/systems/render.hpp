@@ -1,6 +1,7 @@
 #ifndef SYSTEMS_RENDERSYSTEM_HPP
 #define SYSTEMS_RENDERSYSTEM_HPP
 
+#include "components/camera.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "core/level.hpp"
@@ -12,10 +13,22 @@
 namespace systems
 {
 
+struct Camera : anax::System<anax::Requires<components::CameraComponent,
+                    components::TransformComponent>>
+{
+    Camera() = default;
+
+    ~Camera() = default;
+
+    void update();
+
+private:
+};
 struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
-    Render(sdl_wrap::Window* p_window, Uint32 render_flags);
+    Render(
+        sdl_wrap::Window* p_window, Uint32 render_flags, Camera& camerasystem);
 
     ~Render() = default;
 
@@ -28,15 +41,25 @@ struct Render : anax::System<anax::Requires<components::TextureComponent,
     sdl_wrap::Window* get_window() const;
 
 private:
-    void render_entities();
+    void get_camera_offsets(
+        int* p_camera_offset_x, int* p_camera_offset_y, float* p_camera_zoom);
 
-    void render_level(core::Level* plevel);
+    void render_entities(int camera_offset_x = 0,
+        int camera_offset_y = 0,
+        float camera_zoom = 1.0);
+
+    void render_level(core::Level* plevel,
+        int camera_offset_x = 0,
+        int camera_offset_y = 0,
+        float camera_zoom = 1.0);
 
     sdl_wrap::Window* m_p_window;
 
     sdl_wrap::Renderer* m_p_renderer;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
+
+    Camera& m_camerasystem;
 };
 }
 #endif /* SYSTEMS_RENDERSYSTEM_HPP */
