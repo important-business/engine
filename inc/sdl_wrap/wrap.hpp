@@ -21,6 +21,8 @@ public:
 
     SDL_Window* get_pointer();
 
+    void get_size(int* p_w, int* p_h);
+
 private:
     SDL_Window* m_p_window;
 };

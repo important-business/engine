@@ -32,6 +32,11 @@ SDL_Window* Window::get_pointer()
     return m_p_window;
 }
 
+void Window::get_size(int* p_w, int* p_h)
+{
+    SDL_GetWindowSize(m_p_window, p_w, p_h);
+}
+
 Renderer::Renderer(Window& window, int index, Uint32 flags)
 {
     m_p_renderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
