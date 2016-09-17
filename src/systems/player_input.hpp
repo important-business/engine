@@ -1,5 +1,5 @@
-#ifndef PLAYERINPUTSYSTEM_HPP
-#define PLAYERINPUTSYSTEM_HPP
+#ifndef SYSTEMS_PLAYER_INPUT_HPP
+#define SYSTEMS_PLAYER_INPUT_HPP
 
 #include "components/player.hpp"
 #include "components/velocity.hpp"
@@ -17,4 +17,4 @@ public:
 };
 }
 
-#endif // PLAYERINPUTSYSTEM_HPP
+#endif /* SYSTEMS_PLAYER_INPUT_HPP */

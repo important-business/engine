@@ -35,4 +35,4 @@ struct PlayerComponent : anax::Component
 };
 }
 
-#endif // COMPONENTS_PLAYER_HPP
+#endif /* COMPONENTS_PLAYER_HPP */

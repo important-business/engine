@@ -1,5 +1,5 @@
-#ifndef SYSTEMS_RENDERSYSTEM_HPP
-#define SYSTEMS_RENDERSYSTEM_HPP
+#ifndef SYSTEMS_RENDER_HPP
+#define SYSTEMS_RENDER_HPP
 
 #include "components/camera.hpp"
 #include "components/render.hpp"
@@ -62,4 +62,4 @@ private:
     Camera& m_camerasystem;
 };
 }
-#endif /* SYSTEMS_RENDERSYSTEM_HPP */
+#endif /* SYSTEMS_RENDER_HPP */

@@ -74,4 +74,4 @@ private:
 };
 }
 
-#endif /* CORE_WORLD_HPP */
+#endif /* CORE_LEVEL_HPP */

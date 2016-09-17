@@ -1,5 +1,5 @@
-#ifndef COMPONENTS_MOVEMENT_HPP
-#define COMPONENTS_MOVEMENT_HPP
+#ifndef COMPONENTS_VELOCITY_HPP
+#define COMPONENTS_VELOCITY_HPP
 
 #include <anax/Component.hpp>
 
@@ -13,4 +13,4 @@ struct VelocityComponent : anax::Component
 };
 }
 
-#endif /* COMPONENTS_MOVEMENT_HPP */
+#endif /* COMPONENTS_VELOCITY_HPP */

@@ -1,5 +1,5 @@
-#ifndef __EXAMPLE_MODULE_HPP
-#define __EXAMPLE_MODULE_HPP
+#ifndef EXAMPLE_MODULE_HPP
+#define EXAMPLE_MODULE_HPP
 
 namespace core
 {
@@ -17,4 +17,4 @@ private:
     int m_value;
 };
 }
-#endif // ndef __EXAMPLE_MODULE_HPP
+#endif /* EXAMPLE_MODULE_HPP */

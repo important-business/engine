@@ -1,5 +1,5 @@
-#ifndef SYSTEMS_MOVEMENTSYSTEM_HPP
-#define SYSTEMS_MOVEMENTSYSTEM_HPP
+#ifndef SYSTEMS_MOVEMENT_HPP
+#define SYSTEMS_MOVEMENT_HPP
 
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
@@ -15,4 +15,4 @@ struct Movement : anax::System<anax::Requires<components::TransformComponent,
     void update(double delta_time);
 };
 }
-#endif /* SYSTEMS_MOVEMENTSYSTEM_HPP */
+#endif /* SYSTEMS_MOVEMENT_HPP */

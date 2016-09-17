@@ -1,5 +1,5 @@
-#ifndef __SDL_WRAP_HPP
-#define __SDL_WRAP_HPP
+#ifndef SDL_WRAP_HPP
+#define SDL_WRAP_HPP
 
 #include <exception>
 #include <iostream>
@@ -83,4 +83,4 @@ private:
     std::string m_message;
 };
 }
-#endif
+#endif /* SDL_WRAP_HPP */

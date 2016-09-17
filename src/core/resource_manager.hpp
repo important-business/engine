@@ -1,5 +1,5 @@
-#ifndef CORE_RESOURCEMANAGER_HPP
-#define CORE_RESOURCEMANAGER_HPP
+#ifndef CORE_RESOURCE_MANAGER_HPP
+#define CORE_RESOURCE_MANAGER_HPP
 
 #include "logging.hpp"
 
@@ -36,4 +36,4 @@ private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
-#endif /* CORE_RESOURCEMANAGER_HPP */
+#endif /* CORE_RESOURCE_MANAGER_HPP */
