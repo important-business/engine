@@ -71,7 +71,7 @@ anax::Entity goose_factory(anax::World& world,
 {
     auto entity = world.createEntity();
     auto& sprite = entity.addComponent<components::TextureComponent>();
-    sprite.p_texture =
+    sprite.sp_texture =
         texture_manager.get(std::string("resources/angry_goose_head.png"));
 
     (void)entity.addComponent<components::TransformComponent>(
@@ -90,7 +90,7 @@ anax::Entity player_factory(anax::World& world,
 {
     auto entity = world.createEntity();
     auto& sprite = entity.addComponent<components::TextureComponent>();
-    sprite.p_texture =
+    sprite.sp_texture =
         texture_manager.get(std::string("resources/angry_goose_head.png"));
 
     (void)entity.addComponent<components::TransformComponent>(

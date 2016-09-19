@@ -18,7 +18,7 @@ public:
         uint8_t blue = 0,
         uint8_t green = 0)
         : m_tilechar(' '),
-          p_texture(nullptr),
+          sp_texture(nullptr),
           m_collides(collides),
           m_red(red),
           m_blue(blue),
@@ -32,7 +32,7 @@ public:
     char m_tilechar;
 
 private:
-    std::shared_ptr<sdl_wrap::Texture> p_texture;
+    std::shared_ptr<sdl_wrap::Texture> sp_texture;
     bool m_collides;
     uint8_t m_red, m_blue, m_green;
 };

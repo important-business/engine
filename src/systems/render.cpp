@@ -92,7 +92,7 @@ void Render::render_entities(
             flip = static_cast<SDL_RendererFlip>(
                 static_cast<SDL_RendererFlip>(SDL_FLIP_HORIZONTAL) | flip);
         }
-        m_p_renderer->copy(*texture_component.p_texture,
+        m_p_renderer->copy(*texture_component.sp_texture,
             nullptr,
             &dest_rect,
             static_cast<int>(transform_component.rotation),
