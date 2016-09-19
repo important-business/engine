@@ -60,7 +60,7 @@ public:
 
     void print() const;
 
-    void set(uint16_t posx, uint16_t posy, const LevelTile* p_tile);
+    void set(uint16_t pos_x, uint16_t pos_y, const LevelTile* p_tile);
 
 private:
     const uint16_t m_size_x, m_size_y;
