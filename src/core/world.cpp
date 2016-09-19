@@ -50,15 +50,15 @@ const std::string LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {"wall",
 
 const float LEVEL_DEFAULT_SCALE = 100.0;
 
-anax::Entity camera_factory(anax::World& world, float pos_x, float pos_y)
+anax::Entity camera_factory(
+    anax::World& world, anax::Entity target, float pos_x, float pos_y)
 {
     auto entity = world.createEntity();
 
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 0.0f, 0.0f, 0.0f, false, true);
-    (void)entity.addComponent<components::PlayerComponent>();
     (void)entity.addComponent<components::VelocityComponent>();
-    (void)entity.addComponent<components::CameraComponent>();
+    (void)entity.addComponent<components::CameraComponent>(target, 1.0f);
 
     entity.activate();
     return entity;
@@ -121,8 +121,9 @@ void World::init(Uint32 sdl_render_flags)
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
 
-    (void)player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
-    (void)camera_factory(*m_up_anax_world, 100.0, 300.0);
+    auto player =
+        player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
+    (void)camera_factory(*m_up_anax_world, player, 100.0, 300.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 200.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 100.0);
 

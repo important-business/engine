@@ -5,7 +5,20 @@ namespace systems
 
 void Camera::update()
 {
-    // TODO(Keegan): Update the camera's movement position based on target
+    auto entities = getEntities();
+    for (auto& camera_entity : entities)
+    {
+        auto& camera_transform_component =
+            camera_entity.getComponent<components::TransformComponent>();
+        auto& camera_camera_component =
+            camera_entity.getComponent<components::CameraComponent>();
+        // TODO(Keegan) Error if components aren't found
+        auto& target_transform_component =
+            camera_camera_component.target
+                .getComponent<components::TransformComponent>();
+        camera_transform_component.pos_x = target_transform_component.pos_x;
+        camera_transform_component.pos_y = target_transform_component.pos_y;
+    }
 }
 
 Render::Render(
