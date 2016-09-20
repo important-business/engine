@@ -16,8 +16,10 @@ void Camera::update()
         auto& target_transform_component =
             camera_camera_component.target
                 .getComponent<components::TransformComponent>();
-        camera_transform_component.pos_x = target_transform_component.pos_x;
-        camera_transform_component.pos_y = target_transform_component.pos_y;
+        camera_transform_component.pos_x = target_transform_component.pos_x +
+            target_transform_component.size_x / 2;
+        camera_transform_component.pos_y = target_transform_component.pos_y +
+            target_transform_component.size_y / 2;
     }
 }
 
