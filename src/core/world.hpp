@@ -1,7 +1,6 @@
 #ifndef CORE_WORLD_HPP
 #define CORE_WORLD_HPP
 
-#include "core/application.hpp"
 #include "core/level.hpp"
 #include "core/resource_manager.hpp"
 #include "systems/movement.hpp"
@@ -15,13 +14,10 @@
 namespace core
 {
 
-class Application;
-
 class World
 {
 public:
-    World(sdl_wrap::Window* pwindow, core::Application* p_application)
-        : m_p_window(pwindow), m_p_application(p_application)
+    World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
     {
     }
 
@@ -35,8 +31,6 @@ public:
 
 private:
     sdl_wrap::Window* m_p_window;
-
-    core::Application* m_p_application;
 
     std::unique_ptr<anax::World> m_up_anax_world;
 

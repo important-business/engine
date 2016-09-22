@@ -146,7 +146,6 @@ void World::execute(float dt)
     m_up_camera_system->update();
     m_up_movement_system->update(dt);
     m_up_render_system->render(m_up_level.get());
-    handle_input();
 }
 
 void World::deinit()
@@ -161,21 +160,6 @@ void World::deinit()
     m_up_movement_system.release();
     m_up_texture_manager->unload_unused();
     m_up_texture_manager.release();
-}
-
-void World::handle_input()
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event) != 0)
-    {
-        if (event.type == SDL_QUIT)
-        {
-            m_p_application->quit();
-        }
-        else
-        {
-        }
-    }
 }
 
 } // namespace core

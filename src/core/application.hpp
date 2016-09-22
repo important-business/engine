@@ -26,8 +26,6 @@ public:
 
     int loop();
 
-    void handle_input();
-
     void quit();
 
 private:
@@ -40,6 +38,8 @@ private:
     int argc;
 
     char** argv;
+
+    void handle_events();
 };
 }
 
