@@ -5,6 +5,7 @@
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
+#include "components/collision.hpp"
 
 #include <anax/anax.hpp>
 
@@ -78,6 +79,13 @@ anax::Entity goose_factory(anax::World& world,
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::VelocityComponent>();
 
+    auto& collision = entity.addComponent<components::Collision>();
+    collision.can_cause_events = true;
+    collision.bounding_box = {(int)pos_x,
+        (int)pos_y,
+        sprite.p_texture->get_width(),
+        sprite.p_texture->get_height()};
+
     entity.activate();
 
     return entity;
@@ -98,6 +106,13 @@ anax::Entity player_factory(anax::World& world,
     (void)entity.addComponent<components::PlayerComponent>();
     (void)entity.addComponent<components::VelocityComponent>();
 
+    auto& collision = entity.addComponent<components::Collision>();
+    collision.can_cause_events = true;
+    collision.bounding_box = {(int)pos_x,
+        (int)pos_y,
+        sprite.p_texture->get_width(),
+        sprite.p_texture->get_height()};
+
     entity.activate();
     return entity;
 }
@@ -115,15 +130,16 @@ void World::init(Uint32 sdl_render_flags)
 
     m_up_movement_system = std::make_unique<systems::Movement>();
     m_up_player_input_system = std::make_unique<systems::PlayerInput>();
+    m_up_collision_system = std::make_unique<systems::Collision>();
 
     m_up_texture_manager = std::make_unique<core::ResourceManagerTexture>();
 
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
 
-    auto player =
+    auto m_player =
         player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
-    (void)camera_factory(*m_up_anax_world, player, 100.0, 300.0);
+    (void)camera_factory(*m_up_anax_world, m_player, 100.0, 300.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 200.0);
     (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 100.0);
 
@@ -131,12 +147,32 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world->addSystem(*m_up_camera_system);
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
+    m_up_anax_world->addSystem(*m_up_collision_system);
+
+    m_up_collision_system->add_listener(*this);
 
     m_up_level = std::make_unique<core::Level>(
         LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_DEFAULT_SCALE);
     /* m_up_level->print(); */
     m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_TILES);
     /* m_up_level->print(); */
+}
+
+void World::on_collision_occured(anax::Entity& e1, anax::Entity& e2)
+{
+    if (e1 != m_player && e2 != m_player)
+    {
+        return;
+    }
+
+    auto& velocity = m_player.getComponent<components::VelocityComponent>();
+    auto& transform = m_player.getComponent<components::TransformComponent>();
+
+    auto distance_moved_x = -velocity.x;
+    auto distance_moved_y = -velocity.y;
+
+    transform.pos_x += distance_moved_x;
+    transform.pos_y += distance_moved_y;
 }
 
 void World::execute(float dt)

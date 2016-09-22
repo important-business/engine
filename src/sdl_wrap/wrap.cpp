@@ -124,6 +124,16 @@ Texture::Texture(std::string path, Renderer& renderer)
     m_p_texture = texture;
 }
 
+int Texture::get_width()
+{
+    return m_width;
+}
+
+int Texture::get_height()
+{
+    return m_height;
+}
+
 SDL_Texture* Texture::get_pointer()
 {
     return m_p_texture;

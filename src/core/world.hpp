@@ -6,6 +6,7 @@
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
 #include "systems/render.hpp"
+#include "systems/collision.hpp"
 
 #include <anax/anax.hpp>
 #include <memory>
@@ -14,7 +15,8 @@
 namespace core
 {
 
-class World
+class World : public systems::Collision::Listener
+
 {
 public:
     World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
@@ -42,9 +44,15 @@ private:
 
     std::unique_ptr<systems::PlayerInput> m_up_player_input_system;
 
+    std::unique_ptr<systems::Collision> m_up_collision_system;
+
     std::unique_ptr<core::ResourceManagerTexture> m_up_texture_manager;
 
     std::unique_ptr<core::Level> m_up_level;
+
+    anax::Entity m_player;
+
+    void on_collision_occured(anax::Entity& e1, anax::Entity& e2);
 };
 }
 

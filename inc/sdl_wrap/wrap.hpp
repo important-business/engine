@@ -62,6 +62,10 @@ public:
 
     SDL_Texture* get_pointer();
 
+    int get_width();
+
+    int get_height();
+
 private:
     SDL_Texture* m_p_texture = NULL;
 
