@@ -1,6 +1,8 @@
 #ifndef SYSTEMS_COLLISION_HPP
 #define SYSTEMS_COLLISION_HPP
 
+#include <vector>
+#include <algorithm>
 #include <anax/System.hpp>
 #include "components/transform.hpp"
 #include "components/collision.hpp"
