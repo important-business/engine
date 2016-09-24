@@ -3,6 +3,10 @@
 #include <SDL.h>
 #include <anax/System.hpp>
 
+systems::Collision::Listener::~Listener()
+{
+}
+
 static SDL_Rect get_bounding_box_rect(
     const components::TransformComponent& transformable, const SDL_Rect bbox)
 {

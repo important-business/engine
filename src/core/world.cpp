@@ -8,6 +8,7 @@
 #include "components/collision.hpp"
 
 #include <anax/anax.hpp>
+#include <iostream>
 
 namespace core
 {
@@ -80,7 +81,7 @@ anax::Entity goose_factory(anax::World& world,
     (void)entity.addComponent<components::VelocityComponent>();
 
     auto& collision = entity.addComponent<components::Collision>();
-    collision.can_cause_events = true;
+    collision.can_cause_events = false;
     collision.bounding_box = {(int)pos_x,
         (int)pos_y,
         sprite.p_texture->get_width(),
@@ -160,6 +161,7 @@ void World::init(Uint32 sdl_render_flags)
 
 void World::on_collision_occured(anax::Entity& e1, anax::Entity& e2)
 {
+    std::cout << "collision occurred\n";
     if (e1 != m_player && e2 != m_player)
     {
         return;
@@ -180,6 +182,7 @@ void World::execute(float dt)
     m_up_anax_world->refresh();
     m_up_player_input_system->update();
     m_up_camera_system->update();
+    m_up_collision_system->update(dt);
     m_up_movement_system->update(dt);
     m_up_render_system->render(m_up_level.get());
 }
