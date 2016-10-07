@@ -17,7 +17,7 @@ public:
         virtual ~Listener() = 0;
 
         virtual void on_collision_occured(
-            anax::Entity& e1, anax::Entity& e2) = 0;
+            anax::Entity& e1, anax::Entity& e2, double delta_time) = 0;
     };
     void update(double delta_time);
     void add_listener(Listener& listener);

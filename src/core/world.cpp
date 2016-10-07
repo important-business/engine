@@ -159,19 +159,14 @@ void World::init(Uint32 sdl_render_flags)
     /* m_up_level->print(); */
 }
 
-void World::on_collision_occured(anax::Entity& e1, anax::Entity& e2)
+void World::on_collision_occured(anax::Entity& e1, anax::Entity& e2, double delta_time)
 {
     std::cout << "collision occurred\n";
-    if (e1 != m_player && e2 != m_player)
-    {
-        return;
-    }
+    auto& velocity = e1.getComponent<components::VelocityComponent>();
+    auto& transform = e1.getComponent<components::TransformComponent>();
 
-    auto& velocity = m_player.getComponent<components::VelocityComponent>();
-    auto& transform = m_player.getComponent<components::TransformComponent>();
-
-    auto distance_moved_x = -velocity.x;
-    auto distance_moved_y = -velocity.y;
+    auto distance_moved_x = -velocity.x * delta_time * 2;
+    auto distance_moved_y = -velocity.y * delta_time * 2;
 
     transform.pos_x += distance_moved_x;
     transform.pos_y += distance_moved_y;

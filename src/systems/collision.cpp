@@ -25,7 +25,7 @@ static SDL_Rect get_bounding_box_rect(const anax::Entity& entity)
     return get_bounding_box_rect(transform, bbox);
 }
 
-void systems::Collision::update(double)
+void systems::Collision::update(double delta_time)
 {
     auto colliders = getEntities();
 
@@ -45,12 +45,11 @@ void systems::Collision::update(double)
             auto& e2 = colliders[j];
             const auto rect2 = get_bounding_box_rect(e2);
             SDL_Rect intersecting_rect;
-
             if (SDL_IntersectRect(&rect1, &rect2, &intersecting_rect))
             {
                 for (auto& listener : m_listeners)
                 {
-                    listener->on_collision_occured(e1, e2);
+                    listener->on_collision_occured(e1, e2, delta_time);
                 }
             }
         }

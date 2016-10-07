@@ -52,7 +52,7 @@ private:
 
     anax::Entity m_player;
 
-    void on_collision_occured(anax::Entity& e1, anax::Entity& e2);
+    void on_collision_occured(anax::Entity& e1, anax::Entity& e2, double delta_time);
 };
 }
 
