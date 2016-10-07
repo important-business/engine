@@ -76,16 +76,16 @@ anax::Entity goose_factory(anax::World& world,
     sprite.p_texture =
         texture_manager.get(std::string("resources/angry_goose_head.png"));
 
-    (void)entity.addComponent<components::TransformComponent>(
+    auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::VelocityComponent>();
 
     auto& collision = entity.addComponent<components::Collision>();
     collision.can_cause_events = false;
-    collision.bounding_box = {(int)pos_x,
-        (int)pos_y,
-        sprite.p_texture->get_width(),
-        sprite.p_texture->get_height()};
+    collision.bounding_box = {0,
+        0,
+        (int)transform.size_x,
+        (int)transform.size_y};
 
     entity.activate();
 
@@ -102,17 +102,17 @@ anax::Entity player_factory(anax::World& world,
     sprite.p_texture =
         texture_manager.get(std::string("resources/angry_goose_head.png"));
 
-    (void)entity.addComponent<components::TransformComponent>(
+    auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::PlayerComponent>();
     (void)entity.addComponent<components::VelocityComponent>();
 
     auto& collision = entity.addComponent<components::Collision>();
     collision.can_cause_events = true;
-    collision.bounding_box = {(int)pos_x,
-        (int)pos_y,
-        sprite.p_texture->get_width(),
-        sprite.p_texture->get_height()};
+    collision.bounding_box = {0,
+        0,
+        (int)transform.size_x,
+        (int)transform.size_y};
 
     entity.activate();
     return entity;
