@@ -9,7 +9,9 @@
 
 namespace systems
 {
-struct Collision : anax::System<anax::Requires<components::TransformComponent, components::Collision>>
+struct Collision
+    : anax::System<
+          anax::Requires<components::TransformComponent, components::Collision>>
 {
 public:
     struct Listener

@@ -82,10 +82,8 @@ anax::Entity goose_factory(anax::World& world,
 
     auto& collision = entity.addComponent<components::Collision>();
     collision.can_cause_events = false;
-    collision.bounding_box = {0,
-        0,
-        (int)transform.size_x,
-        (int)transform.size_y};
+    collision.bounding_box = {
+        0, 0, (int)transform.size_x, (int)transform.size_y};
 
     entity.activate();
 
@@ -109,10 +107,8 @@ anax::Entity player_factory(anax::World& world,
 
     auto& collision = entity.addComponent<components::Collision>();
     collision.can_cause_events = true;
-    collision.bounding_box = {0,
-        0,
-        (int)transform.size_x,
-        (int)transform.size_y};
+    collision.bounding_box = {
+        0, 0, (int)transform.size_x, (int)transform.size_y};
 
     entity.activate();
     return entity;
@@ -159,7 +155,8 @@ void World::init(Uint32 sdl_render_flags)
     /* m_up_level->print(); */
 }
 
-void World::on_collision_occured(anax::Entity& e1, anax::Entity& e2, double delta_time)
+void World::on_collision_occured(
+    anax::Entity& e1, anax::Entity& e2, double delta_time)
 {
     std::cout << "collision occurred\n";
     auto& velocity = e1.getComponent<components::VelocityComponent>();
