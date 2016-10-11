@@ -26,7 +26,6 @@ addons:
 
 install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade cmake; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sdl2; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sdl2_image; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install llvm --with-clang; fi
