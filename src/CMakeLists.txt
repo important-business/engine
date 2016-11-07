@@ -2,6 +2,8 @@ include(FetchAnax)
 FetchAnax(GITVERSION "d68526bfad15ed6e2f1c66c90eb8993c086e9d30")
 include(FetchSpdlog)
 FetchSpdlog()
+include(FetchJsonCpp)
+FetchJsonCpp(GITVERSION "1.7.7")
 
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -28,6 +30,10 @@ target_link_libraries(engine sdl_wrap)
 # Link to libanax and use its include directories
 target_link_libraries(engine anax)
 target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
+
+# Use jsoncpp include directories
+target_link_libraries(engine jsoncpp)
+target_include_directories(engine PUBLIC ${JSONCPP_INCLUDE_DIR})
 
 # Use spdlog include directories (no library file)
 target_include_directories(engine PUBLIC ${SPDLOG_INCLUDE_DIR})
