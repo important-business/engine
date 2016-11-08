@@ -13,35 +13,31 @@
 namespace core
 {
 
-void factory_component_player(const Json::Value data,
-    anax::Entity entity,
-    std::map<std::string, anax::Entity> map_entities)
+void DataReader::factory_component_player(
+    const Json::Value data, anax::Entity entity)
 {
     entity.addComponent<components::PlayerComponent>();
 }
 
-void factory_component_camera(const Json::Value data,
-    anax::Entity entity,
-    std::map<std::string, anax::Entity> map_entities)
+void DataReader::factory_component_camera(
+    const Json::Value data, anax::Entity entity)
 {
     float zoom = data.get("zoom", 1.0f).asFloat();
     std::string target = data.get("target", "player").asString();
-    auto player = map_entities[target];
+    auto player = m_map_entities[target];
     entity.addComponent<components::CameraComponent>(player, zoom);
 }
 
-void factory_component_texture(const Json::Value data,
-    anax::Entity entity,
-    std::map<std::string, anax::Entity> map_entities)
+void DataReader::factory_component_texture(
+    const Json::Value data, anax::Entity entity)
 {
     std::string texture_path =
         data.get("texture_path", "resources/missing.png").asString();
     entity.addComponent<components::TextureComponent>(texture_path);
 }
 
-void factory_component_transform(const Json::Value data,
-    anax::Entity entity,
-    std::map<std::string, anax::Entity> map_entities)
+void DataReader::factory_component_transform(
+    const Json::Value data, anax::Entity entity)
 {
     float pos_x = data.get("pos_x", 0.0f).asFloat();
     float pos_y = data.get("pos_y", 0.0f).asFloat();
@@ -54,29 +50,26 @@ void factory_component_transform(const Json::Value data,
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
 
-void factory_component_velocity(const Json::Value data,
-    anax::Entity entity,
-    std::map<std::string, anax::Entity> map_entities)
+void DataReader::factory_component_velocity(
+    const Json::Value data, anax::Entity entity)
 {
     float velocity_x = data.get("x", 0.0f).asFloat();
     float velocity_y = data.get("y", 0.0f).asFloat();
     entity.addComponent<components::VelocityComponent>(velocity_x, velocity_y);
 }
 
-std::map<std::string,
-    void (*)(const Json::Value,
-             anax::Entity,
-             std::map<std::string, anax::Entity>)>
-    component_factories = {
-        {"camera", factory_component_camera},
-        {"player", factory_component_player},
-        {"texture", factory_component_texture},
-        {"transform", factory_component_transform},
-        {"velocity", factory_component_velocity},
-};
-
 DataReader::DataReader(std::string filename) : m_str_filename(filename)
 {
+    component_factories.insert(
+        std::make_pair("camera", &DataReader::factory_component_camera));
+    component_factories.insert(
+        std::make_pair("player", &DataReader::factory_component_player));
+    component_factories.insert(
+        std::make_pair("texture", &DataReader::factory_component_texture));
+    component_factories.insert(
+        std::make_pair("transform", &DataReader::factory_component_transform));
+    component_factories.insert(
+        std::make_pair("velocity", &DataReader::factory_component_velocity));
     m_sp_logger = logging_get_logger("data");
     Json::Reader reader_json;
     m_sp_logger->info("Loading data from {}", filename);
@@ -135,7 +128,8 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 
         m_sp_logger->info("Creating component {}", type);
 
-        component_factories[type](*it, entity, m_map_entities);
+        factory_method fp = component_factories[type];
+        (this->*fp)(*it, entity);
     }
 
     entity.activate();
