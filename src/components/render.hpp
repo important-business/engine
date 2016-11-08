@@ -10,6 +10,11 @@ namespace components
 
 struct TextureComponent : anax::Component
 {
+    TextureComponent(std::string texture_path) : texture_path(texture_path)
+    {
+    }
+
+    const std::string texture_path;
     std::shared_ptr<sdl_wrap::Texture> sp_texture;
 };
 }

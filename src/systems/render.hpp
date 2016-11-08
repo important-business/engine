@@ -10,6 +10,11 @@
 #include <string>
 #include <anax/System.hpp>
 
+namespace core
+{
+class ResourceManagerTexture;
+}
+
 namespace systems
 {
 
@@ -27,8 +32,10 @@ private:
 struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
-    Render(
-        sdl_wrap::Window* p_window, Uint32 render_flags, Camera& camerasystem);
+    Render(sdl_wrap::Window* p_window,
+        Uint32 render_flags,
+        Camera& camerasystem,
+        core::ResourceManagerTexture* p_resourcemanager);
 
     ~Render() = default;
 
@@ -60,6 +67,8 @@ private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 
     Camera& m_camerasystem;
+
+    core::ResourceManagerTexture* m_p_resourcemanager;
 };
 }
 #endif /* SYSTEMS_RENDER_HPP */

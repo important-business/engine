@@ -70,9 +70,8 @@ anax::Entity goose_factory(anax::World& world,
     float pos_y)
 {
     auto entity = world.createEntity();
-    auto& sprite = entity.addComponent<components::TextureComponent>();
-    sprite.sp_texture =
-        texture_manager.get(std::string("resources/angry_goose_head.png"));
+    (void)entity.addComponent<components::TextureComponent>(
+        std::string("resources/angry_goose_head.png"));
 
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
@@ -89,9 +88,8 @@ anax::Entity player_factory(anax::World& world,
     float pos_y)
 {
     auto entity = world.createEntity();
-    auto& sprite = entity.addComponent<components::TextureComponent>();
-    sprite.sp_texture =
-        texture_manager.get(std::string("resources/angry_goose_head.png"));
+    (void)entity.addComponent<components::TextureComponent>(
+        std::string("resources/angry_goose_head.png"));
 
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
@@ -110,13 +108,15 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world = std::make_unique<anax::World>();
     m_up_camera_system = std::make_unique<systems::Camera>();
 
-    m_up_render_system = std::make_unique<systems::Render>(
-        m_p_window, sdl_render_flags, *m_up_camera_system);
+    m_up_texture_manager = std::make_unique<core::ResourceManagerTexture>();
+
+    m_up_render_system = std::make_unique<systems::Render>(m_p_window,
+        sdl_render_flags,
+        *m_up_camera_system,
+        m_up_texture_manager.get());
 
     m_up_movement_system = std::make_unique<systems::Movement>();
     m_up_player_input_system = std::make_unique<systems::PlayerInput>();
-
-    m_up_texture_manager = std::make_unique<core::ResourceManagerTexture>();
 
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
