@@ -1,12 +1,14 @@
 #include "application.hpp"
+#include "configuration.hpp"
 #include <iostream>
+#include <fstream>
+#include <json/json.h>
 
 namespace core
 {
 
-const int WINDOW_WIDTH{640};
-const int WINDOW_HEIGHT{480};
 const char* WINDOW_TITLE{"Engine"};
+const char* CONFIG_PATH{"config.json"};
 const float MS_TO_SECONDS{1000.0};
 
 void Application::init()
@@ -14,11 +16,16 @@ void Application::init()
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
+    Configuration config{CONFIG_PATH};
+
+    auto window_width = config.get_window_width();
+    auto window_height = config.get_window_height();
+
     m_up_window = std::make_unique<sdl_wrap::Window>(WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        WINDOW_WIDTH,
-        WINDOW_HEIGHT,
+        window_width,
+        window_height,
         SDL_WINDOW_SHOWN);
     m_up_world = std::make_unique<core::World>(m_up_window.get());
     m_up_world->init(SDL_RENDERER_SOFTWARE);
