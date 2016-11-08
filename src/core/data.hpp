@@ -21,6 +21,8 @@ public:
     std::map<std::string, DataReader::factory_method> component_factories;
 
 private:
+    void check_required_component_property(
+        const Json::Value data, std::string component, std::string property);
     void factory_component_player(const Json::Value data, anax::Entity entity);
     void factory_component_camera(const Json::Value data, anax::Entity entity);
     void factory_component_texture(const Json::Value data, anax::Entity entity);

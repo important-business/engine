@@ -13,6 +13,24 @@
 namespace core
 {
 
+const std::string component_name_camera{"camera"};
+const std::string component_name_player{"player"};
+const std::string component_name_texture{"texture"};
+const std::string component_name_transform{"transform"};
+const std::string component_name_velocity{"velocity"};
+
+void DataReader::check_required_component_property(
+    const Json::Value data, std::string component, std::string property)
+{
+    if (!data.isMember(property))
+    {
+        m_sp_logger->error(
+            "JSON data component {} missing property {}", component, property);
+        throw ExceptionParseFailure(
+            m_str_filename, "JSON Data component missing property");
+    }
+}
+
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
@@ -22,8 +40,12 @@ void DataReader::factory_component_player(
 void DataReader::factory_component_camera(
     const Json::Value data, anax::Entity entity)
 {
-    float zoom = data.get("zoom", 1.0f).asFloat();
-    std::string target = data.get("target", "player").asString();
+    const std::string prop_zoom{"zoom"};
+    const std::string prop_target{"target"};
+    check_required_component_property(data, component_name_camera, prop_zoom);
+    check_required_component_property(data, component_name_camera, prop_target);
+    float zoom = data.get(prop_zoom, 1.0f).asFloat();
+    std::string target = data.get(prop_target, "player").asString();
     auto player = m_map_entities[target];
     entity.addComponent<components::CameraComponent>(player, zoom);
 }
@@ -31,21 +53,45 @@ void DataReader::factory_component_camera(
 void DataReader::factory_component_texture(
     const Json::Value data, anax::Entity entity)
 {
+    const std::string prop_texture_path{"texture_path"};
+    check_required_component_property(
+        data, component_name_texture, prop_texture_path);
     std::string texture_path =
-        data.get("texture_path", "resources/missing.png").asString();
+        data.get(prop_texture_path, "resources/missing.png").asString();
     entity.addComponent<components::TextureComponent>(texture_path);
 }
 
 void DataReader::factory_component_transform(
     const Json::Value data, anax::Entity entity)
 {
-    float pos_x = data.get("pos_x", 0.0f).asFloat();
-    float pos_y = data.get("pos_y", 0.0f).asFloat();
-    float size_x = data.get("size_x", 0.0f).asFloat();
-    float size_y = data.get("size_y", 0.0f).asFloat();
-    float rotation = data.get("rotation", 0.0f).asFloat();
-    bool flip_vert = data.get("flip_vert", false).asBool();
-    bool flip_horiz = data.get("flip_horiz", false).asBool();
+    const std::string prop_pos_x{"pos_x"};
+    const std::string prop_pos_y{"pos_y"};
+    const std::string prop_size_x{"size_x"};
+    const std::string prop_size_y{"size_y"};
+    const std::string prop_rotation{"rotation"};
+    const std::string prop_flip_horiz{"flip_horiz"};
+    const std::string prop_flip_vert{"flip_vert"};
+    check_required_component_property(
+        data, component_name_transform, prop_pos_x);
+    check_required_component_property(
+        data, component_name_transform, prop_pos_y);
+    check_required_component_property(
+        data, component_name_transform, prop_size_x);
+    check_required_component_property(
+        data, component_name_transform, prop_size_y);
+    check_required_component_property(
+        data, component_name_transform, prop_rotation);
+    check_required_component_property(
+        data, component_name_transform, prop_flip_vert);
+    check_required_component_property(
+        data, component_name_transform, prop_flip_horiz);
+    float pos_x = data.get(prop_pos_x, 0.0f).asFloat();
+    float pos_y = data.get(prop_pos_y, 0.0f).asFloat();
+    float size_x = data.get(prop_size_x, 0.0f).asFloat();
+    float size_y = data.get(prop_size_y, 0.0f).asFloat();
+    float rotation = data.get(prop_rotation, 0.0f).asFloat();
+    bool flip_vert = data.get(prop_flip_vert, false).asBool();
+    bool flip_horiz = data.get(prop_flip_horiz, false).asBool();
     entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
@@ -53,24 +99,32 @@ void DataReader::factory_component_transform(
 void DataReader::factory_component_velocity(
     const Json::Value data, anax::Entity entity)
 {
-    float velocity_x = data.get("x", 0.0f).asFloat();
-    float velocity_y = data.get("y", 0.0f).asFloat();
+    const std::string prop_vel_x{"vel_x"};
+    const std::string prop_vel_y{"vel_y"};
+    check_required_component_property(
+        data, component_name_velocity, prop_vel_x);
+    check_required_component_property(
+        data, component_name_velocity, prop_vel_y);
+    float velocity_x = data.get(prop_vel_x, 0.0f).asFloat();
+    float velocity_y = data.get(prop_vel_y, 0.0f).asFloat();
     entity.addComponent<components::VelocityComponent>(velocity_x, velocity_y);
 }
 
 DataReader::DataReader(std::string filename) : m_str_filename(filename)
 {
-    component_factories.insert(
-        std::make_pair("camera", &DataReader::factory_component_camera));
-    component_factories.insert(
-        std::make_pair("player", &DataReader::factory_component_player));
-    component_factories.insert(
-        std::make_pair("texture", &DataReader::factory_component_texture));
-    component_factories.insert(
-        std::make_pair("transform", &DataReader::factory_component_transform));
-    component_factories.insert(
-        std::make_pair("velocity", &DataReader::factory_component_velocity));
     m_sp_logger = logging_get_logger("data");
+
+    component_factories.insert(std::make_pair(
+        component_name_camera, &DataReader::factory_component_camera));
+    component_factories.insert(std::make_pair(
+        component_name_player, &DataReader::factory_component_player));
+    component_factories.insert(std::make_pair(
+        component_name_texture, &DataReader::factory_component_texture));
+    component_factories.insert(std::make_pair(
+        component_name_transform, &DataReader::factory_component_transform));
+    component_factories.insert(std::make_pair(
+        component_name_velocity, &DataReader::factory_component_velocity));
+
     Json::Reader reader_json;
     m_sp_logger->info("Loading data from {}", filename);
     std::ifstream config_file(filename, std::ifstream::binary);
