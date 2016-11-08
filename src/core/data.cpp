@@ -1,4 +1,5 @@
 #include "data.hpp"
+#include "exception.hpp"
 #include "components/camera.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
@@ -80,28 +81,82 @@ DataReader::DataReader(std::string filename) : m_str_filename(filename)
     Json::Reader reader_json;
     m_sp_logger->info("Loading data from {}", filename);
     std::ifstream config_file(filename, std::ifstream::binary);
-    reader_json.parse(config_file, m_json_config);
+    if (!reader_json.parse(config_file, m_json_config))
+    {
+        m_sp_logger->error(
+            "Failed to parse JSON file {}:", filename, "JSON format error");
+        m_sp_logger->error(reader_json.getFormattedErrorMessages());
+        throw ExceptionParseFailure(
+            m_str_filename, std::string("JSON format error"));
+    }
 }
 
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 {
+    if (!m_json_config.isMember(entityname))
+    {
+        m_sp_logger->error("JSON data {} missing referenced entity {}",
+            m_str_filename,
+            entityname);
+        throw ExceptionParseFailure(
+            m_str_filename, "Missing referenced entity");
+    }
+
     auto entity = world.createEntity();
+
+    if (!m_json_config[entityname].isMember("components"))
+    {
+        m_sp_logger->error("JSON data {} entity {} missing components",
+            m_str_filename,
+            entityname);
+        throw ExceptionParseFailure(
+            m_str_filename, "JSON data entity missing components");
+    }
+
     auto components = m_json_config[entityname]["components"];
+
     m_sp_logger->info("Components list for entity name {} size {}",
         entityname,
         components.size());
+
     for (auto it = components.begin(); it != components.end(); ++it)
     {
+        if (!it->isMember("type"))
+        {
+            m_sp_logger->error(
+                "JSON data {} entity {} has component with missing type",
+                m_str_filename,
+                entityname);
+            throw ExceptionParseFailure(
+                m_str_filename, "component missing type");
+        }
+
         const std::string type = (*it)["type"].asString();
+
         m_sp_logger->info("Creating component {}", type);
+
         component_factories[type](*it, entity, m_map_entities);
     }
+
     entity.activate();
     return entity;
 }
 
 void DataReader::makeEntities(anax::World& world)
 {
+    if (!m_json_config.isMember("world"))
+    {
+        m_sp_logger->error("JSON data {} missing world", m_str_filename);
+        throw ExceptionParseFailure(m_str_filename, "JSON Data missing world");
+    }
+    if (!m_json_config["world"].isMember("entities"))
+    {
+        m_sp_logger->error(
+            "JSON data {} world missing entities", m_str_filename);
+        throw ExceptionParseFailure(
+            m_str_filename, "JSON Data world missing entities");
+    }
+
     auto entities = m_json_config["world"]["entities"];
     m_sp_logger->info("Entities list for world size {}", entities.size());
     for (auto it = entities.begin(); it != entities.end(); ++it)
