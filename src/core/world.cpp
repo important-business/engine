@@ -123,16 +123,7 @@ void World::init(Uint32 sdl_render_flags)
         m_up_render_system->get_renderer());
 
     auto datareader = DataReader("data/world.json");
-    auto ent = datareader.makeEntity(std::string("goose"), *m_up_anax_world);
-    ent.activate();
-
-    auto player =
-        player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
-    (void)camera_factory(*m_up_anax_world, player, 100.0, 300.0);
-    /* (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0,
-     * 200.0); */
-    /* (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0,
-     * 100.0); */
+    datareader.makeEntities(*m_up_anax_world);
 
     m_up_anax_world->addSystem(*m_up_render_system);
     m_up_anax_world->addSystem(*m_up_camera_system);
