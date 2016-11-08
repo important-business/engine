@@ -153,6 +153,8 @@ DataReader::DataReader(std::string filename) : m_str_filename(filename)
 
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 {
+    const std::string prop_name_components{"components"};
+
     if (!m_json_config.isMember(entityname))
     {
         m_sp_logger->error("JSON data {} missing referenced entity {}",
@@ -164,16 +166,16 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 
     auto entity = world.createEntity();
 
-    if (!m_json_config[entityname].isMember("components"))
+    if (!m_json_config[entityname].isMember(prop_name_components))
     {
-        m_sp_logger->error("JSON data {} entity {} missing components",
+        m_sp_logger->error("JSON data {} entity {} missing {}",
             m_str_filename,
-            entityname);
+            entityname, prop_name_components);
         throw ExceptionParseFailure(
             m_str_filename, "JSON data entity missing components");
     }
 
-    auto components = m_json_config[entityname]["components"];
+    auto components = m_json_config[entityname][prop_name_components];
 
     m_sp_logger->info("Components list for entity name {} size {}",
         entityname,
@@ -205,20 +207,23 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 
 void DataReader::makeEntities(anax::World& world)
 {
-    if (!m_json_config.isMember("world"))
+    const std::string object_name_world{"world"};
+    const std::string prop_name_entities{"entities"};
+
+    if (!m_json_config.isMember(object_name_world))
     {
-        m_sp_logger->error("JSON data {} missing world", m_str_filename);
+        m_sp_logger->error("JSON data {} missing {}", m_str_filename, object_name_world);
         throw ExceptionParseFailure(m_str_filename, "JSON Data missing world");
     }
-    if (!m_json_config["world"].isMember("entities"))
+    if (!m_json_config[object_name_world].isMember(prop_name_entities))
     {
         m_sp_logger->error(
-            "JSON data {} world missing entities", m_str_filename);
+            "JSON data {} world missing {}", m_str_filename, prop_name_entities);
         throw ExceptionParseFailure(
             m_str_filename, "JSON Data world missing entities");
     }
 
-    auto entities = m_json_config["world"]["entities"];
+    auto entities = m_json_config[object_name_world][prop_name_entities];
     m_sp_logger->info("Entities list for world size {}", entities.size());
     for (auto it = entities.begin(); it != entities.end(); ++it)
     {
