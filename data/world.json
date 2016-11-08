@@ -1,0 +1,83 @@
+ {
+	"world":{
+		"entities": ["goose1", "goose2", "player", "camera"],
+		"level": "asdf",
+		"systems": ["render_system", "camera_system", "movement_system", "player_input_system"]
+	},
+	"camera": {
+		"components": [
+		{
+			"type": "transform",
+			"size_x": 0,
+			"size_y": 0,
+			"rotation": 0,
+			"flip_vert": false,
+			"flip_horiz": false
+		},
+		{
+			"type": "velocity",
+			"vel_x": 0,
+			"vel_y": 0
+		},
+		{
+			"type": "camera",
+			"target": "player",
+			"zoom": 1.0
+		}
+		]
+	},
+	"player": {
+		"parent":"goose",
+		"components" : [
+		{
+			"type": "transform",
+			"pos_x": 100,
+			"pos_y": 300
+		},
+		{
+			"type": "player"
+		}
+		]
+	},
+	"goose": {
+		"components": [
+		{
+			"type": "texture",
+			"texture_path": "resources/angry_goose_head.png"
+		},
+		{
+			"type": "transform",
+			"size_x": 128,
+			"size_y": 128,
+			"rotation": 0,
+			"flip_vert": false,
+			"flip_horiz": false
+		},
+		{
+			"type": "velocity",
+			"vel_x": 0,
+			"vel_y": 0
+		}
+		]
+	},
+	"goose1": {
+		"parent":"goose",
+		"components" : [
+		{
+			"type": "transform",
+			"pos_x": 100,
+			"pos_y": 100
+		}
+		]
+	},
+	"goose2": {
+		"parent":"goose",
+		"components" : [
+		{
+			"type": "transform",
+			"pos_x": 100,
+			"pos_y": 200
+		}
+		]
+	}
+}
