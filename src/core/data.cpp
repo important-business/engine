@@ -42,11 +42,14 @@ void DataReader::factory_component_camera(
 {
     const std::string prop_zoom{"zoom"};
     const std::string prop_target{"target"};
-    check_required_component_property(data, component_name_camera, prop_zoom);
-    check_required_component_property(data, component_name_camera, prop_target);
+
     float zoom = data.get(prop_zoom, 1.0f).asFloat();
-    std::string target = data.get(prop_target, "player").asString();
+
+    check_required_component_property(data, component_name_camera, prop_target);
+    std::string target = data[prop_target].asString();
+
     auto player = m_map_entities[target];
+
     entity.addComponent<components::CameraComponent>(player, zoom);
 }
 
@@ -54,10 +57,12 @@ void DataReader::factory_component_texture(
     const Json::Value data, anax::Entity entity)
 {
     const std::string prop_texture_path{"texture_path"};
+
     check_required_component_property(
         data, component_name_texture, prop_texture_path);
     std::string texture_path =
-        data.get(prop_texture_path, "resources/missing.png").asString();
+        data[prop_texture_path].asString();
+
     entity.addComponent<components::TextureComponent>(texture_path);
 }
 
@@ -71,27 +76,35 @@ void DataReader::factory_component_transform(
     const std::string prop_rotation{"rotation"};
     const std::string prop_flip_horiz{"flip_horiz"};
     const std::string prop_flip_vert{"flip_vert"};
+
     check_required_component_property(
         data, component_name_transform, prop_pos_x);
+    float pos_x = data[prop_pos_x].asFloat();
+
     check_required_component_property(
         data, component_name_transform, prop_pos_y);
+    float pos_y = data[prop_pos_y].asFloat();
+
     check_required_component_property(
         data, component_name_transform, prop_size_x);
+    float size_x = data[prop_size_x].asFloat();
+
     check_required_component_property(
         data, component_name_transform, prop_size_y);
+    float size_y = data[prop_size_y].asFloat();
+
     check_required_component_property(
         data, component_name_transform, prop_rotation);
+    float rotation = data[prop_rotation].asFloat();
+
     check_required_component_property(
         data, component_name_transform, prop_flip_vert);
+    bool flip_vert = data[prop_flip_vert].asBool();
+
     check_required_component_property(
         data, component_name_transform, prop_flip_horiz);
-    float pos_x = data.get(prop_pos_x, 0.0f).asFloat();
-    float pos_y = data.get(prop_pos_y, 0.0f).asFloat();
-    float size_x = data.get(prop_size_x, 0.0f).asFloat();
-    float size_y = data.get(prop_size_y, 0.0f).asFloat();
-    float rotation = data.get(prop_rotation, 0.0f).asFloat();
-    bool flip_vert = data.get(prop_flip_vert, false).asBool();
-    bool flip_horiz = data.get(prop_flip_horiz, false).asBool();
+    bool flip_horiz = data[prop_flip_horiz].asBool();
+
     entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
@@ -101,12 +114,12 @@ void DataReader::factory_component_velocity(
 {
     const std::string prop_vel_x{"vel_x"};
     const std::string prop_vel_y{"vel_y"};
-    check_required_component_property(
-        data, component_name_velocity, prop_vel_x);
-    check_required_component_property(
-        data, component_name_velocity, prop_vel_y);
-    float velocity_x = data.get(prop_vel_x, 0.0f).asFloat();
-    float velocity_y = data.get(prop_vel_y, 0.0f).asFloat();
+    const float prop_vel_x_default = 0.0f;
+    const float prop_vel_y_default = 0.0f;
+
+    float velocity_x = data.get(prop_vel_x, prop_vel_x_default).asFloat();
+    float velocity_y = data.get(prop_vel_y, prop_vel_y_default).asFloat();
+
     entity.addComponent<components::VelocityComponent>(velocity_x, velocity_y);
 }
 
