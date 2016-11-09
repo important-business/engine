@@ -48,8 +48,7 @@ void DataReader::factory_component_texture(
 
     check_required_component_property(
         data, component_name_texture, prop_texture_path);
-    std::string texture_path =
-        data[prop_texture_path].asString();
+    std::string texture_path = data[prop_texture_path].asString();
 
     entity.addComponent<components::TextureComponent>(texture_path);
 }
@@ -144,11 +143,17 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
     auto entity = world.createEntity();
 
     Json::Value entity_data;
-    if (m_json_config[entityname].isMember(prop_name_template)){
-        std::string templatename = m_json_config[entityname][prop_name_template].asString();
-        m_sp_logger->info("Using template {} for entity {}", templatename, entityname);
-        entity_data = merge_values(m_map_references[templatename], m_json_config[entityname]);
-    }else{
+    if (m_json_config[entityname].isMember(prop_name_template))
+    {
+        std::string templatename =
+            m_json_config[entityname][prop_name_template].asString();
+        m_sp_logger->info(
+            "Using template {} for entity {}", templatename, entityname);
+        entity_data = merge_values(
+            m_map_references[templatename], m_json_config[entityname]);
+    }
+    else
+    {
         entity_data = m_json_config[entityname];
     }
 
@@ -156,7 +161,8 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
     {
         m_sp_logger->error("JSON data {} entity {} missing {}",
             m_str_filename,
-            entityname, prop_name_components);
+            entityname,
+            prop_name_components);
         throw ExceptionParseFailure(
             m_str_filename, "JSON data entity missing components");
     }
@@ -191,13 +197,15 @@ void DataReader::makeEntities(anax::World& world)
 
     if (!m_json_config.isMember(object_name_world))
     {
-        m_sp_logger->error("JSON data {} missing {}", m_str_filename, object_name_world);
+        m_sp_logger->error(
+            "JSON data {} missing {}", m_str_filename, object_name_world);
         throw ExceptionParseFailure(m_str_filename, "JSON Data missing world");
     }
     if (!m_json_config[object_name_world].isMember(prop_name_entities))
     {
-        m_sp_logger->error(
-            "JSON data {} world missing {}", m_str_filename, prop_name_entities);
+        m_sp_logger->error("JSON data {} world missing {}",
+            m_str_filename,
+            prop_name_entities);
         throw ExceptionParseFailure(
             m_str_filename, "JSON Data world missing entities");
     }
