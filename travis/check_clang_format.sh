@@ -14,6 +14,10 @@ if [ -z "$gitoutput" ]; then
 else
     echo "ClangFormat found issues with the following files"
     echo "$gitoutput"
+    echo "Detailed diff information follows:"
+    git --no-pager diff
+    echo "Restoring original repository state"
+    git reset --hard HEAD :/
     exit 1
 fi
 
