@@ -25,14 +25,12 @@
             }
         }
     },
-    "player": {
+    "$goose": {
         "components": {
             "texture":{
                 "texture_path": "resources/angry_goose_head.png"
             },
             "transform":{
-                "pos_x": 100,
-                "pos_y": 300,
                 "size_x": 128,
                 "size_y": 128,
                 "rotation": 0,
@@ -42,48 +40,35 @@
             "velocity":{
                 "vel_x": 0,
                 "vel_y": 0
+            }
+        }
+    },
+    "player": {
+        "template":"$goose",
+        "components": {
+            "transform":{
+                "pos_x": 100,
+                "pos_y": 300
             },
             "player":{
             }
         }
     },
     "goose1": {
+        "template":"$goose",
         "components": {
-            "texture":{
-                "texture_path": "resources/angry_goose_head.png"
-            },
             "transform":{
-                "pos_x": 100,
-                "pos_y": 100,
-                "size_x": 128,
-                "size_y": 128,
-                "rotation": 0,
-                "flip_vert": false,
-                "flip_horiz": false
-            },
-            "velocity":{
-                "vel_x": 0,
-                "vel_y": 0
+                "pos_x":100,
+                "pos_y":100
             }
         }
     },
     "goose2": {
+        "template":"$goose",
         "components": {
-            "texture":{
-                "texture_path": "resources/angry_goose_head.png"
-            },
             "transform":{
-                "pos_x": 100,
-                "pos_y": 200,
-                "size_x": 128,
-                "size_y": 128,
-                "rotation": 0,
-                "flip_vert": false,
-                "flip_horiz": false
-            },
-            "velocity":{
-                "vel_x": 0,
-                "vel_y": 0
+                "pos_x":100,
+                "pos_y":200
             }
         }
     }

@@ -30,10 +30,13 @@ private:
         const Json::Value data, anax::Entity entity);
     void factory_component_velocity(
         const Json::Value data, anax::Entity entity);
+    void scan_references(Json::Value data);
+    Json::Value merge_values(Json::Value data, Json::Value overlay);
     const std::string m_str_filename;
     Json::Value m_json_config;
     std::shared_ptr<spdlog::logger> m_sp_logger;
     std::map<std::string, anax::Entity> m_map_entities;
+    std::map<std::string, Json::Value> m_map_references;
 };
 
 } // namespace core

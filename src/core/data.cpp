@@ -154,6 +154,7 @@ DataReader::DataReader(std::string filename) : m_str_filename(filename)
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 {
     const std::string prop_name_components{"components"};
+    const std::string prop_name_template{"template"};
 
     if (!m_json_config.isMember(entityname))
     {
@@ -166,7 +167,16 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
 
     auto entity = world.createEntity();
 
-    if (!m_json_config[entityname].isMember(prop_name_components))
+    Json::Value entity_data;
+    if (m_json_config[entityname].isMember(prop_name_template)){
+        std::string templatename = m_json_config[entityname][prop_name_template].asString();
+        m_sp_logger->info("Using template {} for entity {}", templatename, entityname);
+        entity_data = merge_values(m_map_references[templatename], m_json_config[entityname]);
+    }else{
+        entity_data = m_json_config[entityname];
+    }
+
+    if (!entity_data.isMember(prop_name_components))
     {
         m_sp_logger->error("JSON data {} entity {} missing {}",
             m_str_filename,
@@ -175,7 +185,7 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
             m_str_filename, "JSON data entity missing components");
     }
 
-    auto components = m_json_config[entityname][prop_name_components];
+    auto components = entity_data[prop_name_components];
 
     m_sp_logger->info("Components list for entity name {} size {}",
         entityname,
@@ -196,10 +206,65 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
     return entity;
 }
 
+
+void DataReader::scan_references(Json::Value data)
+{
+    if (data.isObject()){
+        Json::Value::Members member_names = data.getMemberNames();
+        for (auto it = member_names.begin(); it != member_names.end(); ++it)
+        {
+            m_sp_logger->debug("Scanning references at {}", *it);
+            if (it->at(0) == '$'){
+                m_sp_logger->info("{} is a reference!", *it);
+                m_map_references.insert(std::make_pair(*it, data[*it]));
+            }
+            scan_references(data[*it]);
+        }
+    }
+    m_sp_logger->debug("Not object, stopping recursion");
+}
+
+Json::Value DataReader::merge_values(Json::Value data, Json::Value overlay){
+    Json::Value result = data;
+    m_sp_logger->debug("Performing merge");
+    m_sp_logger->debug("Data:");
+    m_sp_logger->debug(data.toStyledString());
+    m_sp_logger->debug("Overlay:");
+    m_sp_logger->debug(overlay.toStyledString());
+    if (data.isObject() and overlay.isObject()){
+        m_sp_logger->debug("Object detected");
+        Json::Value::Members member_names = overlay.getMemberNames();
+        for (auto it = member_names.begin(); it != member_names.end(); ++it)
+        {
+            if(data.isMember(*it)){
+                m_sp_logger->debug("Found common member {}", *it);
+                result[*it] = merge_values(result[*it], overlay[*it]);
+            }else{
+                m_sp_logger->debug("Found unique member {}", *it);
+                result[*it] = (overlay[*it]);
+            }
+        }
+    }else if (data.isArray() and overlay.isArray()){
+        m_sp_logger->debug("Array detected");
+        for (auto it = overlay.begin(); it != overlay.end(); ++it)
+        {
+            result.append(*it);
+        }
+    }else{
+        m_sp_logger->debug("Other object type detected - overwriting");
+        result = overlay;
+    }
+    m_sp_logger->debug("Output:");
+    m_sp_logger->debug(result.toStyledString());
+    return result;
+}
+
 void DataReader::makeEntities(anax::World& world)
 {
     const std::string object_name_world{"world"};
     const std::string prop_name_entities{"entities"};
+
+    scan_references(m_json_config);
 
     if (!m_json_config.isMember(object_name_world))
     {
