@@ -1,75 +1,84 @@
- {
-    "world":{
-        "entities": ["goose1", "goose2", "player", "camera"],
-        "level": "asdf",
-        "systems": ["render_system", "camera_system", "movement_system", "player_input_system"]
+{
+    "$goose": {
+        "components": {
+            "texture": {
+                "texture_path": "resources/angry_goose_head.png"
+            },
+            "transform": {
+                "flip_horiz": false,
+                "flip_vert": false,
+                "rotation": 0,
+                "size_x": 128,
+                "size_y": 128
+            },
+            "velocity": {
+                "vel_x": 0,
+                "vel_y": 0
+            }
+        }
     },
     "camera": {
         "components": {
-            "transform":{
-                "pos_x": 0,
-                "pos_y": 0,
-                "size_x": 0,
-                "size_y": 0,
-                "rotation": 0,
-                "flip_vert": false,
-                "flip_horiz": false
-            },
-            "velocity":{
-                "vel_x": 0,
-                "vel_y": 0
-            },
-            "camera":{
+            "camera": {
                 "target": "player",
                 "zoom": 1.0
-            }
-        }
-    },
-    "$goose": {
-        "components": {
-            "texture":{
-                "texture_path": "resources/angry_goose_head.png"
             },
-            "transform":{
-                "size_x": 128,
-                "size_y": 128,
-                "rotation": 0,
+            "transform": {
+                "flip_horiz": false,
                 "flip_vert": false,
-                "flip_horiz": false
+                "pos_x": 0,
+                "pos_y": 0,
+                "rotation": 0,
+                "size_x": 0,
+                "size_y": 0
             },
-            "velocity":{
+            "velocity": {
                 "vel_x": 0,
                 "vel_y": 0
-            }
-        }
-    },
-    "player": {
-        "template":"$goose",
-        "components": {
-            "transform":{
-                "pos_x": 100,
-                "pos_y": 300
-            },
-            "player":{
             }
         }
     },
     "goose1": {
-        "template":"$goose",
         "components": {
-            "transform":{
-                "pos_x":100,
-                "pos_y":100
+            "transform": {
+                "pos_x": 100,
+                "pos_y": 100
             }
-        }
+        },
+        "template": "$goose"
     },
     "goose2": {
-        "template":"$goose",
         "components": {
-            "transform":{
-                "pos_x":100,
-                "pos_y":200
+            "transform": {
+                "pos_x": 100,
+                "pos_y": 200
             }
-        }
+        },
+        "template": "$goose"
+    },
+    "player": {
+        "components": {
+            "player": {},
+            "transform": {
+                "pos_x": 100,
+                "pos_y": 300
+            }
+        },
+        "template": "$goose"
+    },
+    "world": {
+        "entities": [
+            "goose1",
+            "goose2",
+            "player",
+            "camera"
+        ],
+        "level": "asdf",
+        "systems": [
+            "render_system",
+            "camera_system",
+            "movement_system",
+            "player_input_system"
+        ]
     }
 }
