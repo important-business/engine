@@ -4,6 +4,7 @@ set(SRCS_CORE
     "${CMAKE_CURRENT_SOURCE_DIR}/data.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/exception.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/example_module.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/json.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/level.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/resource_manager.cpp"
