@@ -5,99 +5,86 @@
         "systems": ["render_system", "camera_system", "movement_system", "player_input_system"]
     },
     "camera": {
-        "components": [
-        {
-            "type": "transform",
-            "pos_x": 0,
-            "pos_y": 0,
-            "size_x": 0,
-            "size_y": 0,
-            "rotation": 0,
-            "flip_vert": false,
-            "flip_horiz": false
-        },
-        {
-            "type": "velocity",
-            "vel_x": 0,
-            "vel_y": 0
-        },
-        {
-            "type": "camera",
-            "target": "player",
-            "zoom": 1.0
+        "components": {
+            "transform":{
+                "pos_x": 0,
+                "pos_y": 0,
+                "size_x": 0,
+                "size_y": 0,
+                "rotation": 0,
+                "flip_vert": false,
+                "flip_horiz": false
+            },
+            "velocity":{
+                "vel_x": 0,
+                "vel_y": 0
+            },
+            "camera":{
+                "target": "player",
+                "zoom": 1.0
+            }
         }
-        ]
     },
     "player": {
-        "components": [
-        {
-            "type": "texture",
-            "texture_path": "resources/angry_goose_head.png"
-        },
-        {
-            "type": "transform",
-            "pos_x": 100,
-            "pos_y": 100,
-            "size_x": 128,
-            "size_y": 128,
-            "rotation": 0,
-            "flip_vert": false,
-            "flip_horiz": false
-        },
-        {
-            "type": "velocity",
-            "vel_x": 0,
-            "vel_y": 0
-        },
-        {
-            "type": "player"
+        "components": {
+            "texture":{
+                "texture_path": "resources/angry_goose_head.png"
+            },
+            "transform":{
+                "pos_x": 100,
+                "pos_y": 300,
+                "size_x": 128,
+                "size_y": 128,
+                "rotation": 0,
+                "flip_vert": false,
+                "flip_horiz": false
+            },
+            "velocity":{
+                "vel_x": 0,
+                "vel_y": 0
+            },
+            "player":{
+            }
         }
-        ]
     },
     "goose1": {
-        "components": [
-        {
-            "type": "texture",
-            "texture_path": "resources/angry_goose_head.png"
-        },
-        {
-            "type": "transform",
-            "pos_x": 100,
-            "pos_y": 100,
-            "size_x": 128,
-            "size_y": 128,
-            "rotation": 0,
-            "flip_vert": false,
-            "flip_horiz": false
-        },
-        {
-            "type": "velocity",
-            "vel_x": 0,
-            "vel_y": 0
+        "components": {
+            "texture":{
+                "texture_path": "resources/angry_goose_head.png"
+            },
+            "transform":{
+                "pos_x": 100,
+                "pos_y": 100,
+                "size_x": 128,
+                "size_y": 128,
+                "rotation": 0,
+                "flip_vert": false,
+                "flip_horiz": false
+            },
+            "velocity":{
+                "vel_x": 0,
+                "vel_y": 0
+            }
         }
-        ]
     },
     "goose2": {
-        "components": [
-        {
-            "type": "texture",
-            "texture_path": "resources/angry_goose_head.png"
-        },
-        {
-            "type": "transform",
-            "pos_x": 100,
-            "pos_y": 200,
-            "size_x": 128,
-            "size_y": 128,
-            "rotation": 0,
-            "flip_vert": false,
-            "flip_horiz": false
-        },
-        {
-            "type": "velocity",
-            "vel_x": 0,
-            "vel_y": 0
+        "components": {
+            "texture":{
+                "texture_path": "resources/angry_goose_head.png"
+            },
+            "transform":{
+                "pos_x": 100,
+                "pos_y": 200,
+                "size_x": 128,
+                "size_y": 128,
+                "rotation": 0,
+                "flip_vert": false,
+                "flip_horiz": false
+            },
+            "velocity":{
+                "vel_x": 0,
+                "vel_y": 0
+            }
         }
-        ]
     }
 }

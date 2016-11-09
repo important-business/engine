@@ -181,24 +181,15 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
         entityname,
         components.size());
 
-    for (auto it = components.begin(); it != components.end(); ++it)
+    Json::Value::Members member_names = components.getMemberNames();
+    for (auto it = member_names.begin(); it != member_names.end(); ++it)
     {
-        if (!it->isMember("type"))
-        {
-            m_sp_logger->error(
-                "JSON data {} entity {} has component with missing type",
-                m_str_filename,
-                entityname);
-            throw ExceptionParseFailure(
-                m_str_filename, "component missing type");
-        }
-
-        const std::string type = (*it)["type"].asString();
+        const std::string type = (*it);
 
         m_sp_logger->info("Creating component {}", type);
 
         factory_method fp = component_factories[type];
-        (this->*fp)(*it, entity);
+        (this->*fp)(components[type], entity);
     }
 
     entity.activate();
