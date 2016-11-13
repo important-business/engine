@@ -14,7 +14,7 @@ void logging_init(void)
     {
         sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
         sinks.push_back(std::make_shared<spdlog::sinks::daily_file_sink_st>(
-            "logfile", "txt", 23, 59));
+            "logfile", "log", 23, 59));
         log_logger = std::make_shared<spdlog::logger>(
             "logging", begin(sinks), end(sinks));
         spdlog::register_logger(log_logger);
