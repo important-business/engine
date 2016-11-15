@@ -3,6 +3,14 @@
     {
         "components" : 
         {
+            "collision" : 
+            {
+                "x" : 0,
+                "y" : 0,
+                "w" : 128,
+                "h" : 128,
+                "cancauseevents" : true
+            },
             "texture" : 
             {
                 "texture_path" : "resources/angry_goose_head.png"
@@ -67,7 +75,7 @@
             "transform" : 
             {
                 "pos_x" : 100,
-                "pos_y" : 200
+                "pos_y" : 300
             }
         },
         "template" : "$goose"
@@ -80,7 +88,7 @@
             "transform" : 
             {
                 "pos_x" : 100,
-                "pos_y" : 300
+                "pos_y" : 500
             }
         },
         "template" : "$goose"

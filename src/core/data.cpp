@@ -1,4 +1,5 @@
 #include "components/camera.hpp"
+#include "components/collision.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
@@ -14,6 +15,7 @@ namespace core
 {
 
 const std::string component_name_camera{"camera"};
+const std::string component_name_collision{"collision"};
 const std::string component_name_player{"player"};
 const std::string component_name_texture{"texture"};
 const std::string component_name_transform{"transform"};
@@ -39,6 +41,28 @@ void DataReader::factory_component_camera(
     auto player = m_map_entities[target];
 
     entity.addComponent<components::CameraComponent>(player, zoom);
+}
+
+void DataReader::factory_component_collision(
+    const Json::Value data, anax::Entity entity)
+{
+    const std::string prop_x{"x"};
+    const std::string prop_y{"y"};
+    const std::string prop_h{"h"};
+    const std::string prop_w{"w"};
+    const std::string prop_causeevents{"cancauseevents"};
+
+    int x = data.get(prop_x, 0).asInt();
+    int y = data.get(prop_y, 0).asInt();
+
+    check_required_component_property(data, component_name_collision, prop_w);
+    check_required_component_property(data, component_name_collision, prop_h);
+    check_required_component_property(data, component_name_collision, prop_causeevents);
+    int h = data[prop_h].asInt();
+    int w = data[prop_w].asInt();
+    bool cancauseevents = data[prop_causeevents].asBool();
+
+    entity.addComponent<components::Collision>(x, y, h, w, cancauseevents);
 }
 
 void DataReader::factory_component_texture(
@@ -116,6 +140,8 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
 
     component_factories.insert(std::make_pair(
         component_name_camera, &DataReader::factory_component_camera));
+    component_factories.insert(std::make_pair(
+        component_name_collision, &DataReader::factory_component_collision));
     component_factories.insert(std::make_pair(
         component_name_player, &DataReader::factory_component_player));
     component_factories.insert(std::make_pair(

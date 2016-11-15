@@ -80,10 +80,7 @@ anax::Entity goose_factory(anax::World& world,
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::VelocityComponent>();
 
-    auto& collision = entity.addComponent<components::Collision>();
-    collision.can_cause_events = false;
-    collision.bounding_box = {
-        0, 0, (int)transform.size_x, (int)transform.size_y};
+    (void)entity.addComponent<components::Collision>(0,0, (int)transform.size_x, (int)transform.size_y, true);
 
     entity.activate();
 
@@ -104,10 +101,7 @@ anax::Entity player_factory(anax::World& world,
     (void)entity.addComponent<components::PlayerComponent>();
     (void)entity.addComponent<components::VelocityComponent>();
 
-    auto& collision = entity.addComponent<components::Collision>();
-    collision.can_cause_events = true;
-    collision.bounding_box = {
-        0, 0, (int)transform.size_x, (int)transform.size_y};
+    (void)entity.addComponent<components::Collision>(0,0, (int)transform.size_x, (int)transform.size_y, true);
 
     entity.activate();
     return entity;

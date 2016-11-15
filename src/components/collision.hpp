@@ -9,6 +9,12 @@ namespace components
 
 struct Collision : anax::Component
 {
+    Collision(int x, int y, int w, int h, bool can_cause_events):can_cause_events(can_cause_events){
+        bounding_box.x = x;
+        bounding_box.y = y;
+        bounding_box.h = h;
+        bounding_box.w = w;
+    }
     SDL_Rect bounding_box;
     bool can_cause_events;
 };
