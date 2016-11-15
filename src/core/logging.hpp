@@ -6,7 +6,7 @@
 
 namespace core
 {
-void logging_init(void);
+void logging_init(bool logfiles = true);
 
 std::shared_ptr<spdlog::logger> logging_get_logger(
     const std::string loggername);
