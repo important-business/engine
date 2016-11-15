@@ -11,7 +11,7 @@ namespace core
 class JsonReader
 {
 public:
-    JsonReader(std::string filename);
+    JsonReader(std::string json_string, std::string description = std::string(""));
 
     void write_file(std::string filename);
 
@@ -23,11 +23,20 @@ protected:
 
     Json::Value merge_values(Json::Value data, Json::Value overlay);
 
-    const std::string m_str_filename;
-    Json::Value m_json_config;
+    Json::Value m_json_data;
     std::map<std::string, Json::Value> m_map_references;
+    const std::string m_str_description;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
+};
+
+class JsonFileReader : public JsonReader{
+public:
+    JsonFileReader(std::string filename);
+protected:
+
+private:
+    std::string load_file(std::string filename);
 };
 
 } // namespace core

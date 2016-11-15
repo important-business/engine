@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <map>
 
 namespace core
@@ -16,24 +17,22 @@ void JsonReader::check_required_component_property(
         m_sp_logger->error(
             "JSON data component {} missing property {}", component, property);
         throw ExceptionParseFailure(
-            m_str_filename, "JSON Data component missing property");
+            m_str_description, "JSON Data component missing property");
     }
 }
 
-JsonReader::JsonReader(std::string filename) : m_str_filename(filename)
+JsonReader::JsonReader(std::string json_string, std::string description):m_str_description(description)
 {
     m_sp_logger = logging_get_logger("json");
 
     Json::Reader reader_json;
-    m_sp_logger->info("Loading data from {}", filename);
-    std::ifstream config_file(filename, std::ifstream::binary);
-    if (!reader_json.parse(config_file, m_json_config))
+    if (!reader_json.parse(json_string, m_json_data))
     {
         m_sp_logger->error(
-            "Failed to parse JSON file {}:", filename, "JSON format error");
+            "Failed to parse JSON {}:", m_str_description, "JSON format error");
         m_sp_logger->error(reader_json.getFormattedErrorMessages());
         throw ExceptionParseFailure(
-            m_str_filename, std::string("JSON format error"));
+            m_str_description, std::string("JSON format error"));
     }
 }
 
@@ -107,7 +106,17 @@ void JsonReader::write_file(std::string filename)
     builder["indentation"] = "    ";
     std::unique_ptr<Json::StreamWriter> writer{builder.newStreamWriter()};
     std::ofstream of{filename};
-    writer->write(m_json_config, &of);
+    writer->write(m_json_data, &of);
+}
+
+JsonFileReader::JsonFileReader(std::string filename) : JsonReader(load_file(filename), filename)
+{}
+
+std::string JsonFileReader::load_file(std::string filename){
+    std::ifstream json_file(filename, std::ifstream::binary);
+    std::stringstream sstream;
+    sstream << json_file.rdbuf();
+    return sstream.str();
 }
 
 } // namespace core

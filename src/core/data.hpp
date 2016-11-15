@@ -2,6 +2,7 @@
 #define CORE_DATA_HPP
 
 #include "json.hpp"
+#include "level.hpp"
 #include "logging.hpp"
 #include <string>
 #include <anax/anax.hpp>
@@ -9,7 +10,7 @@
 namespace core
 {
 
-class DataReader : public JsonReader
+class DataReader : public JsonFileReader
 {
 public:
     typedef void (DataReader::*factory_method)(
