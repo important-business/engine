@@ -56,7 +56,12 @@ endforeach ()
 
 include(ClangFormat)
 ClangFormat(CLANGFORMAT_FILES ${CHECK_SRCS})
+
+# Add target to do JSON linting
+add_custom_target(json_validate tools/json_check.sh WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+
+# Add target to run all linters
 add_custom_target (
     lint
     )
-add_dependencies(lint clangtidy)
+add_dependencies(lint clangtidy json_validate)

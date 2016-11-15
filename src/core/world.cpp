@@ -1,4 +1,5 @@
 #include "world.hpp"
+#include "data.hpp"
 
 #include "components/camera.hpp"
 #include "components/player.hpp"
@@ -121,11 +122,8 @@ void World::init(Uint32 sdl_render_flags)
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
 
-    auto player =
-        player_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 300.0);
-    (void)camera_factory(*m_up_anax_world, player, 100.0, 300.0);
-    (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 200.0);
-    (void)goose_factory(*m_up_anax_world, *m_up_texture_manager, 100.0, 100.0);
+    auto datareader = DataReader("data/world.json");
+    datareader.makeEntities(*m_up_anax_world);
 
     m_up_anax_world->addSystem(*m_up_render_system);
     m_up_anax_world->addSystem(*m_up_camera_system);
