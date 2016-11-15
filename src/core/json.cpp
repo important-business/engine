@@ -42,15 +42,15 @@ void JsonReader::scan_references(Json::Value data)
     if (data.isObject())
     {
         Json::Value::Members member_names = data.getMemberNames();
-        for (auto it = member_names.begin(); it != member_names.end(); ++it)
+        for (auto name : member_names)
         {
-            m_sp_logger->debug("Scanning references at {}", *it);
-            if (it->at(0) == '$')
+            m_sp_logger->debug("Scanning references at {}", name);
+            if (name.at(0) == '$')
             {
-                m_sp_logger->info("{} is a reference!", *it);
-                m_map_references.insert(std::make_pair(*it, data[*it]));
+                m_sp_logger->info("{} is a reference!", name);
+                m_map_references.insert(std::make_pair(name, data[name]));
             }
-            scan_references(data[*it]);
+            scan_references(data[name]);
         }
     }
     m_sp_logger->debug("Not object, stopping recursion");
@@ -68,26 +68,26 @@ Json::Value JsonReader::merge_values(Json::Value data, Json::Value overlay)
     {
         m_sp_logger->debug("Object detected");
         Json::Value::Members member_names = overlay.getMemberNames();
-        for (auto it = member_names.begin(); it != member_names.end(); ++it)
+        for (auto name : member_names)
         {
-            if (data.isMember(*it))
+            if (data.isMember(name))
             {
-                m_sp_logger->debug("Found common member {}", *it);
-                result[*it] = merge_values(result[*it], overlay[*it]);
+                m_sp_logger->debug("Found common member {}", name);
+                result[name] = merge_values(result[name], overlay[name]);
             }
             else
             {
-                m_sp_logger->debug("Found unique member {}", *it);
-                result[*it] = (overlay[*it]);
+                m_sp_logger->debug("Found unique member {}", name);
+                result[name] = (overlay[name]);
             }
         }
     }
     else if (data.isArray() and overlay.isArray())
     {
         m_sp_logger->debug("Array detected");
-        for (auto it = overlay.begin(); it != overlay.end(); ++it)
+        for (auto val : overlay)
         {
-            result.append(*it);
+            result.append(val);
         }
     }
     else

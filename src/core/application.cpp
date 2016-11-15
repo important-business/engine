@@ -1,7 +1,8 @@
 #include "application.hpp"
 #include "configuration.hpp"
-#include <iostream>
+
 #include <fstream>
+#include <iostream>
 #include <json/json.h>
 
 namespace core

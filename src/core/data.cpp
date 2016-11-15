@@ -1,13 +1,13 @@
-#include "data.hpp"
-#include "exception.hpp"
 #include "components/camera.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
+#include "data.hpp"
+#include "exception.hpp"
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <map>
 
 namespace core
@@ -174,10 +174,8 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
         components.size());
 
     Json::Value::Members member_names = components.getMemberNames();
-    for (auto it = member_names.begin(); it != member_names.end(); ++it)
+    for (auto type : member_names)
     {
-        const std::string type = (*it);
-
         m_sp_logger->info("Creating component {}", type);
 
         factory_method fp = component_factories[type];
@@ -212,9 +210,9 @@ void DataReader::makeEntities(anax::World& world)
 
     auto entities = m_json_config[object_name_world][prop_name_entities];
     m_sp_logger->info("Entities list for world size {}", entities.size());
-    for (auto it = entities.begin(); it != entities.end(); ++it)
+    for (auto value : entities)
     {
-        std::string name = (*it).asString();
+        std::string name = value.asString();
         auto entity = makeEntity(name, world);
         m_map_entities.insert({name, entity});
     }

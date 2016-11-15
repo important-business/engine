@@ -8,7 +8,7 @@ namespace core
 std::shared_ptr<spdlog::logger> log_logger;
 std::vector<spdlog::sink_ptr> sinks;
 
-void logging_init(void)
+void logging_init()
 {
     try
     {
