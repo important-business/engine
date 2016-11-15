@@ -17,7 +17,7 @@ else
     echo "Detailed diff information follows:"
     git --no-pager diff
     echo "Restoring original repository state"
-    git reset --hard HEAD :/
+    git reset --hard HEAD
     exit 1
 fi
 
