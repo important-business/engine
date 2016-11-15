@@ -100,4 +100,14 @@ Json::Value JsonReader::merge_values(Json::Value data, Json::Value overlay)
     return result;
 }
 
+void JsonReader::write_file(std::string filename)
+{
+    Json::StreamWriterBuilder builder;
+    builder["commentStyle"] = "None";
+    builder["indentation"] = "    ";
+    std::unique_ptr<Json::StreamWriter> writer{builder.newStreamWriter()};
+    std::ofstream of{filename};
+    writer->write(m_json_config, &of);
+}
+
 } // namespace core
