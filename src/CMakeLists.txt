@@ -2,6 +2,9 @@ include(FetchAnax)
 FetchAnax(GITVERSION "d68526bfad15ed6e2f1c66c90eb8993c086e9d30")
 include(FetchSpdlog)
 FetchSpdlog()
+include(FetchJsonCpp)
+FetchJsonCpp(GITVERSION "1.7.7")
+include(ClangTidy)
 
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -14,6 +17,7 @@ add_subdirectory(core)
 add_subdirectory(sdl_wrap)
 add_subdirectory(components)
 add_subdirectory(systems)
+add_subdirectory(tools)
 
 # Define engine executable
 # TODO: Add SRCS_COMPONENTS once components with cpp files are added
@@ -29,6 +33,10 @@ target_link_libraries(engine sdl_wrap)
 target_link_libraries(engine anax)
 target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
 
+# Use jsoncpp include directories
+target_link_libraries(engine jsoncpp)
+target_include_directories(engine PUBLIC ${JSONCPP_INCLUDE_DIR})
+
 # Use spdlog include directories (no library file)
 target_include_directories(engine PUBLIC ${SPDLOG_INCLUDE_DIR})
 add_dependencies(engine spdlog)
@@ -37,7 +45,6 @@ add_dependencies(engine spdlog)
 target_link_libraries(engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
 target_include_directories(engine PUBLIC ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
-include(ClangTidy)
 get_target_property(INCLUDEDIRS_ENGINE engine INCLUDE_DIRECTORIES)
 get_target_property(CXX_STANDARD_ENGINE engine CXX_STANDARD)
 ClangTidy(TARGETNAME engine FILES ${SRCS_ENGINE} INCLUDEDIRS ${INCLUDEDIRS_ENGINE} CXX_STANDARD ${CXX_STANDARD_ENGINE})

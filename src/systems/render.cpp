@@ -1,4 +1,5 @@
 #include "systems/render.hpp"
+#include "core/resource_manager.hpp"
 
 namespace systems
 {
@@ -23,9 +24,11 @@ void Camera::update()
     }
 }
 
-Render::Render(
-    sdl_wrap::Window* p_window, Uint32 render_flags, Camera& camerasystem)
-    : m_camerasystem(camerasystem)
+Render::Render(sdl_wrap::Window* p_window,
+    Uint32 render_flags,
+    Camera& camerasystem,
+    core::ResourceManagerTexture* p_resourcemanager)
+    : m_camerasystem(camerasystem), m_p_resourcemanager(p_resourcemanager)
 {
     m_p_window = p_window;
 
@@ -92,7 +95,13 @@ void Render::render_entities(
             flip = static_cast<SDL_RendererFlip>(
                 static_cast<SDL_RendererFlip>(SDL_FLIP_HORIZONTAL) | flip);
         }
-        m_p_renderer->copy(*texture_component.p_texture,
+
+        if (!texture_component.sp_texture)
+        {
+            texture_component.sp_texture =
+                m_p_resourcemanager->get(texture_component.texture_path);
+        }
+        m_p_renderer->copy(*texture_component.sp_texture,
             nullptr,
             &dest_rect,
             static_cast<int>(transform_component.rotation),

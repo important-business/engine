@@ -15,21 +15,21 @@ std::shared_ptr<sdl_wrap::Texture> ResourceManagerTexture::get(
     std::string texture_path, sdl_wrap::Renderer* p_renderer)
 {
     auto search = m_loaded_textures.find(texture_path);
-    std::shared_ptr<sdl_wrap::Texture> p_texture = nullptr;
+    std::shared_ptr<sdl_wrap::Texture> sp_texture = nullptr;
     if (search != m_loaded_textures.end())
     {
         m_sp_logger->info("Already loaded texture {}", texture_path);
-        p_texture = search->second;
+        sp_texture = search->second;
     }
     else
     {
         m_sp_logger->info("Loading new texture {}", texture_path);
-        p_texture =
+        sp_texture =
             std::make_shared<sdl_wrap::Texture>(texture_path, *p_renderer);
-        // Do some checking of p_texture here
-        m_loaded_textures[texture_path] = p_texture;
+        // Do some checking of sp_texture here
+        m_loaded_textures[texture_path] = sp_texture;
     }
-    return p_texture;
+    return sp_texture;
 }
 
 std::shared_ptr<sdl_wrap::Texture> ResourceManagerTexture::get(

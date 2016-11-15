@@ -27,11 +27,11 @@ Level::Level(uint16_t size_x, uint16_t size_y, float scale)
     : m_size_x(size_x), m_size_y(size_y), m_scale(scale)
 {
     m_p_tiles = new const LevelTile*[size_x * size_y];
-    for (uint16_t posx = 0; posx < size_x; posx++)
+    for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
     {
-        for (uint16_t posy = 0; posy < size_y; posy++)
+        for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
         {
-            set(posx, posy, nullptr);
+            set(pos_x, pos_y, nullptr);
         }
     }
     m_sp_logger = logging_get_logger("level");
@@ -67,14 +67,14 @@ void Level::load(const std::string* initialdata,
     uint16_t size_y,
     std::map<std::string, const LevelTile*> tileset)
 {
-    for (uint16_t posx = 0; posx < size_x; posx++)
+    for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
     {
-        for (uint16_t posy = 0; posy < size_y; posy++)
+        for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
         {
-            auto tiledata = initialdata[posx + posy * size_x];
-            m_sp_logger->info("Loading {} into {},{}", tiledata, posx, posy);
+            auto tiledata = initialdata[pos_x + pos_y * size_x];
+            m_sp_logger->info("Loading {} into {},{}", tiledata, pos_x, pos_y);
             // TODO: Check for and handle missing tile type
-            set(posx, posy, tileset[tiledata]);
+            set(pos_x, pos_y, tileset[tiledata]);
         }
     }
 }
@@ -82,11 +82,11 @@ void Level::load(const std::string* initialdata,
 void Level::print() const
 {
     const LevelTile* p_currtile = nullptr;
-    for (uint16_t posy = 0; posy < m_size_y; posy++)
+    for (uint16_t pos_y = 0; pos_y < m_size_y; pos_y++)
     {
-        for (uint16_t posx = 0; posx < m_size_x; posx++)
+        for (uint16_t pos_x = 0; pos_x < m_size_x; pos_x++)
         {
-            p_currtile = get(posx, posy);
+            p_currtile = get(pos_x, pos_y);
             if (p_currtile != nullptr)
             {
                 std::cout << '[' << p_currtile->m_tilechar << ']';
@@ -100,9 +100,9 @@ void Level::print() const
     std::cout << std::endl;
 }
 
-void Level::set(uint16_t posx, uint16_t posy, const LevelTile* p_tile)
+void Level::set(uint16_t pos_x, uint16_t pos_y, const LevelTile* p_tile)
 {
-    m_p_tiles[posx + posy * m_size_y] = p_tile;
+    m_p_tiles[pos_x + pos_y * m_size_y] = p_tile;
 }
 
 } // namespace core

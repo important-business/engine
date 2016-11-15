@@ -1,18 +1,13 @@
 #!/usr/bin/env sh
 # Note - must be run from the build directory
 
-if [ -z "$CLANG_FORMAT" ]; then
-    CLANG_FORMAT="clang-format"
-fi
-
-echo "ClangFormat version output: $(${CLANG_FORMAT} --version)"
-make clangformat
+make json_validate
 gitoutput=$(git status -s)
 if [ -z "$gitoutput" ]; then
-    echo "No changes made by ClangFormat"
+    echo "No changes made by JSON check "
     exit 0
 else
-    echo "ClangFormat found issues with the following files"
+    echo "JSON check found issues with the following files"
     echo "$gitoutput"
     echo "Detailed diff information follows:"
     git --no-pager diff
