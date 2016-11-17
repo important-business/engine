@@ -21,7 +21,8 @@ void JsonReader::check_required_component_property(
     }
 }
 
-JsonReader::JsonReader(std::string json_string, std::string description):m_str_description(description)
+JsonReader::JsonReader(std::string json_string, std::string description)
+    : m_str_description(description)
 {
     m_sp_logger = logging_get_logger("json");
 
@@ -109,10 +110,13 @@ void JsonReader::write_file(std::string filename)
     writer->write(m_json_data, &of);
 }
 
-JsonFileReader::JsonFileReader(std::string filename) : JsonReader(load_file(filename), filename)
-{}
+JsonFileReader::JsonFileReader(std::string filename)
+    : JsonReader(load_file(filename), filename)
+{
+}
 
-std::string JsonFileReader::load_file(std::string filename){
+std::string JsonFileReader::load_file(std::string filename)
+{
     std::ifstream json_file(filename, std::ifstream::binary);
     std::stringstream sstream;
     sstream << json_file.rdbuf();

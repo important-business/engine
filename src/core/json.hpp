@@ -11,7 +11,8 @@ namespace core
 class JsonReader
 {
 public:
-    JsonReader(std::string json_string, std::string description = std::string(""));
+    JsonReader(
+        std::string json_string, std::string description = std::string(""));
 
     void write_file(std::string filename);
 
@@ -30,11 +31,12 @@ protected:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 
-class JsonFileReader : public JsonReader{
+class JsonFileReader : public JsonReader
+{
 public:
     JsonFileReader(std::string filename);
-protected:
 
+protected:
 private:
     std::string load_file(std::string filename);
 };

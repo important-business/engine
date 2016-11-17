@@ -57,7 +57,8 @@ void DataReader::factory_component_collision(
 
     check_required_component_property(data, component_name_collision, prop_w);
     check_required_component_property(data, component_name_collision, prop_h);
-    check_required_component_property(data, component_name_collision, prop_causeevents);
+    check_required_component_property(
+        data, component_name_collision, prop_causeevents);
     int h = data[prop_h].asInt();
     int w = data[prop_w].asInt();
     bool cancauseevents = data[prop_causeevents].asBool();
@@ -223,7 +224,8 @@ void DataReader::makeEntities(anax::World& world)
     {
         m_sp_logger->error(
             "JSON data {} missing {}", m_str_description, object_name_world);
-        throw ExceptionParseFailure(m_str_description, "JSON Data missing world");
+        throw ExceptionParseFailure(
+            m_str_description, "JSON Data missing world");
     }
     if (!m_json_data[object_name_world].isMember(prop_name_entities))
     {
