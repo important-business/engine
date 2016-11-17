@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
         for (auto file : files)
         {
             std::cout << "Parsing file " << file << std::endl;
-            core::JsonReader reader(file);
+            core::JsonFileReader reader(file);
             if (update_file)
             {
                 reader.write_file(file);
