@@ -79,8 +79,6 @@ void Collision::resolve_collision(
     anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
 {
     // TODO(Keegan, Assert p_manifold != nullptr)
-    auto& transform1 = e1.getComponent<components::TransformComponent>();
-    auto& transform2 = e2.getComponent<components::TransformComponent>();
     auto& velocity1 = e1.getComponent<components::VelocityComponent>();
     auto& velocity2 = e2.getComponent<components::VelocityComponent>();
 
@@ -134,8 +132,6 @@ void Collision::update(double delta_time)
             continue;
         }
 
-        /* const auto rect1 = get_bounding_box_rect(e1); */
-
         for (std::size_t j = i + 1; j < colliders.size(); ++j)
         {
             auto& e2 = colliders[j];
@@ -144,16 +140,11 @@ void Collision::update(double delta_time)
             if (up_manifold)
             {
                 resolve_collision(e1, e2, up_manifold.get());
+                for (auto& listener : m_listeners)
+                {
+                    listener->on_collision_occured(e1, e2, up_manifold.get());
+                }
             }
-            /* const auto rect2 = get_bounding_box_rect(e2); */
-            /* SDL_Rect intersecting_rect; */
-            /* if (SDL_IntersectRect(&rect1, &rect2, &intersecting_rect)) */
-            /* { */
-            /*     for (auto& listener : m_listeners) */
-            /*     { */
-            /*         listener->on_collision_occured(e1, e2, delta_time); */
-            /*     } */
-            /* } */
         }
     }
 }

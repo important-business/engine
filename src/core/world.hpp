@@ -57,7 +57,7 @@ private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 
     void on_collision_occured(
-        anax::Entity& e1, anax::Entity& e2, double delta_time);
+        anax::Entity& e1, anax::Entity& e2, systems::Manifold* p_manifold);
 };
 }
 
