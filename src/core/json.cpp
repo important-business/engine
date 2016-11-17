@@ -107,6 +107,7 @@ void JsonReader::write_file(std::string filename)
     std::unique_ptr<Json::StreamWriter> writer{builder.newStreamWriter()};
     std::ofstream of{filename};
     writer->write(m_json_data, &of);
+    of << std::endl;
 }
 
 JsonFileReader::JsonFileReader(std::string filename) : JsonReader(load_file(filename), filename)
