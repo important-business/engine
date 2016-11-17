@@ -10,6 +10,7 @@
 namespace systems
 {
 
+// TODO(Keegan, Make this a class)
 struct Movement : anax::System<anax::Requires<components::TransformComponent,
                       components::VelocityComponent>>
 {

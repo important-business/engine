@@ -21,28 +21,54 @@ void PlayerInput::update()
         const auto& key_states = SDL_GetKeyboardState(nullptr);
         if (static_cast<bool>(key_states[player.controls.left]))
         {
-            velocity.x = -player.base_speed;
+            if (velocity.velocity.x > -player.top_speed)
+            {
+                velocity.force.x += -player.move_accel;
+            }
         }
         else if (static_cast<bool>(key_states[player.controls.right]))
         {
-            velocity.x = player.base_speed;
+            if (velocity.velocity.x < player.top_speed)
+            {
+                velocity.force.x += player.move_accel;
+            }
         }
         else
         {
-            velocity.x = 0;
+            if (velocity.velocity.x > 0.0f)
+            {
+                velocity.force.x -= player.idle_accel;
+            }
+            else if (velocity.velocity.x < 0.0f)
+            {
+                velocity.force.x += player.idle_accel;
+            }
         }
 
         if (static_cast<bool>(key_states[player.controls.up]))
         {
-            velocity.y = -player.base_speed;
+            if (velocity.velocity.y > -player.top_speed)
+            {
+                velocity.force.y += -player.move_accel;
+            }
         }
         else if (static_cast<bool>(key_states[player.controls.down]))
         {
-            velocity.y = player.base_speed;
+            if (velocity.velocity.y < player.top_speed)
+            {
+                velocity.force.y += player.move_accel;
+            }
         }
         else
         {
-            velocity.y = 0;
+            if (velocity.velocity.y > 0.0f)
+            {
+                velocity.force.y -= player.idle_accel;
+            }
+            else if (velocity.velocity.y < 0.0f)
+            {
+                velocity.force.y += player.idle_accel;
+            }
         }
     }
 }

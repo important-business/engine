@@ -24,7 +24,21 @@ const std::string component_name_velocity{"velocity"};
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
-    entity.addComponent<components::PlayerComponent>();
+    const std::string prop_move_accel{"move_accel"};
+    const std::string prop_idle_accel{"idle_accel"};
+    const std::string prop_top_speed{"top_speed"};
+
+    check_required_component_property(
+        data, component_name_player, prop_idle_accel);
+    float idle_accel = data[prop_idle_accel].asFloat();
+    check_required_component_property(
+        data, component_name_player, prop_move_accel);
+    float move_accel = data[prop_move_accel].asFloat();
+    check_required_component_property(
+        data, component_name_player, prop_top_speed);
+    float top_speed = data[prop_top_speed].asFloat();
+    entity.addComponent<components::PlayerComponent>(
+        idle_accel, move_accel, top_speed);
 }
 
 void DataReader::factory_component_camera(
@@ -124,6 +138,12 @@ void DataReader::factory_component_transform(
 void DataReader::factory_component_velocity(
     const Json::Value data, anax::Entity entity)
 {
+    const std::string prop_inertia{"inertia"};
+    const std::string prop_friction{"friction"};
+    const std::string prop_force_x{"force_x"};
+    const std::string prop_force_y{"force_y"};
+    const float prop_force_x_default = 0.0f;
+    const float prop_force_y_default = 0.0f;
     const std::string prop_vel_x{"vel_x"};
     const std::string prop_vel_y{"vel_y"};
     const float prop_vel_x_default = 0.0f;
@@ -131,8 +151,18 @@ void DataReader::factory_component_velocity(
 
     float velocity_x = data.get(prop_vel_x, prop_vel_x_default).asFloat();
     float velocity_y = data.get(prop_vel_y, prop_vel_y_default).asFloat();
+    float force_x = data.get(prop_force_x, prop_force_x_default).asFloat();
+    float force_y = data.get(prop_force_y, prop_force_y_default).asFloat();
+    check_required_component_property(
+        data, component_name_velocity, prop_inertia);
+    float inertia = data[prop_inertia].asFloat();
 
-    entity.addComponent<components::VelocityComponent>(velocity_x, velocity_y);
+    check_required_component_property(
+        data, component_name_velocity, prop_friction);
+    float friction = data[prop_friction].asFloat();
+
+    entity.addComponent<components::VelocityComponent>(
+        inertia, friction, velocity_x, velocity_y, force_x, force_y);
 }
 
 DataReader::DataReader(std::string filename) : JsonFileReader(filename)

@@ -60,7 +60,8 @@ anax::Entity camera_factory(
 
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 0.0f, 0.0f, 0.0f, false, true);
-    (void)entity.addComponent<components::VelocityComponent>();
+    (void)entity.addComponent<components::VelocityComponent>(
+        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
     (void)entity.addComponent<components::CameraComponent>(target, 1.0f);
 
     entity.activate();
@@ -78,7 +79,8 @@ anax::Entity goose_factory(anax::World& world,
 
     auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
-    (void)entity.addComponent<components::VelocityComponent>();
+    (void)entity.addComponent<components::VelocityComponent>(
+        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
     (void)entity.addComponent<components::Collision>(
         0, 0, (int)transform.size_x, (int)transform.size_y, true);
@@ -99,8 +101,10 @@ anax::Entity player_factory(anax::World& world,
 
     auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
-    (void)entity.addComponent<components::PlayerComponent>();
-    (void)entity.addComponent<components::VelocityComponent>();
+    (void)entity.addComponent<components::PlayerComponent>(
+        2000.0f, 1000.0f, 500.0f);
+    (void)entity.addComponent<components::VelocityComponent>(
+        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
     (void)entity.addComponent<components::Collision>(
         0, 0, (int)transform.size_x, (int)transform.size_y, true);
@@ -152,15 +156,15 @@ void World::init(Uint32 sdl_render_flags)
 void World::on_collision_occured(
     anax::Entity& e1, anax::Entity& e2, double delta_time)
 {
-    std::cout << "collision occurred\n";
-    auto& velocity = e1.getComponent<components::VelocityComponent>();
-    auto& transform = e1.getComponent<components::TransformComponent>();
+    m_sp_logger->info("collision occurred\n");
+    /* auto& velocity = e1.getComponent<components::VelocityComponent>(); */
+    /* auto& transform = e1.getComponent<components::TransformComponent>(); */
 
-    auto distance_moved_x = -velocity.x * delta_time * 2;
-    auto distance_moved_y = -velocity.y * delta_time * 2;
+    /* auto distance_moved_x = -velocity.x * delta_time * 2; */
+    /* auto distance_moved_y = -velocity.y * delta_time * 2; */
 
-    transform.pos_x += distance_moved_x;
-    transform.pos_y += distance_moved_y;
+    /* transform.pos_x += distance_moved_x; */
+    /* transform.pos_y += distance_moved_y; */
 }
 
 void World::execute(float dt)

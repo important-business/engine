@@ -9,7 +9,14 @@ namespace components
 
 struct PlayerComponent : anax::Component
 {
-    float base_speed = 100;
+    PlayerComponent(float move_accel, float idle_accel, float top_speed)
+        : move_accel(move_accel), idle_accel(idle_accel), top_speed(top_speed)
+    {
+    }
+
+    float move_accel;
+    float idle_accel;
+    float top_speed;
 
     struct Controls
     {

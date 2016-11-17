@@ -26,7 +26,9 @@
             "velocity" : 
             {
                 "vel_x" : 0,
-                "vel_y" : 0
+                "vel_y" : 0,
+                "inertia" : 1,
+                "friction" : 1
             }
         }
     },
@@ -52,7 +54,9 @@
             "velocity" : 
             {
                 "vel_x" : 0,
-                "vel_y" : 0
+                "vel_y" : 0,
+                "inertia" : 0,
+                "friction" : 0
             }
         }
     },
@@ -84,7 +88,11 @@
     {
         "components" : 
         {
-            "player" : {},
+            "player" : {
+                "move_accel": 2000,
+                "idle_accel": 1000,
+                "top_speed": 500
+            },
             "transform" : 
             {
                 "pos_x" : 100,
