@@ -7,9 +7,17 @@
 #include "core/logging.hpp"
 #include "components/transform.hpp"
 #include "components/collision.hpp"
+#include "components/velocity.hpp"
 
 namespace systems
 {
+
+struct Manifold
+{
+    components::Vector normal = {0.0f, 0.0f};
+    components::Vector penetration = {0.0f, 0.0f};
+};
+
 struct Collision
     : anax::System<
           anax::Requires<components::TransformComponent, components::Collision>>
@@ -29,6 +37,9 @@ public:
     void remove_listener(Listener& listener);
 
 private:
+    Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
+    void resolve_collision(
+        anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
     std::vector<Listener*> m_listeners;
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };

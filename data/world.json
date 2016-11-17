@@ -5,11 +5,11 @@
         {
             "collision" : 
             {
-                "x" : 0,
-                "y" : 0,
-                "w" : 128,
+                "cancauseevents" : true,
                 "h" : 128,
-                "cancauseevents" : true
+                "w" : 128,
+                "x" : 0,
+                "y" : 0
             },
             "texture" : 
             {
@@ -25,10 +25,10 @@
             },
             "velocity" : 
             {
-                "vel_x" : 0,
-                "vel_y" : 0,
+                "friction" : 2,
                 "inertia" : 1,
-                "friction" : 1
+                "vel_x" : 0,
+                "vel_y" : 0
             }
         }
     },
@@ -53,10 +53,10 @@
             },
             "velocity" : 
             {
-                "vel_x" : 0,
-                "vel_y" : 0,
+                "friction" : 0,
                 "inertia" : 0,
-                "friction" : 0
+                "vel_x" : 0,
+                "vel_y" : 0
             }
         }
     },
@@ -88,10 +88,11 @@
     {
         "components" : 
         {
-            "player" : {
-                "move_accel": 2000,
-                "idle_accel": 1000,
-                "top_speed": 500
+            "player" : 
+            {
+                "idle_accel" : 10,
+                "move_accel" : 30,
+                "top_speed" : 500
             },
             "transform" : 
             {

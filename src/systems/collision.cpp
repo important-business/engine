@@ -1,6 +1,5 @@
 #include "systems/collision.hpp"
 
-#include <SDL.h>
 #include <anax/System.hpp>
 
 namespace systems
@@ -10,27 +9,116 @@ Collision::Listener::~Listener()
 {
 }
 
-static SDL_Rect get_bounding_box_rect(
-    const components::TransformComponent& transformable, const SDL_Rect bbox)
-{
-    SDL_Rect bounding_box;
-    bounding_box.x = transformable.pos_x + bbox.x;
-    bounding_box.y = transformable.pos_y + bbox.y;
-    bounding_box.w = bbox.w;
-    bounding_box.h = bbox.h;
-    return bounding_box;
-}
-
-static SDL_Rect get_bounding_box_rect(const anax::Entity& entity)
-{
-    auto& transform = entity.getComponent<components::TransformComponent>();
-    auto& bbox = entity.getComponent<components::Collision>().bounding_box;
-    return get_bounding_box_rect(transform, bbox);
-}
-
 Collision::Collision()
 {
     m_sp_logger = core::logging_get_logger("collision");
+}
+
+Manifold* systems::Collision::check_collision(
+    anax::Entity& e1, anax::Entity& e2)
+{
+    auto& transform1 = e1.getComponent<components::TransformComponent>();
+    auto& transform2 = e2.getComponent<components::TransformComponent>();
+    auto& bbox1 = e1.getComponent<components::Collision>().bounding_box;
+    auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
+
+    Manifold* p_manifold = nullptr;
+    // TODO(Keegan, Don't ignore bounding box x/y positions)
+    float pos_dx = transform1.pos_x - transform2.pos_x;
+    float pos_dy = transform1.pos_y - transform2.pos_y;
+
+    float x_overlap = bbox1.w / 2.0f + bbox2.w / 2.0f - abs(pos_dx);
+
+    if (x_overlap > 0.0f)
+    {
+        float y_overlap = bbox1.h / 2.0f + bbox2.h / 2.0f - abs(pos_dy);
+        if (y_overlap > 0.0f)
+        {
+            m_sp_logger->debug(
+                " collision - x overlap {} y overlap {}", x_overlap, y_overlap);
+            p_manifold = new Manifold();
+            if (x_overlap < y_overlap)
+            {
+                if (pos_dx < 0)
+                {
+                    m_sp_logger->debug("Normal in -y");
+                    p_manifold->normal.x = 1;
+                    p_manifold->normal.y = 0;
+                }
+                else
+                {
+                    m_sp_logger->debug("Normal in +y");
+                    p_manifold->normal.x = -1;
+                    p_manifold->normal.y = 0;
+                }
+                p_manifold->penetration.x = x_overlap;
+            }
+            else
+            {
+                if (pos_dy < 0)
+                {
+                    m_sp_logger->debug("Normal in -x");
+                    p_manifold->normal.x = 0;
+                    p_manifold->normal.y = 1;
+                }
+                else
+                {
+                    m_sp_logger->debug("Normal in +x");
+                    p_manifold->normal.x = 0;
+                    p_manifold->normal.y = -1;
+                }
+                p_manifold->penetration.y = y_overlap;
+            }
+        }
+    }
+
+    return p_manifold;
+}
+
+void Collision::resolve_collision(
+    anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
+{
+    // TODO(Keegan, Assert p_manifold != nullptr)
+    auto& transform1 = e1.getComponent<components::TransformComponent>();
+    auto& transform2 = e2.getComponent<components::TransformComponent>();
+    auto& velocity1 = e1.getComponent<components::VelocityComponent>();
+    auto& velocity2 = e2.getComponent<components::VelocityComponent>();
+
+    float vel_dx = velocity2.velocity.x - velocity1.velocity.x;
+    float vel_dy = velocity2.velocity.y - velocity1.velocity.y;
+
+    float vel_normal =
+        vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
+
+    m_sp_logger->debug("Normal velocity is {}", vel_normal);
+    m_sp_logger->debug("rel velocity is x{}, y{}", vel_dx, vel_dy);
+    if (vel_normal > 0)
+    {
+        m_sp_logger->debug("Objects are moving away");
+        return;
+    }
+    // TODO(Keegan "Add restitution calculation)
+    const float restitution = 1.0f;
+
+    float impulse = -(1.0f * restitution) * vel_normal;
+
+    // TODO(Keegan "Add mass consideration? Or keep in movement?
+
+    float impulse_x = impulse * p_manifold->normal.x;
+    float impulse_y = impulse * p_manifold->normal.y;
+
+    m_sp_logger->debug("impulse is x{}, y{}", impulse_x, impulse_y);
+
+    velocity1.force.x -= impulse_x;
+    velocity2.force.x += impulse_x;
+
+    velocity1.force.y -= impulse_y;
+    velocity2.force.y += impulse_y;
+
+    m_sp_logger->debug(
+        "entity1 force is x{}, y{}", velocity1.force.x, velocity1.force.y);
+    m_sp_logger->debug(
+        "entity2 force is x{}, y{}", velocity2.force.x, velocity2.force.y);
 }
 
 void Collision::update(double delta_time)
@@ -46,20 +134,26 @@ void Collision::update(double delta_time)
             continue;
         }
 
-        const auto rect1 = get_bounding_box_rect(e1);
+        /* const auto rect1 = get_bounding_box_rect(e1); */
 
         for (std::size_t j = i + 1; j < colliders.size(); ++j)
         {
             auto& e2 = colliders[j];
-            const auto rect2 = get_bounding_box_rect(e2);
-            SDL_Rect intersecting_rect;
-            if (SDL_IntersectRect(&rect1, &rect2, &intersecting_rect))
+            auto up_manifold =
+                std::unique_ptr<Manifold>(check_collision(e1, e2));
+            if (up_manifold)
             {
-                for (auto& listener : m_listeners)
-                {
-                    listener->on_collision_occured(e1, e2, delta_time);
-                }
+                resolve_collision(e1, e2, up_manifold.get());
             }
+            /* const auto rect2 = get_bounding_box_rect(e2); */
+            /* SDL_Rect intersecting_rect; */
+            /* if (SDL_IntersectRect(&rect1, &rect2, &intersecting_rect)) */
+            /* { */
+            /*     for (auto& listener : m_listeners) */
+            /*     { */
+            /*         listener->on_collision_occured(e1, e2, delta_time); */
+            /*     } */
+            /* } */
         }
     }
 }

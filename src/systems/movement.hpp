@@ -20,6 +20,7 @@ public:
 
 private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
+    const float m_min_vel = 0.001f;
 };
 }
 #endif /* SYSTEMS_MOVEMENT_HPP */

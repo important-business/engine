@@ -38,7 +38,7 @@ void DataReader::factory_component_player(
         data, component_name_player, prop_top_speed);
     float top_speed = data[prop_top_speed].asFloat();
     entity.addComponent<components::PlayerComponent>(
-        idle_accel, move_accel, top_speed);
+        move_accel, idle_accel, top_speed);
 }
 
 void DataReader::factory_component_camera(

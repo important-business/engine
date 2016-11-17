@@ -18,19 +18,50 @@ void Movement::update(double delta_time)
         auto& transform = entity.getComponent<components::TransformComponent>();
         auto& velocity = entity.getComponent<components::VelocityComponent>();
 
-        velocity.velocity.x +=
-            velocity.force.x * static_cast<float>(delta_time);
-        velocity.velocity.y +=
-            velocity.force.y * static_cast<float>(delta_time);
-        velocity.force.x = 0;
-        velocity.force.y = 0;
-        auto distance_moved_x =
-            velocity.velocity.x * static_cast<float>(delta_time);
-        auto distance_moved_y =
-            velocity.velocity.y * static_cast<float>(delta_time);
+        velocity.velocity.x += velocity.force.x;
+        velocity.velocity.y += velocity.force.y;
+        velocity.force.x = 0.0f;
+        velocity.force.y = 0.0f;
 
-        transform.pos_x += distance_moved_x;
-        transform.pos_y += distance_moved_y;
+        if (velocity.velocity.x > 0.0f)
+        {
+            velocity.velocity.x -= velocity.friction;
+        }
+        else if (velocity.velocity.x < 0.0f)
+        {
+            velocity.velocity.x += velocity.friction;
+        }
+
+        if (velocity.velocity.y > 0.0f)
+        {
+            velocity.velocity.y -= velocity.friction;
+        }
+        else if (velocity.velocity.y < 0.0f)
+        {
+            velocity.velocity.y += velocity.friction;
+        }
+
+        if (abs(velocity.velocity.y) > m_min_vel)
+        {
+            auto distance_moved_y =
+                velocity.velocity.y * static_cast<float>(delta_time);
+            transform.pos_y += distance_moved_y;
+        }
+        else
+        {
+            velocity.velocity.y = 0.0f;
+        }
+
+        if (abs(velocity.velocity.x) > m_min_vel)
+        {
+            auto distance_moved_x =
+                velocity.velocity.x * static_cast<float>(delta_time);
+            transform.pos_x += distance_moved_x;
+        }
+        else
+        {
+            velocity.velocity.x = 0.0f;
+        }
     }
 }
 
