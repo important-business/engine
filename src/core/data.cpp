@@ -133,7 +133,7 @@ void DataReader::factory_component_transform(
 void DataReader::factory_component_velocity(
     const Json::Value data, anax::Entity entity)
 {
-    const std::string prop_inertia{"inertia"};
+    const std::string prop_mass{"mass"};
     const std::string prop_friction{"friction"};
     const std::string prop_force_x{"force_x"};
     const std::string prop_force_y{"force_y"};
@@ -149,15 +149,15 @@ void DataReader::factory_component_velocity(
     float force_x = data.get(prop_force_x, prop_force_x_default).asFloat();
     float force_y = data.get(prop_force_y, prop_force_y_default).asFloat();
     check_required_component_property(
-        data, component_name_velocity, prop_inertia);
-    float inertia = data[prop_inertia].asFloat();
+        data, component_name_velocity, prop_mass);
+    float mass = data[prop_mass].asFloat();
 
     check_required_component_property(
         data, component_name_velocity, prop_friction);
     float friction = data[prop_friction].asFloat();
 
     entity.addComponent<components::VelocityComponent>(
-        inertia, friction, velocity_x, velocity_y, force_x, force_y);
+        mass, friction, velocity_x, velocity_y, force_x, force_y);
 }
 
 DataReader::DataReader(std::string filename) : JsonFileReader(filename)

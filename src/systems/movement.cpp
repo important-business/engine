@@ -18,11 +18,12 @@ void Movement::update(double delta_time)
         auto& transform = entity.getComponent<components::TransformComponent>();
         auto& velocity = entity.getComponent<components::VelocityComponent>();
 
-        velocity.velocity.x += velocity.force.x;
-        velocity.velocity.y += velocity.force.y;
+        velocity.velocity.x += velocity.force.x * velocity.inv_mass;
+        velocity.velocity.y += velocity.force.y * velocity.inv_mass;
         velocity.force.x = 0.0f;
         velocity.force.y = 0.0f;
 
+        // Mass increase of normal force and reduction in delta velocity cancel
         if (velocity.velocity.x > 0.0f)
         {
             velocity.velocity.x -= velocity.friction;

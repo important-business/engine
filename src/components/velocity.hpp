@@ -17,23 +17,36 @@ struct Vector
 
 struct VelocityComponent : anax::Component
 {
-    VelocityComponent(float inertia,
+    private:
+    static float calc_inv_mass(float mass){
+        float inv_mass;
+        if (mass == 0.0f){
+            inv_mass = 0.0f;
+        }else{
+            inv_mass = 1.0f/mass;
+        }
+        return inv_mass;
+    }
+
+    public:
+    VelocityComponent(float mass,
         float friction,
         float vel_x,
         float vel_y,
         float force_x,
         float force_y)
-        : inertia(inertia), friction(friction)
+        : inv_mass(calc_inv_mass(mass)), friction(friction)
     {
         velocity.x = vel_x;
         velocity.y = vel_y;
         force.x = force_x;
         force.y = force_y;
     }
-    float inertia;
+    float inv_mass;
     float friction;
     Vector velocity;
     Vector force;
+
 };
 }
 
