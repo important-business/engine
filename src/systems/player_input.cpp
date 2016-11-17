@@ -33,17 +33,6 @@ void PlayerInput::update()
                 velocity.force.x += player.move_accel;
             }
         }
-        else
-        {
-            if (velocity.velocity.x > 0.0f)
-            {
-                velocity.force.x -= player.idle_accel;
-            }
-            else if (velocity.velocity.x < 0.0f)
-            {
-                velocity.force.x += player.idle_accel;
-            }
-        }
 
         if (static_cast<bool>(key_states[player.controls.up]))
         {
@@ -57,17 +46,6 @@ void PlayerInput::update()
             if (velocity.velocity.y < player.top_speed)
             {
                 velocity.force.y += player.move_accel;
-            }
-        }
-        else
-        {
-            if (velocity.velocity.y > 0.0f)
-            {
-                velocity.force.y -= player.idle_accel;
-            }
-            else if (velocity.velocity.y < 0.0f)
-            {
-                velocity.force.y += player.idle_accel;
             }
         }
     }

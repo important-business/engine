@@ -101,8 +101,7 @@ anax::Entity player_factory(anax::World& world,
 
     auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
-    (void)entity.addComponent<components::PlayerComponent>(
-        2000.0f, 1000.0f, 500.0f);
+    (void)entity.addComponent<components::PlayerComponent>(30.0f, 500.0f);
     (void)entity.addComponent<components::VelocityComponent>(
         1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 

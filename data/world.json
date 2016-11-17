@@ -90,7 +90,6 @@
         {
             "player" : 
             {
-                "idle_accel" : 10,
                 "move_accel" : 30,
                 "top_speed" : 500
             },
@@ -98,6 +97,10 @@
             {
                 "pos_x" : 100,
                 "pos_y" : 500
+            },
+            "velocity" : 
+            {
+                "friction" : 10
             }
         },
         "template" : "$goose"

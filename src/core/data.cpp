@@ -25,20 +25,15 @@ void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
     const std::string prop_move_accel{"move_accel"};
-    const std::string prop_idle_accel{"idle_accel"};
     const std::string prop_top_speed{"top_speed"};
 
-    check_required_component_property(
-        data, component_name_player, prop_idle_accel);
-    float idle_accel = data[prop_idle_accel].asFloat();
     check_required_component_property(
         data, component_name_player, prop_move_accel);
     float move_accel = data[prop_move_accel].asFloat();
     check_required_component_property(
         data, component_name_player, prop_top_speed);
     float top_speed = data[prop_top_speed].asFloat();
-    entity.addComponent<components::PlayerComponent>(
-        move_accel, idle_accel, top_speed);
+    entity.addComponent<components::PlayerComponent>(move_accel, top_speed);
 }
 
 void DataReader::factory_component_camera(
