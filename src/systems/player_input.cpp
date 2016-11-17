@@ -5,6 +5,11 @@
 namespace systems
 {
 
+PlayerInput::PlayerInput()
+{
+    m_sp_logger = core::logging_get_logger("playerinput");
+}
+
 void PlayerInput::update()
 {
     auto entities = getEntities();

@@ -2,6 +2,7 @@
 #define CORE_WORLD_HPP
 
 #include "core/level.hpp"
+#include "core/logging.hpp"
 #include "core/resource_manager.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
@@ -21,6 +22,7 @@ class World : public systems::Collision::Listener
 public:
     World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
     {
+        m_sp_logger = core::logging_get_logger("world");
     }
 
     void init(Uint32 sdl_render_flags);
@@ -51,6 +53,8 @@ private:
     std::unique_ptr<core::Level> m_up_level;
 
     anax::Entity m_player;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 
     void on_collision_occured(
         anax::Entity& e1, anax::Entity& e2, double delta_time);

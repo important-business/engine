@@ -25,6 +25,11 @@ static SDL_Rect get_bounding_box_rect(const anax::Entity& entity)
     return get_bounding_box_rect(transform, bbox);
 }
 
+systems::Collision::Collision()
+{
+    m_sp_logger = core::logging_get_logger("collision");
+}
+
 void systems::Collision::update(double delta_time)
 {
     auto colliders = getEntities();

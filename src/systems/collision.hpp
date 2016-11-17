@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <anax/System.hpp>
+#include "core/logging.hpp"
 #include "components/transform.hpp"
 #include "components/collision.hpp"
 
@@ -14,6 +15,8 @@ struct Collision
           anax::Requires<components::TransformComponent, components::Collision>>
 {
 public:
+    Collision();
+
     struct Listener
     {
         virtual ~Listener() = 0;
@@ -27,6 +30,7 @@ public:
 
 private:
     std::vector<Listener*> m_listeners;
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
 

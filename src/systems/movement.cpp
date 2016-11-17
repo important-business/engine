@@ -5,6 +5,11 @@
 namespace systems
 {
 
+Movement::Movement()
+{
+    m_sp_logger = core::logging_get_logger("movement");
+}
+
 void Movement::update(double delta_time)
 {
     auto entities = getEntities();
