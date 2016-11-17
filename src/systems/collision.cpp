@@ -3,7 +3,10 @@
 #include <SDL.h>
 #include <anax/System.hpp>
 
-systems::Collision::Listener::~Listener()
+namespace systems
+{
+
+Collision::Listener::~Listener()
 {
 }
 
@@ -25,12 +28,12 @@ static SDL_Rect get_bounding_box_rect(const anax::Entity& entity)
     return get_bounding_box_rect(transform, bbox);
 }
 
-systems::Collision::Collision()
+Collision::Collision()
 {
     m_sp_logger = core::logging_get_logger("collision");
 }
 
-void systems::Collision::update(double delta_time)
+void Collision::update(double delta_time)
 {
     auto colliders = getEntities();
 
@@ -61,14 +64,16 @@ void systems::Collision::update(double delta_time)
     }
 }
 
-void systems::Collision::add_listener(Listener& listener)
+void Collision::add_listener(Listener& listener)
 {
     m_listeners.push_back(&listener);
 }
 
-void systems::Collision::remove_listener(Listener& listener)
+void Collision::remove_listener(Listener& listener)
 {
     m_listeners.erase(
         std::remove(m_listeners.begin(), m_listeners.end(), &listener),
         m_listeners.end());
 }
+
+} // namespace systems
