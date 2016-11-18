@@ -148,8 +148,7 @@ void DataReader::factory_component_velocity(
     float velocity_y = data.get(prop_vel_y, prop_vel_y_default).asFloat();
     float force_x = data.get(prop_force_x, prop_force_x_default).asFloat();
     float force_y = data.get(prop_force_y, prop_force_y_default).asFloat();
-    check_required_component_property(
-        data, component_name_velocity, prop_mass);
+    check_required_component_property(data, component_name_velocity, prop_mass);
     float mass = data[prop_mass].asFloat();
 
     check_required_component_property(

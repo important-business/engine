@@ -153,7 +153,7 @@ void World::init(Uint32 sdl_render_flags)
 }
 
 void World::on_collision_occured(
-            anax::Entity& e1, anax::Entity& e2, systems::Manifold* p_manifold)
+    anax::Entity& e1, anax::Entity& e2, systems::Manifold* p_manifold)
 {
     m_sp_logger->info("collision occurred\n");
     /* auto& velocity = e1.getComponent<components::VelocityComponent>(); */
