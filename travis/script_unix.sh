@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 script_exit_code=0
+failed_steps=""
 step_count=1
 
 check_result(){
@@ -12,6 +13,7 @@ check_result(){
     if [ $exit_code -ne 0 ];then
         echo "[TravisScript] Step $step_count: Error running step \"$desc\" command \"$@\""
         script_exit_code=$step_count
+        failed_steps="$failed_steps\n    $step_count:\"$desc\""
     else
         echo "[TravisScript] Step $step_count: Success running \"$desc\""
     fi
@@ -34,13 +36,13 @@ check_result "Run Linters" "make" "lint"
 # Check ClangFormat output
 check_result "Check formatting" "../travis/check_clang_format.sh"
 
-if [ $exit_code -eq 0 ];then
+if [ $script_exit_code -eq 0 ];then
     echo "########################################################################"
     echo "# Exiting Travis Unix Script - Success! "
     echo "########################################################################"
 else
     echo "########################################################################"
-    echo "# Exiting Travis Unix Script - Error: Failed running step $script_exit_code."
+    echo "# Exiting Travis Unix Script - Error: Failed running step(s): $failed_steps."
     echo "########################################################################"
 fi
 
