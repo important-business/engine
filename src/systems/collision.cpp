@@ -2,7 +2,7 @@
 
 #include <anax/System.hpp>
 
-#include <math>
+#include <cmath>
 
 namespace systems
 {
