@@ -1,6 +1,7 @@
 #include "systems/movement.hpp"
 
 #include <iostream>
+#include <math>
 
 namespace systems
 {
@@ -42,7 +43,7 @@ void Movement::update(double delta_time)
             velocity.velocity.y += velocity.friction;
         }
 
-        if (abs(velocity.velocity.y) > m_min_vel)
+        if (std::abs(velocity.velocity.y) > m_min_vel)
         {
             auto distance_moved_y =
                 velocity.velocity.y * static_cast<float>(delta_time);
@@ -53,7 +54,7 @@ void Movement::update(double delta_time)
             velocity.velocity.y = 0.0f;
         }
 
-        if (abs(velocity.velocity.x) > m_min_vel)
+        if (std::abs(velocity.velocity.x) > m_min_vel)
         {
             auto distance_moved_x =
                 velocity.velocity.x * static_cast<float>(delta_time);

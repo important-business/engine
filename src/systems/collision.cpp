@@ -2,6 +2,8 @@
 
 #include <anax/System.hpp>
 
+#include <math>
+
 namespace systems
 {
 
@@ -27,11 +29,11 @@ Manifold* systems::Collision::check_collision(
     float pos_dx = transform1.pos_x - transform2.pos_x;
     float pos_dy = transform1.pos_y - transform2.pos_y;
 
-    float x_overlap = bbox1.w / 2.0f + bbox2.w / 2.0f - abs(pos_dx);
+    float x_overlap = bbox1.w / 2.0f + bbox2.w / 2.0f - std::abs(pos_dx);
 
     if (x_overlap > 0.0f)
     {
-        float y_overlap = bbox1.h / 2.0f + bbox2.h / 2.0f - abs(pos_dy);
+        float y_overlap = bbox1.h / 2.0f + bbox2.h / 2.0f - std::abs(pos_dy);
         if (y_overlap > 0.0f)
         {
             m_sp_logger->debug(
