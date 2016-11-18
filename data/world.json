@@ -104,8 +104,8 @@
             },
             "velocity" : 
             {
-                "mass" : 5,
-                "friction" : 10
+                "friction" : 10,
+                "mass" : 5
             }
         },
         "template" : "$goose"
