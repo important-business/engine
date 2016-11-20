@@ -11,6 +11,7 @@ namespace core
 const char* WINDOW_TITLE{"Engine"};
 const char* CONFIG_PATH{"config.json"};
 const float MS_TO_SECONDS{1000.0};
+const float S_PER_UPDATE{0.016667};
 
 void Application::init()
 {
@@ -35,16 +36,22 @@ void Application::init()
 
 int Application::loop()
 {
-    float time = SDL_GetTicks();
-    auto last_time = time;
+    double cur_time = SDL_GetTicks() / MS_TO_SECONDS;
+    double last_time = cur_time;
+    double lag;
     while (not m_has_quit)
     {
-        // TODO(Keegan): Make this loop not suck as hard
-        auto delta_time = (time - last_time) / MS_TO_SECONDS;
-        last_time = time;
-        m_up_world->execute(delta_time);
-        time = SDL_GetTicks();
+        lag += cur_time - last_time;
+        last_time = cur_time;
+        while (lag >= S_PER_UPDATE)
+        {
+            m_up_world->execute_fixed(S_PER_UPDATE);
+            lag -= S_PER_UPDATE;
+        }
+        cur_time = SDL_GetTicks() / MS_TO_SECONDS;
         handle_events();
+
+        m_up_world->execute(cur_time - last_time);
     }
     m_up_world->deinit();
     return 0;

@@ -31,6 +31,8 @@ public:
 
     void execute(float dt);
 
+    void execute_fixed(float dt);
+
     void handle_input();
 
 private:
