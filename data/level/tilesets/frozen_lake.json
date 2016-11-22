@@ -1,0 +1,90 @@
+{
+    "columns" : 10,
+    "image" : "../../../resources/tiles/frozen_lake.png",
+    "imageheight" : 64,
+    "imagewidth" : 320,
+    "margin" : 0,
+    "name" : "frozen_lake",
+    "spacing" : 0,
+    "terrains" : 
+    [
+        {
+            "name" : "Snow",
+            "tile" : -1
+        },
+        {
+            "name" : "Ice",
+            "tile" : -1
+        },
+        {
+            "name" : "Path",
+            "tile" : -1
+        }
+    ],
+    "tilecount" : 20,
+    "tileheight" : 32,
+    "tiles" : 
+    {
+        "0" : 
+        {
+            "terrain" : [ 1, 1, 1, 1 ]
+        },
+        "1" : 
+        {
+            "terrain" : [ 0, 0, 0, 0 ]
+        },
+        "10" : 
+        {
+            "terrain" : [ -1, -1, 0, -1 ]
+        },
+        "11" : 
+        {
+            "terrain" : [ 0, -1, -1, -1 ]
+        },
+        "12" : 
+        {
+            "terrain" : [ -1, 0, -1, -1 ]
+        },
+        "13" : 
+        {
+            "terrain" : [ -1, -1, -1, 0 ]
+        },
+        "14" : 
+        {
+            "terrain" : [ 2, 2, 2, 2 ]
+        },
+        "2" : 
+        {
+            "terrain" : [ 0, -1, 0, -1 ]
+        },
+        "3" : 
+        {
+            "terrain" : [ 0, 0, -1, -1 ]
+        },
+        "4" : 
+        {
+            "terrain" : [ -1, 0, -1, 0 ]
+        },
+        "5" : 
+        {
+            "terrain" : [ -1, -1, 0, 0 ]
+        },
+        "6" : 
+        {
+            "terrain" : [ 0, 0, 0, -1 ]
+        },
+        "7" : 
+        {
+            "terrain" : [ 0, 0, -1, 0 ]
+        },
+        "8" : 
+        {
+            "terrain" : [ -1, 0, 0, 0 ]
+        },
+        "9" : 
+        {
+            "terrain" : [ 0, -1, 0, 0 ]
+        }
+    },
+    "tilewidth" : 32
+}
