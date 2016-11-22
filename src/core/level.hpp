@@ -72,7 +72,7 @@ private:
 class Level
 {
 public:
-    Level(uint16_t size_x, uint16_t size_y, float scale);
+    Level(uint16_t size_x, uint16_t size_y, uint16_t layers, float scale);
 
     ~Level();
 
@@ -95,10 +95,10 @@ public:
 
     void set_tileset(LevelTileSet* p_tileset);
 
-    void set(uint16_t pos_x, uint16_t pos_y, int16_t tile_id);
+    void set(uint16_t pos_x, uint16_t pos_y, uint16_t layer, int16_t tile_id);
 
 private:
-    const uint16_t m_size_x, m_size_y;
+    const uint16_t m_size_x, m_size_y, m_layers;
 
     // Number of world units per tile
     const float m_scale;

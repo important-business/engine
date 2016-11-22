@@ -20,18 +20,31 @@ int16_t Level::get(uint16_t x, uint16_t y) const
     {
         return -1;
     }
-    return m_p_tiles[x + y * m_size_x];
+    int16_t result = -1;
+    for (int16_t cur_layer = m_layers - 1; cur_layer >= 0; --cur_layer)
+    {
+        result =
+            m_p_tiles[x + (y * m_size_x) + (cur_layer * m_size_y * m_size_x)];
+        if (result > 0)
+        {
+            break;
+        }
+    }
+    return result;
 }
 
-Level::Level(uint16_t size_x, uint16_t size_y, float scale)
-    : m_size_x(size_x), m_size_y(size_y), m_scale(scale)
+Level::Level(uint16_t size_x, uint16_t size_y, uint16_t layers, float scale)
+    : m_size_x(size_x), m_size_y(size_y), m_layers(layers), m_scale(scale)
 {
-    m_p_tiles = new int16_t[size_x * size_y];
-    for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
+    m_p_tiles = new int16_t[size_x * size_y * layers];
+    for (uint16_t layer = 0; layer < layers; layer++)
     {
-        for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
+        for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
         {
-            set(pos_x, pos_y, -1);
+            for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
+            {
+                set(pos_x, pos_y, layer, -1);
+            }
         }
     }
     m_sp_logger = logging_get_logger("level");
@@ -87,21 +100,26 @@ LevelTileSet* Level::get_tileset() const
 
 void Level::print() const
 {
-    for (uint16_t pos_y = 0; pos_y < m_size_y; pos_y++)
+    for (uint16_t layer = 0; layer < m_layers; layer++)
     {
-        for (uint16_t pos_x = 0; pos_x < m_size_x; pos_x++)
+        std::cout << "layer " << layer << std::endl;
+        for (uint16_t pos_y = 0; pos_y < m_size_y; pos_y++)
         {
-            auto currtile = get(pos_x, pos_y);
-            std::cout << '[' << currtile << ']';
+            for (uint16_t pos_x = 0; pos_x < m_size_x; pos_x++)
+            {
+                auto currtile = get(pos_x, pos_y);
+                std::cout << '[' << currtile << ']';
+            }
+            std::cout << std::endl;
         }
         std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
-void Level::set(uint16_t pos_x, uint16_t pos_y, int16_t tile_id)
+void Level::set(uint16_t pos_x, uint16_t pos_y, uint16_t layer, int16_t tile_id)
 {
-    m_p_tiles[pos_x + pos_y * m_size_y] = tile_id;
+    uint16_t index = pos_x + (pos_y * m_size_y) + (m_size_y * m_size_y * layer);
+    m_p_tiles[index] = tile_id;
 }
 
 void Level::set_tileset(LevelTileSet* p_tileset)

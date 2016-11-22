@@ -300,10 +300,12 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
 {
     uint16_t size_x = m_json_data["width"].asInt();
     uint16_t size_y = m_json_data["height"].asInt();
+    uint16_t layer_count = m_json_data["layers"].size();
     float tileheight = m_json_data["tileheight"].asFloat();
     float scale = m_json_data["properties"].get("scale", 1.0).asFloat();
 
-    up_level = std::make_unique<Level>(size_x, size_y, tileheight * scale);
+    up_level = std::make_unique<Level>(
+        size_x, size_y, layer_count, tileheight * scale);
     auto p_level = up_level.get();
 
     // TODO(Keegan): Use tilewidth as well
@@ -322,25 +324,26 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
     p_level->set_tileset(p_tileset);
 
     auto layers = m_json_data["layers"];
-    for (auto it = layers.begin(); it != layers.end(); ++it)
+    for (int16_t layerindex = 0; layerindex < layers.size(); ++layerindex)
     {
-        int height = (*it)["height"].asInt();
-        int width = (*it)["width"].asInt();
-        float opacity = (*it)["opacity"].asFloat();
-        std::string name = (*it)["name"].asString();
+        auto& val = layers[layerindex];
+        int height = val["height"].asInt();
+        int width = val["width"].asInt();
+        float opacity = val["opacity"].asFloat();
+        std::string name = val["name"].asString();
         m_sp_logger->info(
             "found a layer named {} width {} height {} opacity {}",
             name,
             width,
             height,
             opacity);
-        auto data = (*it)["data"];
+        auto data = val["data"];
         for (uint16_t index = 0; index < data.size(); ++index)
         {
             uint16_t tile_x = index % width;
             uint16_t tile_y = index / width;
             int16_t tilegid = data[index].asInt();
-            p_level->set(tile_x, tile_y, tilegid);
+            p_level->set(tile_x, tile_y, layerindex, tilegid);
         }
     }
 
