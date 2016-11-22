@@ -137,7 +137,7 @@ void World::init(Uint32 sdl_render_flags)
     auto datareader = DataReader("data/world.json");
     datareader.makeEntities(*m_up_anax_world);
 
-    auto levelreader = LevelReader("data/desert.json");
+    auto levelreader = LevelReader("data/level/frozen_lake.json");
     levelreader.build_level(m_up_level);
 
     m_up_anax_world->addSystem(*m_up_render_system);
