@@ -308,11 +308,12 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
 
     // TODO(Keegan): Use tilewidth as well
     auto tilesets = m_json_data["tilesets"];
+    std::string cur_path = pathname(m_str_description);
     std::string tileset_source;
     for (auto it = tilesets.begin(); it != tilesets.end(); ++it)
     {
         int firstgid = (*it)["firstgid"].asInt();
-        tileset_source = (*it)["source"].asString();
+        tileset_source = cur_path + (*it)["source"].asString();
         m_sp_logger->info(
             "Found a tileset gid {} source {}", firstgid, tileset_source);
     }
@@ -349,7 +350,6 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
 LevelTileSet* LevelReader::load_tileset(std::string filename)
 {
     Json::Reader reader_json;
-    filename.insert(0, "data/");
     m_sp_logger->info("Loading data from {}", filename);
     std::ifstream config_file(filename, std::ifstream::binary);
     if (!reader_json.parse(config_file, m_json_tileset))
@@ -360,7 +360,8 @@ LevelTileSet* LevelReader::load_tileset(std::string filename)
         throw ExceptionParseFailure(
             m_str_description, std::string("JSON format error"));
     }
-    std::string image_filename = m_json_tileset["image"].asString();
+    std::string image_filename =
+        pathname(filename) + m_json_tileset["image"].asString();
     std::string name = m_json_tileset["name"].asString();
     uint16_t tilewidth = m_json_tileset["tilewidth"].asInt();
     uint16_t tileheight = m_json_tileset["tilewidth"].asInt();
