@@ -7,6 +7,7 @@
 #include "data.hpp"
 #include "exception.hpp"
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -40,6 +41,56 @@ std::string pathname(const std::string& pathname)
         std::find_if(pathname.rbegin(), pathname.rend(), [](char c) {
             return (c == '/' || c == '\\');
         }).base()};
+}
+
+static std::string base64_decode(const std::string& in)
+{
+
+    std::string out;
+
+    std::vector<int> T(256, -1);
+    for (int i = 0; i < 64; i++)
+        T["ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+                [i]] = i;
+
+    int val = 0, valb = -8;
+    for (unsigned char c : in)
+    {
+        if (T[c] == -1)
+            break;
+        val = (val << 6) + T[c];
+        valb += 6;
+        if (valb >= 0)
+        {
+            out.push_back(char((val >> valb) & 0xFF));
+            valb -= 8;
+        }
+    }
+    return out;
+}
+
+static std::vector<int32_t> string_decode(const std::string& in)
+{
+    std::vector<int32_t> result;
+    if (in.size() % 4)
+    {
+        //TODO(Keegan, Handle error better)
+        assert(false);
+    }
+    for (auto it = in.begin(); it < in.end(); it += 4)
+    {
+        auto b1 = *(it);
+        auto b2 = *(it + 1);
+        auto b3 = *(it + 2);
+        auto b4 = *(it + 3);
+        int32_t val = b1;
+        // TODO(Keegan, This is awfully endian dependent...)
+        val |= b2 << 8;
+        val |= b3 << 16;
+        val |= b4 << 24;
+        result.push_back(val);
+    }
+    return result;
 }
 
 void DataReader::factory_component_player(
@@ -338,11 +389,13 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
             height,
             opacity);
         auto data = val["data"];
-        for (uint16_t index = 0; index < data.size(); ++index)
+        // TODO(Keegan, check encoding, don't just assume)
+        auto decoded = string_decode(base64_decode(data.asString()));
+        for (uint16_t index = 0; index < decoded.size(); ++index)
         {
             uint16_t tile_x = index % width;
             uint16_t tile_y = index / width;
-            int16_t tilegid = data[index].asInt();
+            int16_t tilegid = decoded[index];
             p_level->set(tile_x, tile_y, layerindex, tilegid);
         }
     }
