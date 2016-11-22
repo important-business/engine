@@ -38,7 +38,7 @@ int Application::loop()
 {
     double cur_time = SDL_GetTicks() / MS_TO_SECONDS;
     double last_time = cur_time;
-    double lag;
+    double lag = 0.0;
     while (not m_has_quit)
     {
         lag += cur_time - last_time;
