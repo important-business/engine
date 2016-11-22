@@ -137,6 +137,9 @@ void World::init(Uint32 sdl_render_flags)
     auto datareader = DataReader("data/world.json");
     datareader.makeEntities(*m_up_anax_world);
 
+    auto levelreader = LevelReader("data/desert.json");
+    levelreader.build_level(m_up_level);
+
     m_up_anax_world->addSystem(*m_up_render_system);
     m_up_anax_world->addSystem(*m_up_camera_system);
     m_up_anax_world->addSystem(*m_up_movement_system);
@@ -145,11 +148,11 @@ void World::init(Uint32 sdl_render_flags)
 
     m_up_collision_system->add_listener(*this);
 
-    m_up_level = std::make_unique<core::Level>(
-        LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_DEFAULT_SCALE);
+    /* m_up_level = std::make_unique<core::Level>( */
+    /*     LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_DEFAULT_SCALE); */
     /* m_up_level->print(); */
-    m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_TILES);
-    /* m_up_level->print(); */
+    /* m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_TILES); */
+    m_up_level->print();
 }
 
 void World::on_collision_occured(
@@ -179,6 +182,7 @@ void World::execute_fixed(float dt)
     m_up_camera_system->update();
     m_up_collision_system->update(dt);
     m_up_movement_system->update(dt);
+    m_up_render_system->render(m_up_level.get());
 }
 
 void World::deinit()

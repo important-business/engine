@@ -270,4 +270,90 @@ void DataReader::makeEntities(anax::World& world)
     }
 }
 
+LevelReader::LevelReader(std::string filename) : JsonFileReader(filename)
+{
+    m_sp_logger = logging_get_logger("data");
+}
+
+void LevelReader::build_level(std::unique_ptr<Level>& up_level)
+{
+    uint16_t size_x = m_json_data["width"].asInt();
+    uint16_t size_y = m_json_data["height"].asInt();
+    float tileheight = m_json_data["tileheight"].asFloat();
+
+    up_level = std::make_unique<Level>(size_x, size_y, tileheight);
+    auto p_level = up_level.get();
+
+    // TODO(Keegan): Use tilewidth as well
+    auto tilesets = m_json_data["tilesets"];
+    std::string tileset_source;
+    for (auto it = tilesets.begin(); it != tilesets.end(); ++it)
+    {
+        int firstgid = (*it)["firstgid"].asInt();
+        tileset_source = (*it)["source"].asString();
+        m_sp_logger->info(
+            "Found a tileset gid {} source {}", firstgid, tileset_source);
+    }
+    // Only load last tileset for now
+    auto p_tileset = load_tileset(tileset_source);
+    p_level->set_tileset(p_tileset);
+
+    auto layers = m_json_data["layers"];
+    for (auto it = layers.begin(); it != layers.end(); ++it)
+    {
+        int height = (*it)["height"].asInt();
+        int width = (*it)["width"].asInt();
+        float opacity = (*it)["opacity"].asFloat();
+        std::string name = (*it)["name"].asString();
+        m_sp_logger->info(
+            "found a layer named {} width {} height {} opacity {}",
+            name,
+            width,
+            height,
+            opacity);
+        auto data = (*it)["data"];
+        for (uint16_t index = 0; index < data.size(); ++index)
+        {
+            uint16_t tile_x = index % width;
+            uint16_t tile_y = index / width;
+            int16_t tilegid = data[index].asInt();
+            p_level->set(tile_x, tile_y, tilegid);
+        }
+    }
+
+    return;
+}
+
+LevelTileSet* LevelReader::load_tileset(std::string filename)
+{
+    Json::Reader reader_json;
+    filename.insert(0, "data/");
+    m_sp_logger->info("Loading data from {}", filename);
+    std::ifstream config_file(filename, std::ifstream::binary);
+    if (!reader_json.parse(config_file, m_json_tileset))
+    {
+        m_sp_logger->error(
+            "Failed to parse JSON file {}:", filename, "JSON format error");
+        m_sp_logger->error(reader_json.getFormattedErrorMessages());
+        throw ExceptionParseFailure(
+            m_str_description, std::string("JSON format error"));
+    }
+    std::string image_filename = m_json_tileset["image"].asString();
+    std::string name = m_json_tileset["name"].asString();
+    uint16_t tilewidth = m_json_tileset["tilewidth"].asInt();
+    uint16_t tileheight = m_json_tileset["tilewidth"].asInt();
+    uint16_t tilecount = m_json_tileset["tilecount"].asInt();
+    uint16_t columns = m_json_tileset["columns"].asInt();
+    uint16_t margin = m_json_tileset["margin"].asInt();
+    uint16_t spacing = m_json_tileset["spacing"].asInt();
+    return new LevelTileSet{name,
+        image_filename,
+        columns,
+        tilecount,
+        tilewidth,
+        tileheight,
+        spacing,
+        margin};
+}
+
 } // namespace core

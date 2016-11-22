@@ -117,6 +117,14 @@ void Render::render_level(core::Level* plevel,
     uint16_t size_x, size_y;
     plevel->get_size(size_x, size_y);
     auto scale = plevel->get_scale();
+    auto p_tileset = plevel->get_tileset();
+    auto p_texture = p_tileset->get_texture();
+    if (!p_texture)
+    {
+        auto sp_texture = m_p_resourcemanager->get(p_tileset->get_filename());
+        p_texture = sp_texture.get();
+        p_tileset->set_texture(sp_texture);
+    }
 
     // TODO: Add some smartness to clip out irrelevant portions of the level
     for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
@@ -126,20 +134,21 @@ void Render::render_level(core::Level* plevel,
             SDL_Rect dest_rect = {
                 static_cast<int>((pos_x * scale) - camera_offset_x),
                 static_cast<int>((pos_y * scale) - camera_offset_y),
-                static_cast<int>((pos_x + 1) * scale),
-                static_cast<int>((pos_y + 1) * scale)};
-            uint8_t red, blue, green;
+                static_cast<int>((1) * scale),
+                static_cast<int>((1) * scale)};
 
-            auto ptile = plevel->get(pos_x, pos_y);
-            if (ptile != nullptr)
+            auto tile = plevel->get(pos_x, pos_y);
+            if (tile != -1)
             {
-                ptile->get_color(red, blue, green);
-                m_p_renderer->set_draw_color(red, blue, green, 255);
-                m_p_renderer->fill_rect(&dest_rect);
+                SDL_Rect src_rect;
+                p_tileset->getTileClipping(
+                    tile, src_rect.x, src_rect.y, src_rect.w, src_rect.h);
+                m_p_renderer->copy(
+                    *p_texture, &src_rect, &dest_rect, 0, SDL_FLIP_NONE);
             }
             else
             {
-                m_sp_logger->error("Tile {},{} is nullptr", pos_x, pos_y);
+                m_sp_logger->error("Tile {},{} is invalid", pos_x, pos_y);
             }
         }
     }
