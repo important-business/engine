@@ -14,7 +14,7 @@ void LevelTile::get_color(uint8_t& red, uint8_t& blue, uint8_t& green) const
     green = m_green;
 }
 
-int16_t Level::get(uint16_t x, uint16_t y) const
+int32_t Level::get(uint16_t x, uint16_t y) const
 {
     if ((x > m_size_x) || (y > m_size_y))
     {
@@ -23,8 +23,7 @@ int16_t Level::get(uint16_t x, uint16_t y) const
     int16_t result = -1;
     for (int16_t cur_layer = m_layers - 1; cur_layer >= 0; --cur_layer)
     {
-        result =
-            m_p_tiles[x + (y * m_size_x) + (cur_layer * m_size_y * m_size_x)];
+        result = get_raw(x, y, cur_layer);
         if (result > 0)
         {
             break;
@@ -33,10 +32,23 @@ int16_t Level::get(uint16_t x, uint16_t y) const
     return result;
 }
 
+int32_t& Level::get_raw(uint16_t pos_x, uint16_t pos_y, uint16_t layer)
+{
+    return const_cast<int32_t&>(
+        const_cast<const Level*>(this)->get_raw(pos_x, pos_y, layer));
+}
+
+const int32_t& Level::get_raw(
+    uint16_t pos_x, uint16_t pos_y, uint16_t layer) const
+{
+    return m_p_tiles[pos_x + (pos_y * m_size_x) +
+        (layer * m_size_y * m_size_x)];
+}
+
 Level::Level(uint16_t size_x, uint16_t size_y, uint16_t layers, float scale)
     : m_size_x(size_x), m_size_y(size_y), m_layers(layers), m_scale(scale)
 {
-    m_p_tiles = new int16_t[size_x * size_y * layers];
+    m_p_tiles = new int32_t[size_x * size_y * layers];
     for (uint16_t layer = 0; layer < layers; layer++)
     {
         for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
@@ -61,10 +73,11 @@ float Level::get_scale() const
     return m_scale;
 }
 
-void Level::get_size(uint16_t& x, uint16_t& y) const
+void Level::get_size(uint16_t& x, uint16_t& y, uint16_t& layers) const
 {
     x = m_size_x;
     y = m_size_y;
+    layers = m_layers;
 }
 
 void Level::get_tile(
@@ -118,8 +131,8 @@ void Level::print() const
 
 void Level::set(uint16_t pos_x, uint16_t pos_y, uint16_t layer, int16_t tile_id)
 {
-    uint16_t index = pos_x + (pos_y * m_size_y) + (m_size_y * m_size_y * layer);
-    m_p_tiles[index] = tile_id;
+    auto& tile = get_raw(pos_x, pos_y, layer);
+    tile = tile_id;
 }
 
 void Level::set_tileset(LevelTileSet* p_tileset)

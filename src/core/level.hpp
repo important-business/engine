@@ -76,11 +76,15 @@ public:
 
     ~Level();
 
-    int16_t get(uint16_t x, uint16_t y) const;
+    int32_t get(uint16_t x, uint16_t y) const;
 
     float get_scale(void) const;
 
-    void get_size(uint16_t& x, uint16_t& y) const;
+    void get_size(uint16_t& x, uint16_t& y, uint16_t& layers) const;
+
+    int32_t& get_raw(uint16_t pos_x, uint16_t pos_y, uint16_t layer);
+    const int32_t& get_raw(
+        uint16_t pos_x, uint16_t pos_y, uint16_t layer) const;
 
     void get_tile(
         float world_x, float world_y, uint16_t& tile_x, uint16_t& tile_y) const;
@@ -103,7 +107,7 @@ private:
     // Number of world units per tile
     const float m_scale;
 
-    int16_t* m_p_tiles;
+    int32_t* m_p_tiles;
 
     std::unique_ptr<LevelTileSet> m_up_tileset;
 
