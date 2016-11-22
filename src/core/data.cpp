@@ -74,7 +74,7 @@ static std::vector<int32_t> string_decode(const std::string& in)
     std::vector<int32_t> result;
     if (in.size() % 4)
     {
-        //TODO(Keegan, Handle error better)
+        // TODO(Keegan, Handle error better)
         assert(false);
     }
     for (auto it = in.begin(); it < in.end(); it += 4)
