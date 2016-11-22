@@ -114,8 +114,8 @@ void Render::render_level(core::Level* plevel,
     int camera_offset_y,
     float camera_zoom)
 {
-    uint16_t size_x, size_y;
-    plevel->get_size(size_x, size_y);
+    uint16_t size_x, size_y, size_layers;
+    plevel->get_size(size_x, size_y, size_layers);
     auto scale = plevel->get_scale();
     auto p_tileset = plevel->get_tileset();
     auto p_texture = p_tileset->get_texture();
@@ -131,24 +131,28 @@ void Render::render_level(core::Level* plevel,
     {
         for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
         {
-            SDL_Rect dest_rect = {
-                static_cast<int>((pos_x * scale) - camera_offset_x),
-                static_cast<int>((pos_y * scale) - camera_offset_y),
-                static_cast<int>((1) * scale),
-                static_cast<int>((1) * scale)};
+            for (uint16_t layer = 0; layer < size_layers; layer++)
+            {
+                SDL_Rect dest_rect = {
+                    static_cast<int>((pos_x * scale) - camera_offset_x),
+                    static_cast<int>((pos_y * scale) - camera_offset_y),
+                    static_cast<int>((1) * scale),
+                    static_cast<int>((1) * scale)};
 
-            auto tile = plevel->get(pos_x, pos_y);
-            if (tile != -1)
-            {
-                SDL_Rect src_rect;
-                p_tileset->getTileClipping(
-                    tile, src_rect.x, src_rect.y, src_rect.w, src_rect.h);
-                m_p_renderer->copy(
-                    *p_texture, &src_rect, &dest_rect, 0, SDL_FLIP_NONE);
-            }
-            else
-            {
-                m_sp_logger->error("Tile {},{} is invalid", pos_x, pos_y);
+                auto tile = plevel->get_raw(pos_x, pos_y, layer);
+                if (tile != -1)
+                {
+                    SDL_Rect src_rect;
+                    p_tileset->getTileClipping(
+                        tile, src_rect.x, src_rect.y, src_rect.w, src_rect.h);
+                    m_p_renderer->copy(
+                        *p_texture, &src_rect, &dest_rect, 0, SDL_FLIP_NONE);
+                }
+                else
+                {
+                    /* m_sp_logger->error("Tile {},{} is invalid", pos_x,
+                     * pos_y); */
+                }
             }
         }
     }
