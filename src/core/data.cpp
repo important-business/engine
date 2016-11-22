@@ -21,6 +21,27 @@ const std::string component_name_texture{"texture"};
 const std::string component_name_transform{"transform"};
 const std::string component_name_velocity{"velocity"};
 
+std::string basename(const std::string& pathname)
+{
+    // TODO(Keegan, Check if works on Windows)
+    // TODO(Keegan, Test properly)
+    return {std::find_if(pathname.rbegin(),
+                pathname.rend(),
+                [](char c) { return (c == '/' || c == '\\'); })
+                .base(),
+        pathname.end()};
+}
+
+std::string pathname(const std::string& pathname)
+{
+    // TODO(Keegan, Check if works on Windows)
+    // TODO(Keegan, Test properly)
+    return {pathname.begin(),
+        std::find_if(pathname.rbegin(), pathname.rend(), [](char c) {
+            return (c == '/' || c == '\\');
+        }).base()};
+}
+
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
