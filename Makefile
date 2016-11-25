@@ -15,6 +15,7 @@ test: ${BUILD_DIR}/Makefile
 
 format: ${BUILD_DIR}/Makefile
 	@make --directory=${BUILD_DIR} clangformat
+	@make --directory=${BUILD_DIR} json_validate
 
 lint:
 	@make --directory=${BUILD_DIR} lint
