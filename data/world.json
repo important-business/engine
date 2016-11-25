@@ -64,6 +64,10 @@
     {
         "components" : 
         {
+            "ai" : 
+            {
+                "root_node" : "asdf"
+            },
             "transform" : 
             {
                 "pos_x" : 100,

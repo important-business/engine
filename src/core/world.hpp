@@ -4,6 +4,7 @@
 #include "core/level.hpp"
 #include "core/logging.hpp"
 #include "core/resource_manager.hpp"
+#include "systems/ai.hpp"
 #include "systems/movement.hpp"
 #include "systems/player_input.hpp"
 #include "systems/render.hpp"
@@ -39,6 +40,8 @@ private:
     sdl_wrap::Window* m_p_window;
 
     std::unique_ptr<anax::World> m_up_anax_world;
+
+    std::unique_ptr<systems::AiSystem> m_up_ai_system;
 
     std::unique_ptr<systems::Camera> m_up_camera_system;
 

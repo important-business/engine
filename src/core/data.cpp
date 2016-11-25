@@ -1,3 +1,5 @@
+#include "components/ai.hpp"
+#include "systems/ai.hpp"
 #include "components/camera.hpp"
 #include "components/collision.hpp"
 #include "components/player.hpp"
@@ -15,6 +17,7 @@
 namespace core
 {
 
+const std::string component_name_ai{"ai"};
 const std::string component_name_camera{"camera"};
 const std::string component_name_collision{"collision"};
 const std::string component_name_player{"player"};
@@ -91,6 +94,22 @@ static std::vector<int32_t> string_decode(const std::string& in)
         result.push_back(val);
     }
     return result;
+}
+
+void DataReader::factory_component_ai(
+    const Json::Value data, anax::Entity entity)
+{
+    const std::string prop_root_node{"root_node"};
+
+    check_required_component_property(data, component_name_ai, prop_root_node);
+    // TODO(Keegan, use real root node data)
+    auto p_root_node = new systems::AiNodeSequence();
+    p_root_node->add_child(new systems::AiNodeMoveTo(0, 0, 6));
+    p_root_node->add_child(new systems::AiNodeMoveTo(1600, 0, 6));
+    p_root_node->add_child(new systems::AiNodeMoveTo(1600, 1600, 6));
+    p_root_node->add_child(new systems::AiNodeMoveTo(0, 1600, 6));
+    p_root_node->add_child(new systems::AiNodeMoveTo(0, 0, 6));
+    entity.addComponent<components::AiComponent>(p_root_node);
 }
 
 void DataReader::factory_component_player(
@@ -235,6 +254,8 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
 {
     m_sp_logger = logging_get_logger("data");
 
+    component_factories.insert(
+        std::make_pair(component_name_ai, &DataReader::factory_component_ai));
     component_factories.insert(std::make_pair(
         component_name_camera, &DataReader::factory_component_camera));
     component_factories.insert(std::make_pair(

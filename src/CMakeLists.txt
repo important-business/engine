@@ -20,8 +20,12 @@ add_subdirectory(systems)
 add_subdirectory(tools)
 
 # Define engine executable
-# TODO: Add SRCS_COMPONENTS once components with cpp files are added
-set(SRCS_ENGINE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${SRCS_CORE} ${SRCS_SYSTEMS})
+set(SRCS_ENGINE
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${SRCS_CORE}
+    ${SRCS_SYSTEMS}
+    ${SRCS_COMPONENTS}
+    )
 add_executable(engine ${SRCS_ENGINE})
 
 

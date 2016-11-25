@@ -7,6 +7,7 @@
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
 #include "components/collision.hpp"
+#include "components/ai.hpp"
 
 #include <anax/anax.hpp>
 #include <iostream>
@@ -127,6 +128,8 @@ void World::init(Uint32 sdl_render_flags)
         *m_up_camera_system,
         m_up_texture_manager.get());
 
+    m_up_ai_system = std::make_unique<systems::AiSystem>();
+
     m_up_movement_system = std::make_unique<systems::Movement>();
     m_up_player_input_system = std::make_unique<systems::PlayerInput>();
     m_up_collision_system = std::make_unique<systems::Collision>();
@@ -140,6 +143,7 @@ void World::init(Uint32 sdl_render_flags)
     auto levelreader = LevelReader("data/level/frozen_lake.json");
     levelreader.build_level(m_up_level);
 
+    m_up_anax_world->addSystem(*m_up_ai_system);
     m_up_anax_world->addSystem(*m_up_render_system);
     m_up_anax_world->addSystem(*m_up_camera_system);
     m_up_anax_world->addSystem(*m_up_movement_system);
@@ -179,6 +183,7 @@ void World::execute_fixed(float dt)
 {
     m_up_anax_world->refresh();
     m_up_player_input_system->update();
+    m_up_ai_system->update();
     m_up_camera_system->update();
     m_up_collision_system->update(dt);
     m_up_movement_system->update(dt);
@@ -191,6 +196,7 @@ void World::deinit()
     m_up_anax_world->refresh();
 
     m_up_anax_world.release();
+    m_up_ai_system.release();
     m_up_render_system.release();
     m_up_camera_system.release();
     m_up_player_input_system.release();

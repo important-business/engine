@@ -23,6 +23,7 @@ public:
     std::map<std::string, DataReader::factory_method> component_factories;
 
 private:
+    void factory_component_ai(const Json::Value data, anax::Entity entity);
     void factory_component_player(const Json::Value data, anax::Entity entity);
     void factory_component_camera(const Json::Value data, anax::Entity entity);
     void factory_component_collision(
