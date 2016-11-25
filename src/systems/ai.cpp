@@ -3,6 +3,7 @@
 #include "components/transform.hpp"
 
 #include <iostream>
+#include <algorithm>
 
 namespace systems
 {
@@ -37,8 +38,7 @@ void AiNode::_failure(anax::Entity entity)
 
 void AiNodeComposite::add_child(AiNode* p_ai_node)
 {
-    m_v_up_children.insert(
-        m_v_up_children.begin(), std::unique_ptr<AiNode>(p_ai_node));
+    m_v_up_children.push_back(std::unique_ptr<AiNode>(p_ai_node));
 }
 
 AiResult AiNodeSequence::_execute(anax::Entity entity)
@@ -50,7 +50,7 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
     }
     else
     {
-        auto p_firstnode = m_v_up_children.back().get();
+        auto p_firstnode = m_v_up_children.front().get();
         auto status = p_firstnode->execute(entity);
         switch (status)
         {
@@ -60,7 +60,43 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
         case AI_RESULT_SUCCESS:
             std::cout << "next in sequence!" << std::endl;
             p_firstnode->success(entity);
-            m_v_up_children.pop_back();
+            m_v_up_children.erase(m_v_up_children.begin());
+            if (m_v_up_children.size() == 0)
+            {
+                result = status;
+            }
+            break;
+        case AI_RESULT_READY:
+        default:
+            result = status;
+        }
+    }
+    return result;
+}
+
+AiResult AiNodeLoop::_execute(anax::Entity entity)
+{
+    AiResult result;
+    if (m_v_up_children.size() == 0)
+    {
+        result = AI_RESULT_SUCCESS;
+    }
+    else
+    {
+        auto p_firstnode = m_v_up_children.front().get();
+        auto status = p_firstnode->execute(entity);
+        switch (status)
+        {
+        case AI_RESULT_FAIL:
+            p_firstnode->failure(entity);
+            break;
+        case AI_RESULT_SUCCESS:
+            std::cout << "next in sequence!" << std::endl;
+            p_firstnode->success(entity);
+            /* m_v_up_children.erase(m_v_up_children.begin()); */
+            std::rotate(m_v_up_children.begin(),
+                m_v_up_children.begin() + 1,
+                m_v_up_children.end());
             if (m_v_up_children.size() == 0)
             {
                 result = status;
@@ -83,13 +119,13 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
     }
     else
     {
-        auto p_firstnode = m_v_up_children[0].get();
+        auto p_firstnode = m_v_up_children.front().get();
         auto status = p_firstnode->execute(entity);
         switch (status)
         {
         case AI_RESULT_FAIL:
             p_firstnode->failure(entity);
-            m_v_up_children.pop_back();
+            m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.size() == 0)
             {
                 result = status;

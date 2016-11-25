@@ -45,6 +45,13 @@ private:
     virtual AiResult _execute(anax::Entity entity);
 };
 
+class AiNodeLoop : public AiNodeSequence
+{
+public:
+private:
+    virtual AiResult _execute(anax::Entity entity);
+};
+
 class AiNodeSelector : public AiNodeComposite
 {
 public:

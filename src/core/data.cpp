@@ -103,12 +103,11 @@ void DataReader::factory_component_ai(
 
     check_required_component_property(data, component_name_ai, prop_root_node);
     // TODO(Keegan, use real root node data)
-    auto p_root_node = new systems::AiNodeSequence();
+    auto p_root_node = new systems::AiNodeLoop();
     p_root_node->add_child(new systems::AiNodeMoveTo(0, 0, 6));
     p_root_node->add_child(new systems::AiNodeMoveTo(1600, 0, 6));
     p_root_node->add_child(new systems::AiNodeMoveTo(1600, 1600, 6));
     p_root_node->add_child(new systems::AiNodeMoveTo(0, 1600, 6));
-    p_root_node->add_child(new systems::AiNodeMoveTo(0, 0, 6));
     entity.addComponent<components::AiComponent>(p_root_node);
 }
 
