@@ -90,11 +90,6 @@ public:
         float world_x, float world_y, uint16_t& tile_x, uint16_t& tile_y) const;
     LevelTileSet* get_tileset() const;
 
-    void load(const std::string* initialdata,
-        uint16_t size_x,
-        uint16_t size_y,
-        std::map<std::string, const LevelTile*> tileset);
-
     void print() const;
 
     void set_tileset(LevelTileSet* p_tileset);

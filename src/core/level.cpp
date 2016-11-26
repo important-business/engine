@@ -93,24 +93,6 @@ LevelTileSet* Level::get_tileset() const
     return (m_up_tileset.get());
 }
 
-/* void Level::load(const std::string* initialdata, */
-/*     uint16_t size_x, */
-/*     uint16_t size_y, */
-/*     std::map<std::string, const LevelTile*> tileset) */
-/* { */
-/*     for (uint16_t pos_x = 0; pos_x < size_x; pos_x++) */
-/*     { */
-/*         for (uint16_t pos_y = 0; pos_y < size_y; pos_y++) */
-/*         { */
-/*             auto tiledata = initialdata[pos_x + pos_y * size_x]; */
-/*             m_sp_logger->info("Loading {} into {},{}", tiledata, pos_x,
- * pos_y); */
-/*             // TODO: Check for and handle missing tile type */
-/*             set(pos_x, pos_y, tileset[tiledata]); */
-/*         } */
-/*     } */
-/* } */
-
 void Level::print() const
 {
     for (uint16_t layer = 0; layer < m_layers; layer++)
