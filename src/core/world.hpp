@@ -17,7 +17,7 @@
 namespace core
 {
 
-class World : public systems::Collision::Listener
+class World
 
 {
 public:
@@ -60,9 +60,6 @@ private:
     anax::Entity m_player;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
-
-    void on_collision_occured(
-        anax::Entity& e1, anax::Entity& e2, systems::Manifold* p_manifold);
 };
 }
 

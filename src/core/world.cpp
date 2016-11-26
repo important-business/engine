@@ -149,28 +149,6 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
     m_up_anax_world->addSystem(*m_up_collision_system);
-
-    m_up_collision_system->add_listener(*this);
-
-    /* m_up_level = std::make_unique<core::Level>( */
-    /*     LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_DEFAULT_SCALE); */
-    /* m_up_level->print(); */
-    /* m_up_level->load(LEVEL_DATA, LEVEL_SIZE_X, LEVEL_SIZE_Y, LEVEL_TILES); */
-    m_up_level->print();
-}
-
-void World::on_collision_occured(
-    anax::Entity& e1, anax::Entity& e2, systems::Manifold* p_manifold)
-{
-    m_sp_logger->info("collision occurred\n");
-    /* auto& velocity = e1.getComponent<components::VelocityComponent>(); */
-    /* auto& transform = e1.getComponent<components::TransformComponent>(); */
-
-    /* auto distance_moved_x = -velocity.x * delta_time * 2; */
-    /* auto distance_moved_y = -velocity.y * delta_time * 2; */
-
-    /* transform.pos_x += distance_moved_x; */
-    /* transform.pos_y += distance_moved_y; */
 }
 
 void World::execute(float dt)
