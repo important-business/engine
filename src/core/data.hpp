@@ -24,6 +24,7 @@ public:
 
 private:
     void factory_component_ai(const Json::Value data, anax::Entity entity);
+    systems::AiNode* factory_ai_node(const Json::Value data);
     void factory_component_player(const Json::Value data, anax::Entity entity);
     void factory_component_camera(const Json::Value data, anax::Entity entity);
     void factory_component_collision(

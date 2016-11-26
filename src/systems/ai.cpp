@@ -186,24 +186,23 @@ AiResult AiNodeMoveTo::_execute(anax::Entity entity)
         entity.getComponent<components::TransformComponent>();
     auto& velocity_component =
         entity.getComponent<components::VelocityComponent>();
-    const float move_acel = 150;
-    const float top_speed = 500;
+    auto& ai_component = entity.getComponent<components::AiComponent>();
     double delta_x = m_pos_x - transform_component.pos_x;
     double delta_y = m_pos_y - transform_component.pos_y;
     auto result = AI_RESULT_SUCCESS;
     if (delta_x > 0 + m_tolerance)
     {
-        if (velocity_component.velocity.x < top_speed)
+        if (velocity_component.velocity.x < ai_component.top_speed)
         {
-            velocity_component.force.x += move_acel;
+            velocity_component.force.x += ai_component.move_accel;
         }
         result = AI_RESULT_READY;
     }
     else if (delta_x < 0 - m_tolerance)
     {
-        if (velocity_component.velocity.x > -top_speed)
+        if (velocity_component.velocity.x > -ai_component.top_speed)
         {
-            velocity_component.force.x -= move_acel;
+            velocity_component.force.x -= ai_component.move_accel;
         }
         result = AI_RESULT_READY;
     }
@@ -213,17 +212,17 @@ AiResult AiNodeMoveTo::_execute(anax::Entity entity)
     }
     if (delta_y > 0 + m_tolerance)
     {
-        if (velocity_component.velocity.y < top_speed)
+        if (velocity_component.velocity.y < ai_component.top_speed)
         {
-            velocity_component.force.y += move_acel;
+            velocity_component.force.y += ai_component.move_accel;
         }
         result = AI_RESULT_READY;
     }
     else if (delta_y < 0 - m_tolerance)
     {
-        if (velocity_component.velocity.y > -top_speed)
+        if (velocity_component.velocity.y > -ai_component.top_speed)
         {
-            velocity_component.force.y -= move_acel;
+            velocity_component.force.y -= ai_component.move_accel;
         }
         result = AI_RESULT_READY;
     }

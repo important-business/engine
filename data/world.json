@@ -66,7 +66,63 @@
         {
             "ai" : 
             {
-                "root_node" : "asdf"
+                "move_accel" : 150,
+                "root_node" : 
+                {
+                    "children" : 
+                    [
+                        {
+                            "pos_x" : 0,
+                            "pos_y" : 0,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 800,
+                            "pos_y" : 800,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 1600,
+                            "pos_y" : 0,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 800,
+                            "pos_y" : 800,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 1600,
+                            "pos_y" : 1600,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 800,
+                            "pos_y" : 800,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 0,
+                            "pos_y" : 1600,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 800,
+                            "pos_y" : 800,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        }
+                    ],
+                    "type" : "loop"
+                },
+                "top_speed" : 500
             },
             "transform" : 
             {
@@ -80,6 +136,42 @@
     {
         "components" : 
         {
+            "ai" : 
+            {
+                "move_accel" : 150,
+                "root_node" : 
+                {
+                    "children" : 
+                    [
+                        {
+                            "pos_x" : 0,
+                            "pos_y" : 0,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 1600,
+                            "pos_y" : 0,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 1600,
+                            "pos_y" : 1600,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        },
+                        {
+                            "pos_x" : 0,
+                            "pos_y" : 1600,
+                            "tolerance" : 6,
+                            "type" : "moveto"
+                        }
+                    ],
+                    "type" : "loop"
+                },
+                "top_speed" : 1000
+            },
             "transform" : 
             {
                 "pos_x" : 100,

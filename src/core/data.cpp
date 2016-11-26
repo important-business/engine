@@ -99,18 +99,94 @@ static std::vector<int32_t> string_decode(const std::string& in)
 void DataReader::factory_component_ai(
     const Json::Value data, anax::Entity entity)
 {
+    const std::string prop_move_accel{"move_accel"};
+    const std::string prop_top_speed{"top_speed"};
     const std::string prop_root_node{"root_node"};
 
+    check_required_component_property(
+        data, component_name_player, prop_move_accel);
+    float move_accel = data[prop_move_accel].asFloat();
+    check_required_component_property(
+        data, component_name_player, prop_top_speed);
+    float top_speed = data[prop_top_speed].asFloat();
     check_required_component_property(data, component_name_ai, prop_root_node);
     // TODO(Keegan, use real root node data)
-    auto p_root_node = new systems::AiNodeLoop();
-    p_root_node->add_child(new systems::AiNodeMoveTo(0, 0, 6));
-    p_root_node->add_child(new systems::AiNodeMoveTo(1600, 0, 6));
-    p_root_node->add_child(new systems::AiNodeMoveTo(1600, 1600, 6));
-    p_root_node->add_child(new systems::AiNodeMoveTo(0, 1600, 6));
-    entity.addComponent<components::AiComponent>(p_root_node);
+    auto p_root_node = factory_ai_node(data[prop_root_node]);
+    entity.addComponent<components::AiComponent>(
+        p_root_node, move_accel, top_speed);
 }
 
+systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
+{
+    const std::string prop_type{"type"};
+    const std::string prop_type_node{"node"};
+    const std::string prop_type_sequence{"sequence"};
+    const std::string prop_type_loop{"loop"};
+    const std::string prop_type_selector{"selector"};
+    const std::string prop_type_invert{"invert"};
+    const std::string prop_type_moveto{"moveto"};
+    const std::string prop_children{"children"};
+    const std::string prop_decoratee{"decoratee"};
+    const std::string prop_pos_x{"pos_x"};
+    const std::string prop_pos_y{"pos_y"};
+    const std::string prop_tolerance{"tolerance"};
+
+    const std::string type = data["type"].asString();
+
+    m_sp_logger->info("Found node {}", type);
+    if (type.compare(prop_type_node) == 0)
+    {
+        return new systems::AiNode();
+    }
+    else if (type.compare(prop_type_sequence) == 0)
+    {
+        auto p_node = new systems::AiNodeSequence();
+        for (auto child : data[prop_children])
+        {
+            m_sp_logger->info("Building child node");
+            auto p_child_node = factory_ai_node(child);
+            p_node->add_child(p_child_node);
+        }
+        return p_node;
+    }
+    else if (type.compare(prop_type_selector) == 0)
+    {
+        auto p_node = new systems::AiNodeSelector();
+        for (auto child : data[prop_children])
+        {
+            m_sp_logger->info("Building child node");
+            auto p_child_node = factory_ai_node(child);
+            p_node->add_child(p_child_node);
+        }
+        return p_node;
+    }
+    else if (type.compare(prop_type_loop) == 0)
+    {
+        auto p_node = new systems::AiNodeLoop();
+        for (auto child : data[prop_children])
+        {
+            m_sp_logger->info("Building child node");
+            auto p_child_node = factory_ai_node(child);
+            p_node->add_child(p_child_node);
+        }
+        return p_node;
+    }
+    else if (type.compare(prop_type_invert) == 0)
+    {
+        auto p_decoratee = factory_ai_node(data[prop_decoratee]);
+        auto p_node = new systems::AiNodeDecoratorInvert(p_decoratee);
+        return p_node;
+    }
+    else if (type.compare(prop_type_moveto) == 0)
+    {
+        auto pos_x = data[prop_pos_x].asDouble();
+        auto pos_y = data[prop_pos_y].asDouble();
+        auto tolerance = data[prop_tolerance].asDouble();
+        auto p_node = new systems::AiNodeMoveTo(pos_x, pos_y, tolerance);
+        return p_node;
+    }
+    return nullptr;
+}
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
