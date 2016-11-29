@@ -56,6 +56,8 @@ public:
     sdl_wrap::Texture* get_texture();
     void set_texture(std::shared_ptr<sdl_wrap::Texture> sp_texture);
 
+    uint16_t get_tilecount() const;
+
 private:
     std::shared_ptr<sdl_wrap::Texture> m_sp_texture;
     std::string m_name;

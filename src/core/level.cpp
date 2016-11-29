@@ -93,6 +93,10 @@ LevelTileSet* Level::get_tileset() const
     return (m_up_tileset.get());
 }
 
+uint16_t LevelTileSet::get_tilecount(void) const
+{
+    return m_tilecount;
+}
 void Level::print() const
 {
     for (uint16_t layer = 0; layer < m_layers; layer++)
