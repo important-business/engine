@@ -103,11 +103,9 @@ void DataReader::factory_component_ai(
     const std::string prop_top_speed{"top_speed"};
     const std::string prop_root_node{"root_node"};
 
-    check_required_component_property(
-        data, component_name_player, prop_move_accel);
+    check_required_component_property(data, component_name_ai, prop_move_accel);
     float move_accel = data[prop_move_accel].asFloat();
-    check_required_component_property(
-        data, component_name_player, prop_top_speed);
+    check_required_component_property(data, component_name_ai, prop_top_speed);
     float top_speed = data[prop_top_speed].asFloat();
     check_required_component_property(data, component_name_ai, prop_root_node);
     // TODO(Keegan, use real root node data)
@@ -125,10 +123,14 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
     const std::string prop_type_selector{"selector"};
     const std::string prop_type_invert{"invert"};
     const std::string prop_type_moveto{"moveto"};
+    const std::string prop_type_follow{"follow"};
     const std::string prop_children{"children"};
     const std::string prop_decoratee{"decoratee"};
     const std::string prop_pos_x{"pos_x"};
     const std::string prop_pos_y{"pos_y"};
+    const std::string prop_target{"target"};
+    const std::string prop_follow_x{"follow_x"};
+    const std::string prop_follow_y{"follow_y"};
     const std::string prop_tolerance{"tolerance"};
 
     const std::string type = data["type"].asString();
@@ -183,6 +185,21 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
         auto pos_y = data[prop_pos_y].asDouble();
         auto tolerance = data[prop_tolerance].asDouble();
         auto p_node = new systems::AiNodeMoveTo(pos_x, pos_y, tolerance);
+        return p_node;
+    }
+    else if (type.compare(prop_type_follow) == 0)
+    {
+        auto follow_x = data[prop_follow_x].asBool();
+        auto follow_y = data[prop_follow_y].asBool();
+        auto tolerance = data[prop_tolerance].asDouble();
+        check_required_component_property(
+            data, component_name_camera, prop_target);
+        std::string target = data[prop_target].asString();
+
+        auto ent_target = m_map_entities[target];
+
+        auto p_node = new systems::AiNodeFollow(
+            ent_target, tolerance, follow_x, follow_y);
         return p_node;
     }
     return nullptr;

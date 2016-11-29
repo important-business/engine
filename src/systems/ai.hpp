@@ -104,5 +104,19 @@ private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 
+class AiNodeFollow : public AiNode
+{
+public:
+    AiNodeFollow(
+        anax::Entity target, double tolerance, bool follow_x, bool follow_y);
+
+private:
+    virtual AiResult _execute(anax::Entity entity);
+
+    anax::Entity m_target;
+    double m_tolerance;
+    bool m_follow_x, m_follow_y;
+};
+
 } // namespace components
 #endif /* SYSTEMS_AI_HPP */

@@ -58,7 +58,6 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
             p_firstnode->failure(entity);
             break;
         case AI_RESULT_SUCCESS:
-            std::cout << "next in sequence!" << std::endl;
             p_firstnode->success(entity);
             m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.size() == 0)
@@ -91,9 +90,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
             p_firstnode->failure(entity);
             break;
         case AI_RESULT_SUCCESS:
-            std::cout << "next in sequence!" << std::endl;
             p_firstnode->success(entity);
-            /* m_v_up_children.erase(m_v_up_children.begin()); */
             std::rotate(m_v_up_children.begin(),
                 m_v_up_children.begin() + 1,
                 m_v_up_children.end());
@@ -233,6 +230,77 @@ AiResult AiNodeMoveTo::_execute(anax::Entity entity)
     return result;
 }
 
+AiNodeFollow::AiNodeFollow(
+    anax::Entity target, double tolerance, bool follow_x, bool follow_y)
+    : m_target(target),
+      m_tolerance(tolerance),
+      m_follow_x(follow_x),
+      m_follow_y(follow_y)
+{
+}
+
+AiResult AiNodeFollow::_execute(anax::Entity entity)
+{
+    auto& transform_component =
+        entity.getComponent<components::TransformComponent>();
+    auto& velocity_component =
+        entity.getComponent<components::VelocityComponent>();
+    auto& target_transform_component =
+        m_target.getComponent<components::TransformComponent>();
+    auto& ai_component = entity.getComponent<components::AiComponent>();
+    double delta_x =
+        target_transform_component.pos_x - transform_component.pos_x;
+    double delta_y =
+        target_transform_component.pos_y - transform_component.pos_y;
+    auto result = AI_RESULT_SUCCESS;
+    if (m_follow_x)
+    {
+        if (delta_x > 0 + m_tolerance)
+        {
+            if (velocity_component.velocity.x < ai_component.top_speed)
+            {
+                velocity_component.force.x += ai_component.move_accel;
+            }
+            result = AI_RESULT_READY;
+        }
+        else if (delta_x < 0 - m_tolerance)
+        {
+            if (velocity_component.velocity.x > -ai_component.top_speed)
+            {
+                velocity_component.force.x -= ai_component.move_accel;
+            }
+            result = AI_RESULT_READY;
+        }
+        else
+        {
+            velocity_component.force.x = -velocity_component.velocity.x;
+        }
+    }
+    if (m_follow_y)
+    {
+        if (delta_y > 0 + m_tolerance)
+        {
+            if (velocity_component.velocity.y < ai_component.top_speed)
+            {
+                velocity_component.force.y += ai_component.move_accel;
+            }
+            result = AI_RESULT_READY;
+        }
+        else if (delta_y < 0 - m_tolerance)
+        {
+            if (velocity_component.velocity.y > -ai_component.top_speed)
+            {
+                velocity_component.force.y -= ai_component.move_accel;
+            }
+            result = AI_RESULT_READY;
+        }
+        else
+        {
+            velocity_component.force.y = -velocity_component.velocity.y;
+        }
+    }
+    return result;
+}
 AiSystem::AiSystem()
 {
     m_sp_logger = core::logging_get_logger("ai");
