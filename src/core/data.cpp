@@ -223,16 +223,10 @@ void DataReader::factory_component_camera(
     const Json::Value data, anax::Entity entity)
 {
     const std::string prop_zoom{"zoom"};
-    const std::string prop_target{"target"};
 
     float zoom = data.get(prop_zoom, 1.0f).asFloat();
 
-    check_required_component_property(data, component_name_camera, prop_target);
-    std::string target = data[prop_target].asString();
-
-    auto player = m_map_entities[target];
-
-    entity.addComponent<components::CameraComponent>(player, zoom);
+    entity.addComponent<components::CameraComponent>(zoom);
 }
 
 void DataReader::factory_component_collision(

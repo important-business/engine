@@ -72,8 +72,8 @@
             },
             "velocity" : 
             {
-                "friction" : 0,
-                "mass" : 0,
+                "friction" : 5,
+                "mass" : 1,
                 "vel_x" : 0,
                 "vel_y" : 0
             }

@@ -54,8 +54,7 @@ const std::string LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {"wall",
 
 const float LEVEL_DEFAULT_SCALE = 100.0;
 
-anax::Entity camera_factory(
-    anax::World& world, anax::Entity target, float pos_x, float pos_y)
+anax::Entity camera_factory(anax::World& world, float pos_x, float pos_y)
 {
     auto entity = world.createEntity();
 
@@ -63,7 +62,7 @@ anax::Entity camera_factory(
         pos_x, pos_y, 0.0f, 0.0f, 0.0f, false, true);
     (void)entity.addComponent<components::VelocityComponent>(
         1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-    (void)entity.addComponent<components::CameraComponent>(target, 1.0f);
+    (void)entity.addComponent<components::CameraComponent>(1.0f);
 
     entity.activate();
     return entity;
@@ -162,7 +161,6 @@ void World::execute_fixed(float dt)
     m_up_anax_world->refresh();
     m_up_player_input_system->update();
     m_up_ai_system->update();
-    m_up_camera_system->update();
     m_up_collision_system->update(dt);
     m_up_movement_system->update(dt);
     m_up_render_system->render(m_up_level.get());

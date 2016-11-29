@@ -25,8 +25,6 @@ struct Camera : anax::System<anax::Requires<components::CameraComponent,
 
     ~Camera() = default;
 
-    void update();
-
 private:
 };
 struct Render : anax::System<anax::Requires<components::TextureComponent,

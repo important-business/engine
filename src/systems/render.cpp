@@ -4,26 +4,6 @@
 namespace systems
 {
 
-void Camera::update()
-{
-    auto entities = getEntities();
-    for (auto& camera_entity : entities)
-    {
-        auto& camera_transform_component =
-            camera_entity.getComponent<components::TransformComponent>();
-        auto& camera_camera_component =
-            camera_entity.getComponent<components::CameraComponent>();
-        // TODO(Keegan) Error if components aren't found
-        auto& target_transform_component =
-            camera_camera_component.target
-                .getComponent<components::TransformComponent>();
-        camera_transform_component.pos_x = target_transform_component.pos_x +
-            target_transform_component.size_x / 2;
-        camera_transform_component.pos_y = target_transform_component.pos_y +
-            target_transform_component.size_y / 2;
-    }
-}
-
 Render::Render(sdl_wrap::Window* p_window,
     Uint32 render_flags,
     Camera& camerasystem,
@@ -79,8 +59,10 @@ void Render::render_entities(
         auto& transform_component =
             entity.getComponent<components::TransformComponent>();
         SDL_Rect dest_rect = {
-            static_cast<int>(transform_component.pos_x - camera_offset_x),
-            static_cast<int>(transform_component.pos_y - camera_offset_y),
+            static_cast<int>(transform_component.pos_x - camera_offset_x -
+                transform_component.size_x / 2.0f),
+            static_cast<int>(transform_component.pos_y - camera_offset_y -
+                transform_component.size_y / 2.0f),
             static_cast<int>(transform_component.size_x),
             static_cast<int>(transform_component.size_y),
         };

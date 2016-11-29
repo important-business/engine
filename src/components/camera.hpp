@@ -9,11 +9,9 @@ namespace components
 
 struct CameraComponent : anax::Component
 {
-    CameraComponent(anax::Entity target, float zoom)
-        : target(target), zoom(zoom)
+    CameraComponent(float zoom) : zoom(zoom)
     {
     }
-    anax::Entity target;
     float zoom;
 };
 }
