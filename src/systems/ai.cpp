@@ -56,18 +56,21 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
         {
         case AI_RESULT_FAIL:
             p_firstnode->failure(entity);
+            result = AI_RESULT_FAIL;
             break;
         case AI_RESULT_SUCCESS:
             p_firstnode->success(entity);
             m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.size() == 0)
             {
-                result = status;
+                result = AI_RESULT_SUCCESS;
+            }else{
+                result = AI_RESULT_READY;
             }
             break;
         case AI_RESULT_READY:
         default:
-            result = status;
+            result = AI_RESULT_READY;
         }
     }
     return result;
@@ -88,6 +91,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
         {
         case AI_RESULT_FAIL:
             p_firstnode->failure(entity);
+            result = AI_RESULT_FAIL;
             break;
         case AI_RESULT_SUCCESS:
             p_firstnode->success(entity);
@@ -96,12 +100,14 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
                 m_v_up_children.end());
             if (m_v_up_children.size() == 0)
             {
-                result = status;
+                result = AI_RESULT_SUCCESS;
+            }else{
+                result = AI_RESULT_READY;
             }
             break;
         case AI_RESULT_READY:
         default:
-            result = status;
+            result = AI_RESULT_READY;
         }
     }
     return result;
@@ -125,16 +131,18 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
             m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.size() == 0)
             {
-                result = status;
+                result = AI_RESULT_FAIL;
+            }else{
+                result = AI_RESULT_READY;
             }
             break;
         case AI_RESULT_SUCCESS:
             p_firstnode->success(entity);
-            result = status;
+            result = AI_RESULT_SUCCESS;
             break;
         case AI_RESULT_READY:
         default:
-            result = status;
+            result = AI_RESULT_READY;
         }
     }
     return result;
