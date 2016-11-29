@@ -4,6 +4,8 @@ include(FetchSpdlog)
 FetchSpdlog()
 include(FetchJsonCpp)
 FetchJsonCpp(GITVERSION "1.7.7")
+include(FetchWinkSignals)
+FetchWinkSignals(GITVERSION "4165ddb83ca0f33d707e3b7aa6e59349ab08b591")
 include(ClangTidy)
 
 # Allow all children to headers relative to the src directory
@@ -40,6 +42,10 @@ target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
 # Use jsoncpp include directories
 target_link_libraries(engine jsoncpp)
 target_include_directories(engine PUBLIC ${JSONCPP_INCLUDE_DIR})
+
+# Use wink signals include directories (no library file)
+target_include_directories(engine SYSTEM PUBLIC ${WINKSIGNALS_INCLUDE_DIR})
+add_dependencies(engine winksignals)
 
 # Use spdlog include directories (no library file)
 target_include_directories(engine PUBLIC ${SPDLOG_INCLUDE_DIR})
