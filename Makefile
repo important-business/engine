@@ -2,7 +2,7 @@ BUILD_DIR:=build
 
 .PHONY: all clean build ${BUILD_DIR}/Makefile derp
 
-all: format project test
+all: project
 
 clean:
 	@([ -d ${BUILD_DIR} ] && make --directory=${BUILD_DIR} clean && rm -rf ${BUILD_DIR}/*) || echo Nothing to clean
