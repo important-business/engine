@@ -6,6 +6,8 @@
 #include "core/logging.hpp"
 
 #include <anax/System.hpp>
+#include <wink/signal.hpp>
+#include <wink/slot.hpp>
 
 namespace systems
 {
@@ -18,6 +20,7 @@ public:
     PlayerInput();
     void update();
 
+    wink::signal<wink::slot<void (anax::Entity, float, float)>> m_movement_signal;
 private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };

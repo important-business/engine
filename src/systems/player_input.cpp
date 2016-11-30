@@ -15,38 +15,31 @@ void PlayerInput::update()
     auto entities = getEntities();
     for (auto e : entities)
     {
+        float vel_x = 0.0f, vel_y = 0.0f;
         auto& player = e.getComponent<components::PlayerComponent>();
-        auto& velocity = e.getComponent<components::VelocityComponent>();
 
         const auto& key_states = SDL_GetKeyboardState(nullptr);
         if (static_cast<bool>(key_states[player.controls.left]))
         {
-            if (velocity.velocity.x > -player.top_speed)
-            {
-                velocity.force.x += -player.move_accel;
-            }
+            vel_x = -1.0f;
         }
         else if (static_cast<bool>(key_states[player.controls.right]))
         {
-            if (velocity.velocity.x < player.top_speed)
-            {
-                velocity.force.x += player.move_accel;
-            }
+            vel_x = 1.0f;
         }
 
         if (static_cast<bool>(key_states[player.controls.up]))
         {
-            if (velocity.velocity.y > -player.top_speed)
-            {
-                velocity.force.y += -player.move_accel;
-            }
+            vel_y = -1.0f;
         }
         else if (static_cast<bool>(key_states[player.controls.down]))
         {
-            if (velocity.velocity.y < player.top_speed)
-            {
-                velocity.force.y += player.move_accel;
-            }
+            vel_y = 1.0f;
+        }
+
+        if (vel_x != 0.0f || vel_y != 0.0f)
+        {
+            m_movement_signal.emit(e, vel_x, vel_y);
         }
     }
 }

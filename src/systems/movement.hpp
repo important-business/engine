@@ -6,6 +6,7 @@
 #include "core/logging.hpp"
 
 #include <anax/System.hpp>
+#include <iostream>
 
 namespace systems
 {
@@ -16,6 +17,20 @@ struct Movement : anax::System<anax::Requires<components::TransformComponent,
 {
 public:
     Movement();
+    void move_actor(anax::Entity entity, float vel_x, float vel_y)
+    {
+        const float top_speed = 500.0f;
+        const float accel = 150.0f;
+        auto& velocity = entity.getComponent<components::VelocityComponent>();
+        if (std::abs(velocity.velocity.x) < top_speed)
+        {
+            velocity.force.x += accel * vel_x;
+        }
+        if (std::abs(velocity.velocity.y) < top_speed)
+        {
+            velocity.force.y += accel * vel_y;
+        }
+    }
     void update(double delta_time);
 
 private:

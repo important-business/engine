@@ -148,6 +148,8 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
     m_up_anax_world->addSystem(*m_up_collision_system);
+    m_up_player_input_system->m_movement_signal.connect(
+        m_up_movement_system.get(), &systems::Movement::move_actor);
 }
 
 void World::execute(float dt)
