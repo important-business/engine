@@ -2,7 +2,6 @@
 #include "configuration.hpp"
 
 #include <fstream>
-#include <iostream>
 #include <json/json.h>
 
 namespace core

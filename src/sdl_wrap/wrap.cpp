@@ -1,5 +1,6 @@
 #include "sdl_wrap/wrap.hpp"
 
+#include <iostream>
 #include <sstream>
 
 namespace sdl_wrap

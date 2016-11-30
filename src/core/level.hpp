@@ -80,7 +80,7 @@ public:
 
     int32_t get(uint16_t x, uint16_t y) const;
 
-    float get_scale(void) const;
+    float get_scale() const;
 
     void get_size(uint16_t& x, uint16_t& y, uint16_t& layers) const;
 

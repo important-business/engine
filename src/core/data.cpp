@@ -1,5 +1,4 @@
 #include "components/ai.hpp"
-#include "systems/ai.hpp"
 #include "components/camera.hpp"
 #include "components/collision.hpp"
 #include "components/player.hpp"
@@ -8,10 +7,10 @@
 #include "components/velocity.hpp"
 #include "data.hpp"
 #include "exception.hpp"
+#include "systems/ai.hpp"
 
 #include <cassert>
 #include <fstream>
-#include <iostream>
 #include <map>
 
 namespace core
@@ -53,14 +52,18 @@ static std::string base64_decode(const std::string& in)
 
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++)
+    {
         T["ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
                 [i]] = i;
+    }
 
     int val = 0, valb = -8;
     for (unsigned char c : in)
     {
         if (T[c] == -1)
+        {
             break;
+        }
         val = (val << 6) + T[c];
         valb += 6;
         if (valb >= 0)
@@ -75,7 +78,7 @@ static std::string base64_decode(const std::string& in)
 static std::vector<int32_t> string_decode(const std::string& in)
 {
     std::vector<int32_t> result;
-    if (in.size() % 4)
+    if (in.size() % 4 != 0u)
     {
         // TODO(Keegan, Handle error better)
         assert(false);
@@ -136,9 +139,10 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
     const std::string type = data["type"].asString();
 
     m_sp_logger->info("Found node {}", type);
+    systems::AiNode* p_to_return = nullptr;
     if (type.compare(prop_type_node) == 0)
     {
-        return new systems::AiNode();
+        p_to_return = new systems::AiNode();
     }
     else if (type.compare(prop_type_sequence) == 0)
     {
@@ -149,7 +153,7 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
             auto p_child_node = factory_ai_node(child);
             p_node->add_child(p_child_node);
         }
-        return p_node;
+        p_to_return = p_node;
     }
     else if (type.compare(prop_type_selector) == 0)
     {
@@ -160,7 +164,7 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
             auto p_child_node = factory_ai_node(child);
             p_node->add_child(p_child_node);
         }
-        return p_node;
+        p_to_return = p_node;
     }
     else if (type.compare(prop_type_loop) == 0)
     {
@@ -171,13 +175,13 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
             auto p_child_node = factory_ai_node(child);
             p_node->add_child(p_child_node);
         }
-        return p_node;
+        p_to_return = p_node;
     }
     else if (type.compare(prop_type_invert) == 0)
     {
         auto p_decoratee = factory_ai_node(data[prop_decoratee]);
         auto p_node = new systems::AiNodeDecoratorInvert(p_decoratee);
-        return p_node;
+        p_to_return = p_node;
     }
     else if (type.compare(prop_type_moveto) == 0)
     {
@@ -185,7 +189,7 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
         auto pos_y = data[prop_pos_y].asDouble();
         auto tolerance = data[prop_tolerance].asDouble();
         auto p_node = new systems::AiNodeMoveTo(pos_x, pos_y, tolerance);
-        return p_node;
+        p_to_return = p_node;
     }
     else if (type.compare(prop_type_follow) == 0)
     {
@@ -200,9 +204,9 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
 
         auto p_node = new systems::AiNodeFollow(
             ent_target, tolerance, follow_x, follow_y);
-        return p_node;
+        p_to_return = p_node;
     }
-    return nullptr;
+    return p_to_return;
 }
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
@@ -470,10 +474,10 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
     auto tilesets = m_json_data["tilesets"];
     std::string cur_path = pathname(m_str_description);
     std::string tileset_source;
-    for (auto it = tilesets.begin(); it != tilesets.end(); ++it)
+    for (auto& tileset : tilesets)
     {
-        int firstgid = (*it)["firstgid"].asInt();
-        tileset_source = cur_path + (*it)["source"].asString();
+        int firstgid = tileset["firstgid"].asInt();
+        tileset_source = cur_path + tileset["source"].asString();
         m_sp_logger->info(
             "Found a tileset gid {} source {}", firstgid, tileset_source);
     }
@@ -482,7 +486,7 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
     p_level->set_tileset(p_tileset);
 
     auto layers = m_json_data["layers"];
-    for (int16_t layerindex = 0; layerindex < layers.size(); ++layerindex)
+    for (unsigned int layerindex = 0; layerindex < layers.size(); ++layerindex)
     {
         auto& val = layers[layerindex];
         int height = val["height"].asInt();

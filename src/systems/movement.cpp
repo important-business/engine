@@ -1,6 +1,5 @@
 #include "systems/movement.hpp"
 
-#include <iostream>
 #include <cmath>
 
 namespace systems

@@ -1,5 +1,4 @@
 #include "configuration.hpp"
-#include <iostream>
 #include <fstream>
 
 namespace core
@@ -19,7 +18,7 @@ Configuration::Configuration(std::string filename) : m_str_filename(filename)
 
 int Configuration::get_window_height()
 {
-    return m_json_config["window"].get("size_y", WINDOW_WIDTH_DEFAULT).asInt();
+    return m_json_config["window"].get("size_y", WINDOW_HEIGHT_DEFAULT).asInt();
 }
 
 int Configuration::get_window_width()

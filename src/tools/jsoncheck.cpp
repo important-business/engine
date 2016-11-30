@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <iostream>
+#include <iomanip>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <string>
@@ -19,6 +20,7 @@ int main(int argc, char* argv[])
 
         char c;
         while ((c = getopt(argc, argv, "huf:")) != -1)
+        {
             switch (c)
             {
             case 'h':
@@ -33,17 +35,25 @@ int main(int argc, char* argv[])
                 break;
             case '?':
                 if (optopt == 'f')
-                    fprintf(
-                        stderr, "Option -%c requires an argument.\n", optopt);
-                else if (isprint(optopt))
-                    fprintf(stderr, "Unknown option `-%c'.\n", optopt);
+                {
+                    std::cerr << "Option -" << optopt
+                              << " requires an argument." << std::endl;
+                }
+                else if (isprint(optopt) != 0)
+                {
+                    std::cerr << "Unknown option -" << optopt << "."
+                              << std::endl;
+                }
                 else
-                    fprintf(
-                        stderr, "Unknown option character `\\x%x'.\n", optopt);
+                {
+                    std::cerr << "Unknown option character \\x" << std::hex
+                              << optopt << "." << std::endl;
+                }
                 return 1;
             default:
                 abort();
             }
+        }
 
         for (auto file : files)
         {

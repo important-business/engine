@@ -1,58 +1,18 @@
 #include "world.hpp"
 #include "data.hpp"
 
+#include "components/ai.hpp"
 #include "components/camera.hpp"
+#include "components/collision.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "components/collision.hpp"
-#include "components/ai.hpp"
 
 #include <anax/anax.hpp>
-#include <iostream>
 
 namespace core
 {
-/* const uint16_t LEVEL_SIZE_X = 5; */
-/* const uint16_t LEVEL_SIZE_Y = 5; */
-#define LEVEL_SIZE_X 5
-#define LEVEL_SIZE_Y 5
-
-const LevelTile LEVEL_TILE_WALL = {true, 0, 255, 0};
-const LevelTile LEVEL_TILE_FLOOR = {false, 0, 0, 0};
-
-// TODO(keegan): Try initialize the level tile thing here
-std::map<std::string, const LevelTile*> LEVEL_TILES{
-    {"wall", &LEVEL_TILE_WALL}, {"floor", &LEVEL_TILE_FLOOR}};
-
-const std::string LEVEL_DATA[LEVEL_SIZE_X * LEVEL_SIZE_Y] = {"wall",
-    "wall",
-    "wall",
-    "wall",
-    "wall",
-    "wall",
-    "floor",
-    "wall",
-    "floor",
-    "floor",
-    "wall",
-    "floor",
-    "wall",
-    "floor",
-    "floor",
-    "wall",
-    "floor",
-    "floor",
-    "floor",
-    "floor",
-    "wall",
-    "wall",
-    "wall",
-    "wall",
-    "wall"};
-
-const float LEVEL_DEFAULT_SCALE = 100.0;
 
 anax::Entity camera_factory(anax::World& world, float pos_x, float pos_y)
 {
@@ -82,8 +42,11 @@ anax::Entity goose_factory(anax::World& world,
     (void)entity.addComponent<components::VelocityComponent>(
         1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
-    (void)entity.addComponent<components::Collision>(
-        0, 0, (int)transform.size_x, (int)transform.size_y, true);
+    (void)entity.addComponent<components::Collision>(0,
+        0,
+        static_cast<int>(transform.size_x),
+        static_cast<int>(transform.size_y),
+        true);
 
     entity.activate();
 
@@ -105,8 +68,11 @@ anax::Entity player_factory(anax::World& world,
     (void)entity.addComponent<components::VelocityComponent>(
         1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
-    (void)entity.addComponent<components::Collision>(
-        0, 0, (int)transform.size_x, (int)transform.size_y, true);
+    (void)entity.addComponent<components::Collision>(0,
+        0,
+        static_cast<int>(transform.size_x),
+        static_cast<int>(transform.size_y),
+        true);
 
     entity.activate();
     return entity;

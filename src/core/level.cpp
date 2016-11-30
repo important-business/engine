@@ -93,7 +93,7 @@ LevelTileSet* Level::get_tileset() const
     return (m_up_tileset.get());
 }
 
-uint16_t LevelTileSet::get_tilecount(void) const
+uint16_t LevelTileSet::get_tilecount() const
 {
     return m_tilecount;
 }

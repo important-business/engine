@@ -1,7 +1,5 @@
 #include "resource_manager.hpp"
 
-#include <iostream>
-
 namespace core
 {
 

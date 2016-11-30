@@ -6,7 +6,6 @@
 #include "core/logging.hpp"
 
 #include <anax/System.hpp>
-#include <iostream>
 
 namespace systems
 {

@@ -44,7 +44,7 @@ void AiNodeComposite::add_child(AiNode* p_ai_node)
 AiResult AiNodeSequence::_execute(anax::Entity entity)
 {
     AiResult result;
-    if (m_v_up_children.size() == 0)
+    if (m_v_up_children.empty())
     {
         result = AI_RESULT_SUCCESS;
     }
@@ -61,7 +61,7 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
         case AI_RESULT_SUCCESS:
             p_firstnode->success(entity);
             m_v_up_children.erase(m_v_up_children.begin());
-            if (m_v_up_children.size() == 0)
+            if (m_v_up_children.empty())
             {
                 result = AI_RESULT_SUCCESS;
             }
@@ -81,7 +81,7 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
 AiResult AiNodeLoop::_execute(anax::Entity entity)
 {
     AiResult result;
-    if (m_v_up_children.size() == 0)
+    if (m_v_up_children.empty())
     {
         result = AI_RESULT_SUCCESS;
     }
@@ -100,7 +100,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
             std::rotate(m_v_up_children.begin(),
                 m_v_up_children.begin() + 1,
                 m_v_up_children.end());
-            if (m_v_up_children.size() == 0)
+            if (m_v_up_children.empty())
             {
                 result = AI_RESULT_SUCCESS;
             }
@@ -120,7 +120,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
 AiResult AiNodeSelector::_execute(anax::Entity entity)
 {
     AiResult result;
-    if (m_v_up_children.size() == 0)
+    if (m_v_up_children.empty())
     {
         result = AI_RESULT_FAIL;
     }
@@ -133,7 +133,7 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
         case AI_RESULT_FAIL:
             p_firstnode->failure(entity);
             m_v_up_children.erase(m_v_up_children.begin());
-            if (m_v_up_children.size() == 0)
+            if (m_v_up_children.empty())
             {
                 result = AI_RESULT_FAIL;
             }
@@ -350,4 +350,4 @@ void AiSystem::update()
     }
 }
 
-} // namespace components
+} // namespace systems

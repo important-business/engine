@@ -2,7 +2,7 @@
 #define SDL_WRAP_HPP
 
 #include <exception>
-#include <iostream>
+#include <string>
 
 #include <SDL.h>
 #include <SDL_image.h>
