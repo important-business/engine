@@ -64,7 +64,9 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
             if (m_v_up_children.size() == 0)
             {
                 result = AI_RESULT_SUCCESS;
-            }else{
+            }
+            else
+            {
                 result = AI_RESULT_READY;
             }
             break;
@@ -101,7 +103,9 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
             if (m_v_up_children.size() == 0)
             {
                 result = AI_RESULT_SUCCESS;
-            }else{
+            }
+            else
+            {
                 result = AI_RESULT_READY;
             }
             break;
@@ -132,7 +136,9 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
             if (m_v_up_children.size() == 0)
             {
                 result = AI_RESULT_FAIL;
-            }else{
+            }
+            else
+            {
                 result = AI_RESULT_READY;
             }
             break;
