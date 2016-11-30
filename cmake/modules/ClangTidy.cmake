@@ -1,6 +1,15 @@
-add_custom_target (
-    clangtidy
-    )
+if(NOT TARGET clangtidy)
+    add_custom_target (
+        clangtidy
+        )
+endif()
+
+if (DEFINED ENV{CLANG_TIDY})
+    set(CLANG_TIDY_BIN "$ENV{CLANG_TIDY}")
+    message("Using ${CLANG_TIDY_BIN} for clangtidy")
+else()
+    set(CLANG_TIDY_BIN "clang-tidy")
+endif()
 
 function(ClangTidy)
     # Parse Arguments
@@ -8,16 +17,10 @@ function(ClangTidy)
     set(oneValueArgs DESTINATION STYLE TARGETNAME CONFIG CXX_STANDARD)
     set(multiValueArgs TARGETS FILES INCLUDEDIRS)
     cmake_parse_arguments(ClangTidy "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
     # Set defaults for unprovided arguments
     if(NOT ClangTidy_STYLE)
         set(ClangTidy_STYLE "file")
-    endif()
-
-    if (DEFINED ENV{CLANG_TIDY})
-        set(CLANG_TIDY_BIN "$ENV{CLANG_TIDY}")
-        message("Using ${CLANG_TIDY_BIN} for clangtidy")
-    else()
-        set(CLANG_TIDY_BIN "clang-tidy")
     endif()
 
     foreach(dir ${ClangTidy_INCLUDEDIRS})
@@ -29,6 +32,6 @@ function(ClangTidy)
         COMMAND ${CLANG_TIDY_BIN} ${ClangTidy_FILES} -config="${ClangTidy_CONFIG}" -- ${INCLUDE_ARGS} -std=c++${ClangTidy_CXX_STANDARD}
     )
 
-add_dependencies(clangtidy clangtidy_${ClangTidy_TARGETNAME})
+    add_dependencies(clangtidy clangtidy_${ClangTidy_TARGETNAME})
 
 endfunction(ClangTidy)
