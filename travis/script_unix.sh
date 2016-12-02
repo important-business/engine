@@ -27,6 +27,7 @@ check_result "Enter Build directory" "cd" "build"
 check_result "Generate Makefiles" "cmake" ".."
 check_result "Build engine" "make" "engine"
 
+check_result "Build tests" "make" "build_test"
 # Run unit tests with verbose output
 check_result "Execute tests" "make" "test" "ARGS='-V'"
 

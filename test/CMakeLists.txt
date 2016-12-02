@@ -6,9 +6,14 @@ set(test_modules "core")
 
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 
+add_custom_target (
+    build_test
+    ALL
+)
+
 # Define the test executables
 foreach(test_mod ${test_modules})
-    
+
     add_subdirectory(${test_mod})
 
     # Define an executable for each test module
@@ -40,6 +45,8 @@ foreach(test_mod ${test_modules})
     # Link to SDL2 and modules and use their include directories
     target_link_libraries(${test_exe_name} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
     target_include_directories(${test_exe_name} PUBLIC ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
+
+    add_dependencies(build_test ${test_exe_name})
 
     # Add the test executable to ctest
     add_test(NAME ${test_exe_name}
