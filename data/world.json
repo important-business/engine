@@ -11,17 +11,17 @@
                 "x" : 0,
                 "y" : 0
             },
+            "movement" : 
+            {
+                "accel" : 150,
+                "top_speed" : 500
+            },
             "physics" : 
             {
                 "friction" : 0,
                 "mass" : 1,
                 "vel_x" : 0,
                 "vel_y" : 0
-            },
-            "movement" : 
-            {
-                "accel" : 150,
-                "top_speed" : 500
             },
             "texture" : 
             {
@@ -58,15 +58,15 @@
                     "type" : "loop"
                 }
             },
-            "movement" : 
-            {
-                "accel" : 150,
-                "top_speed" : 500
-            },
             "camera" : 
             {
                 "target" : "player",
                 "zoom" : 1
+            },
+            "movement" : 
+            {
+                "accel" : 150,
+                "top_speed" : 500
             },
             "physics" : 
             {
@@ -240,19 +240,17 @@
     {
         "components" : 
         {
-            "physics" : 
-            {
-                "friction" : 0,
-                "mass" : 5
-            },
-            "player" : 
-            {
-            },
             "movement" : 
             {
                 "accel" : 150,
                 "top_speed" : 500
             },
+            "physics" : 
+            {
+                "friction" : 0,
+                "mass" : 5
+            },
+            "player" : {},
             "transform" : 
             {
                 "pos_x" : 100,
