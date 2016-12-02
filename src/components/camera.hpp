@@ -8,14 +8,14 @@
 namespace components
 {
 
-extern const std::string str_name_camera;
-
 struct CameraComponent : anax::Component
 {
     CameraComponent(float zoom) : zoom(zoom)
     {
     }
     float zoom;
+
+    static const std::string name;
 };
 }
 

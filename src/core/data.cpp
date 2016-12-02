@@ -1,6 +1,7 @@
 #include "components/ai.hpp"
 #include "components/camera.hpp"
 #include "components/collision.hpp"
+#include "components/id.hpp"
 #include "components/player.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
@@ -97,7 +98,7 @@ void DataReader::factory_component_ai(
     const std::string prop_root_node{"root_node"};
 
     check_required_component_property(
-        data, components::str_name_ai, prop_root_node);
+        data, components::AiComponent::name, prop_root_node);
     // TODO(Keegan, use real root node data)
     auto p_root_node = factory_ai_node(data[prop_root_node]);
     entity.addComponent<components::AiComponent>(p_root_node);
@@ -183,7 +184,7 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
         auto follow_y = data[prop_follow_y].asBool();
         auto tolerance = data[prop_tolerance].asDouble();
         check_required_component_property(
-            data, components::str_name_camera, prop_target);
+            data, components::CameraComponent::name, prop_target);
         std::string target = data[prop_target].asString();
 
         auto ent_target = m_map_entities[target];
@@ -223,11 +224,11 @@ void DataReader::factory_component_collision(
     int y = data.get(prop_y, 0).asInt();
 
     check_required_component_property(
-        data, components::str_name_collision, prop_w);
+        data, components::Collision::name, prop_w);
     check_required_component_property(
-        data, components::str_name_collision, prop_h);
+        data, components::Collision::name, prop_h);
     check_required_component_property(
-        data, components::str_name_collision, prop_causeevents);
+        data, components::Collision::name, prop_causeevents);
     int h = data[prop_h].asInt();
     int w = data[prop_w].asInt();
     bool cancauseevents = data[prop_causeevents].asBool();
@@ -241,7 +242,7 @@ void DataReader::factory_component_texture(
     const std::string prop_texture_path{"texture_path"};
 
     check_required_component_property(
-        data, components::str_name_texture, prop_texture_path);
+        data, components::TextureComponent::name, prop_texture_path);
     std::string texture_path = data[prop_texture_path].asString();
 
     entity.addComponent<components::TextureComponent>(texture_path);
@@ -259,31 +260,31 @@ void DataReader::factory_component_transform(
     const std::string prop_flip_vert{"flip_vert"};
 
     check_required_component_property(
-        data, components::str_name_transform, prop_pos_x);
+        data, components::TransformComponent::name, prop_pos_x);
     float pos_x = data[prop_pos_x].asFloat();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_pos_y);
+        data, components::TransformComponent::name, prop_pos_y);
     float pos_y = data[prop_pos_y].asFloat();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_size_x);
+        data, components::TransformComponent::name, prop_size_x);
     float size_x = data[prop_size_x].asFloat();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_size_y);
+        data, components::TransformComponent::name, prop_size_y);
     float size_y = data[prop_size_y].asFloat();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_rotation);
+        data, components::TransformComponent::name, prop_rotation);
     float rotation = data[prop_rotation].asFloat();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_flip_vert);
+        data, components::TransformComponent::name, prop_flip_vert);
     bool flip_vert = data[prop_flip_vert].asBool();
 
     check_required_component_property(
-        data, components::str_name_transform, prop_flip_horiz);
+        data, components::TransformComponent::name, prop_flip_horiz);
     bool flip_horiz = data[prop_flip_horiz].asBool();
 
     entity.addComponent<components::TransformComponent>(
@@ -297,11 +298,11 @@ void DataReader::factory_component_movement(
     const std::string prop_top_speed{"top_speed"};
 
     check_required_component_property(
-        data, components::str_name_movement, prop_accel);
+        data, components::MovementComponent::name, prop_accel);
     float accel = data[prop_accel].asFloat();
 
     check_required_component_property(
-        data, components::str_name_movement, prop_top_speed);
+        data, components::MovementComponent::name, prop_top_speed);
     float top_speed = data[prop_top_speed].asFloat();
 
     entity.addComponent<components::MovementComponent>(accel, top_speed);
@@ -326,11 +327,11 @@ void DataReader::factory_component_physics(
     float force_x = data.get(prop_force_x, prop_force_x_default).asFloat();
     float force_y = data.get(prop_force_y, prop_force_y_default).asFloat();
     check_required_component_property(
-        data, components::str_name_physics, prop_mass);
+        data, components::PhysicsComponent::name, prop_mass);
     float mass = data[prop_mass].asFloat();
 
     check_required_component_property(
-        data, components::str_name_physics, prop_friction);
+        data, components::PhysicsComponent::name, prop_friction);
     float friction = data[prop_friction].asFloat();
 
     entity.addComponent<components::PhysicsComponent>(
@@ -342,21 +343,25 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
     m_sp_logger = logging_get_logger("data");
 
     component_factories.insert(std::make_pair(
-        components::str_name_ai, &DataReader::factory_component_ai));
+        components::AiComponent::name, &DataReader::factory_component_ai));
+    component_factories.insert(std::make_pair(components::CameraComponent::name,
+        &DataReader::factory_component_camera));
     component_factories.insert(std::make_pair(
-        components::str_name_camera, &DataReader::factory_component_camera));
-    component_factories.insert(std::make_pair(components::str_name_collision,
-        &DataReader::factory_component_collision));
-    component_factories.insert(std::make_pair(
-        components::str_name_player, &DataReader::factory_component_player));
-    component_factories.insert(std::make_pair(
-        components::str_name_texture, &DataReader::factory_component_texture));
-    component_factories.insert(std::make_pair(components::str_name_transform,
-        &DataReader::factory_component_transform));
-    component_factories.insert(std::make_pair(
-        components::str_name_physics, &DataReader::factory_component_physics));
-    component_factories.insert(std::make_pair(components::str_name_movement,
-        &DataReader::factory_component_movement));
+        components::Collision::name, &DataReader::factory_component_collision));
+    component_factories.insert(std::make_pair(components::PlayerComponent::name,
+        &DataReader::factory_component_player));
+    component_factories.insert(
+        std::make_pair(components::TextureComponent::name,
+            &DataReader::factory_component_texture));
+    component_factories.insert(
+        std::make_pair(components::TransformComponent::name,
+            &DataReader::factory_component_transform));
+    component_factories.insert(
+        std::make_pair(components::PhysicsComponent::name,
+            &DataReader::factory_component_physics));
+    component_factories.insert(
+        std::make_pair(components::MovementComponent::name,
+            &DataReader::factory_component_movement));
 }
 
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
@@ -401,7 +406,7 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
     }
 
     auto components = entity_data[prop_name_components];
-
+    entity.addComponent<components::IdComponent>(entityname);
     m_sp_logger->info("Components list for entity name {} size {}",
         entityname,
         components.size());

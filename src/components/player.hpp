@@ -37,6 +37,8 @@ struct PlayerComponent : anax::Component
         }
 
     } controls;
+
+    static const std::string name;
 };
 }
 

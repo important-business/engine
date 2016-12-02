@@ -8,8 +8,6 @@
 namespace components
 {
 
-extern const std::string str_name_collision;
-
 struct Collision : anax::Component
 {
     Collision(int x, int y, int w, int h, bool can_cause_events)
@@ -22,6 +20,8 @@ struct Collision : anax::Component
     }
     SDL_Rect bounding_box;
     bool can_cause_events;
+
+    static const std::string name;
 };
 }
 

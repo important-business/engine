@@ -16,8 +16,6 @@ struct Vector
     float y;
 };
 
-extern const std::string str_name_movement;
-
 struct MovementComponent : anax::Component
 {
 public:
@@ -25,9 +23,9 @@ public:
         : accel(accel), top_speed(top_speed){}
     float accel;
     float top_speed;
-};
 
-extern const std::string str_name_physics;
+    static const std::string name;
+};
 
 struct PhysicsComponent : anax::Component
 {
@@ -64,6 +62,8 @@ public:
     float friction;
     Vector velocity;
     Vector force;
+
+    static const std::string name;
 };
 }
 

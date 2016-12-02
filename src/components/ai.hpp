@@ -15,7 +15,6 @@ class AiNode;
 namespace components
 {
 
-extern const std::string str_name_ai;
 
 struct AiComponent : anax::Component
 {
@@ -24,6 +23,8 @@ struct AiComponent : anax::Component
     std::unique_ptr<systems::AiNode> up_root_node;
     float move_accel;
     float top_speed;
+
+    static const std::string name;
 };
 
 } // namespace components

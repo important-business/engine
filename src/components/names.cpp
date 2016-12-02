@@ -10,13 +10,13 @@
 namespace components
 {
 
-const std::string str_name_ai{"ai"};
-const std::string str_name_camera{"camera"};
-const std::string str_name_collision{"collision"};
-const std::string str_name_movement{"movement"};
-const std::string str_name_player{"player"};
-const std::string str_name_texture{"texture"};
-const std::string str_name_transform{"transform"};
-const std::string str_name_physics{"physics"};
+const std::string AiComponent::name{"ai"};
+const std::string CameraComponent::name{"camera"};
+const std::string Collision::name{"collision"};
+const std::string MovementComponent::name{"movement"};
+const std::string PlayerComponent::name{"player"};
+const std::string TextureComponent::name{"texture"};
+const std::string TransformComponent::name{"transform"};
+const std::string PhysicsComponent::name{"physics"};
 
 } // namespace components

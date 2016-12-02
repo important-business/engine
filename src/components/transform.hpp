@@ -35,6 +35,8 @@ struct TransformComponent : anax::Component
     float rotation;
     bool flip_vert;
     bool flip_horiz;
+
+    static const std::string name;
 };
 }
 

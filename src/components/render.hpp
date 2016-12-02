@@ -9,8 +9,6 @@
 namespace components
 {
 
-extern const std::string str_name_texture;
-
 struct TextureComponent : anax::Component
 {
     TextureComponent(std::string texture_path) : texture_path(texture_path)
@@ -19,6 +17,9 @@ struct TextureComponent : anax::Component
 
     const std::string texture_path;
     std::shared_ptr<sdl_wrap::Texture> sp_texture;
+
+
+    static const std::string name;
 };
 }
 
