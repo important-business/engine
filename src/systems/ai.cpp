@@ -42,6 +42,11 @@ void AiNodeComposite::add_child(AiNode* p_ai_node)
     m_v_up_children.push_back(std::unique_ptr<AiNode>(p_ai_node));
 }
 
+int AiNodeComposite::get_child_count()
+{
+    return m_v_up_children.size();
+}
+
 AiResult AiNodeSequence::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     AiResult result;

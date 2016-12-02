@@ -38,6 +38,7 @@ class AiNodeComposite : public AiNode
 {
 public:
     void add_child(AiNode* p_ai_node);
+    int get_child_count();
 
 protected:
     std::vector<std::unique_ptr<AiNode>> m_v_up_children;
