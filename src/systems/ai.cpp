@@ -8,31 +8,31 @@
 namespace systems
 {
 
-AiResult AiNode::execute(anax::Entity entity)
+AiResult AiNode::execute(anax::Entity entity, AiSystem const& aisystem)
 {
-    return _execute(entity);
+    return _execute(entity, aisystem);
 }
 
-void AiNode::success(anax::Entity entity)
+void AiNode::success(anax::Entity entity, AiSystem const& aisystem)
 {
-    return _success(entity);
+    return _success(entity, aisystem);
 }
 
-void AiNode::failure(anax::Entity entity)
+void AiNode::failure(anax::Entity entity, AiSystem const& aisystem)
 {
-    return _failure(entity);
+    return _failure(entity, aisystem);
 }
 
-AiResult AiNode::_execute(anax::Entity entity)
+AiResult AiNode::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     return AI_RESULT_SUCCESS;
 }
 
-void AiNode::_success(anax::Entity entity)
+void AiNode::_success(anax::Entity entity, AiSystem const& aisystem)
 {
 }
 
-void AiNode::_failure(anax::Entity entity)
+void AiNode::_failure(anax::Entity entity, AiSystem const& aisystem)
 {
 }
 
@@ -41,7 +41,7 @@ void AiNodeComposite::add_child(AiNode* p_ai_node)
     m_v_up_children.push_back(std::unique_ptr<AiNode>(p_ai_node));
 }
 
-AiResult AiNodeSequence::_execute(anax::Entity entity)
+AiResult AiNodeSequence::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     AiResult result;
     if (m_v_up_children.empty())
@@ -51,15 +51,15 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
     else
     {
         auto p_firstnode = m_v_up_children.front().get();
-        auto status = p_firstnode->execute(entity);
+        auto status = p_firstnode->execute(entity, aisystem);
         switch (status)
         {
         case AI_RESULT_FAIL:
-            p_firstnode->failure(entity);
+            p_firstnode->failure(entity, aisystem);
             result = AI_RESULT_FAIL;
             break;
         case AI_RESULT_SUCCESS:
-            p_firstnode->success(entity);
+            p_firstnode->success(entity, aisystem);
             m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.empty())
             {
@@ -78,7 +78,7 @@ AiResult AiNodeSequence::_execute(anax::Entity entity)
     return result;
 }
 
-AiResult AiNodeLoop::_execute(anax::Entity entity)
+AiResult AiNodeLoop::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     AiResult result;
     if (m_v_up_children.empty())
@@ -88,15 +88,15 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
     else
     {
         auto p_firstnode = m_v_up_children.front().get();
-        auto status = p_firstnode->execute(entity);
+        auto status = p_firstnode->execute(entity, aisystem);
         switch (status)
         {
         case AI_RESULT_FAIL:
-            p_firstnode->failure(entity);
+            p_firstnode->failure(entity, aisystem);
             result = AI_RESULT_FAIL;
             break;
         case AI_RESULT_SUCCESS:
-            p_firstnode->success(entity);
+            p_firstnode->success(entity, aisystem);
             std::rotate(m_v_up_children.begin(),
                 m_v_up_children.begin() + 1,
                 m_v_up_children.end());
@@ -117,7 +117,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity)
     return result;
 }
 
-AiResult AiNodeSelector::_execute(anax::Entity entity)
+AiResult AiNodeSelector::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     AiResult result;
     if (m_v_up_children.empty())
@@ -127,11 +127,11 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
     else
     {
         auto p_firstnode = m_v_up_children.front().get();
-        auto status = p_firstnode->execute(entity);
+        auto status = p_firstnode->execute(entity, aisystem);
         switch (status)
         {
         case AI_RESULT_FAIL:
-            p_firstnode->failure(entity);
+            p_firstnode->failure(entity, aisystem);
             m_v_up_children.erase(m_v_up_children.begin());
             if (m_v_up_children.empty())
             {
@@ -143,7 +143,7 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
             }
             break;
         case AI_RESULT_SUCCESS:
-            p_firstnode->success(entity);
+            p_firstnode->success(entity, aisystem);
             result = AI_RESULT_SUCCESS;
             break;
         case AI_RESULT_READY:
@@ -154,22 +154,24 @@ AiResult AiNodeSelector::_execute(anax::Entity entity)
     return result;
 }
 
-AiResult AiNodeDecorator::_execute(anax::Entity entity)
+AiResult AiNodeDecorator::_execute(
+    anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->execute(entity);
+    return m_up_decoratee->execute(entity, aisystem);
 }
-void AiNodeDecorator::_success(anax::Entity entity)
+void AiNodeDecorator::_success(anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->success(entity);
+    return m_up_decoratee->success(entity, aisystem);
 }
-void AiNodeDecorator::_failure(anax::Entity entity)
+void AiNodeDecorator::_failure(anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->failure(entity);
+    return m_up_decoratee->failure(entity, aisystem);
 }
 
-AiResult AiNodeDecoratorInvert::_execute(anax::Entity entity)
+AiResult AiNodeDecoratorInvert::_execute(
+    anax::Entity entity, AiSystem const& aisystem)
 {
-    auto status = m_up_decoratee->execute(entity);
+    auto status = m_up_decoratee->execute(entity, aisystem);
     AiResult result;
     switch (status)
     {
@@ -191,7 +193,7 @@ AiNodeMoveTo::AiNodeMoveTo(double pos_x, double pos_y, double tolerance)
 {
 }
 
-AiResult AiNodeMoveTo::_execute(anax::Entity entity)
+AiResult AiNodeMoveTo::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
@@ -201,46 +203,28 @@ AiResult AiNodeMoveTo::_execute(anax::Entity entity)
     double delta_x = m_pos_x - transform_component.pos_x;
     double delta_y = m_pos_y - transform_component.pos_y;
     auto result = AI_RESULT_SUCCESS;
+    float vel_x = 0.0f, vel_y = 0.0f;
     if (delta_x > 0 + m_tolerance)
     {
-        if (velocity_component.velocity.x < ai_component.top_speed)
-        {
-            velocity_component.force.x += ai_component.move_accel;
-        }
+        vel_x = 1.0;
         result = AI_RESULT_READY;
     }
     else if (delta_x < 0 - m_tolerance)
     {
-        if (velocity_component.velocity.x > -ai_component.top_speed)
-        {
-            velocity_component.force.x -= ai_component.move_accel;
-        }
+        vel_x = -1.0;
         result = AI_RESULT_READY;
-    }
-    else
-    {
-        velocity_component.force.x = -velocity_component.velocity.x;
     }
     if (delta_y > 0 + m_tolerance)
     {
-        if (velocity_component.velocity.y < ai_component.top_speed)
-        {
-            velocity_component.force.y += ai_component.move_accel;
-        }
+        vel_y = 1.0;
         result = AI_RESULT_READY;
     }
     else if (delta_y < 0 - m_tolerance)
     {
-        if (velocity_component.velocity.y > -ai_component.top_speed)
-        {
-            velocity_component.force.y -= ai_component.move_accel;
-        }
+        vel_y = -1.0;
         result = AI_RESULT_READY;
     }
-    else
-    {
-        velocity_component.force.y = -velocity_component.velocity.y;
-    }
+    aisystem.m_movement_signal.emit(entity, vel_x, vel_y);
     return result;
 }
 
@@ -253,12 +237,10 @@ AiNodeFollow::AiNodeFollow(
 {
 }
 
-AiResult AiNodeFollow::_execute(anax::Entity entity)
+AiResult AiNodeFollow::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
-    auto& velocity_component =
-        entity.getComponent<components::VelocityComponent>();
     auto& target_transform_component =
         m_target.getComponent<components::TransformComponent>();
     auto& ai_component = entity.getComponent<components::AiComponent>();
@@ -266,53 +248,35 @@ AiResult AiNodeFollow::_execute(anax::Entity entity)
         target_transform_component.pos_x - transform_component.pos_x;
     double delta_y =
         target_transform_component.pos_y - transform_component.pos_y;
+    float vel_x = 0.0f, vel_y = 0.0f;
     auto result = AI_RESULT_SUCCESS;
     if (m_follow_x)
     {
         if (delta_x > 0 + m_tolerance)
         {
-            if (velocity_component.velocity.x < ai_component.top_speed)
-            {
-                velocity_component.force.x += ai_component.move_accel;
-            }
+            vel_x = 1.0;
             result = AI_RESULT_READY;
         }
         else if (delta_x < 0 - m_tolerance)
         {
-            if (velocity_component.velocity.x > -ai_component.top_speed)
-            {
-                velocity_component.force.x -= ai_component.move_accel;
-            }
+            vel_x = -1.0;
             result = AI_RESULT_READY;
-        }
-        else
-        {
-            velocity_component.force.x = -velocity_component.velocity.x;
         }
     }
     if (m_follow_y)
     {
         if (delta_y > 0 + m_tolerance)
         {
-            if (velocity_component.velocity.y < ai_component.top_speed)
-            {
-                velocity_component.force.y += ai_component.move_accel;
-            }
+            vel_y = 1.0;
             result = AI_RESULT_READY;
         }
         else if (delta_y < 0 - m_tolerance)
         {
-            if (velocity_component.velocity.y > -ai_component.top_speed)
-            {
-                velocity_component.force.y -= ai_component.move_accel;
-            }
+            vel_y = -1.0;
             result = AI_RESULT_READY;
         }
-        else
-        {
-            velocity_component.force.y = -velocity_component.velocity.y;
-        }
     }
+    aisystem.m_movement_signal.emit(entity, vel_x, vel_y);
     return result;
 }
 AiSystem::AiSystem()
@@ -328,7 +292,7 @@ void AiSystem::update()
         auto& ai_component = entity.getComponent<components::AiComponent>();
         if (ai_component.up_root_node)
         {
-            auto result = ai_component.up_root_node->execute(entity);
+            auto result = ai_component.up_root_node->execute(entity, *this);
 
             switch (result)
             {

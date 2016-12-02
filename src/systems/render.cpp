@@ -101,7 +101,7 @@ void Render::render_level(core::Level* plevel,
     auto scale = plevel->get_scale();
     auto p_tileset = plevel->get_tileset();
     auto p_texture = p_tileset->get_texture();
-    if (p_texture != nullptr)
+    if (p_texture == nullptr)
     {
         auto sp_texture = m_p_resourcemanager->get(p_tileset->get_filename());
         p_texture = sp_texture.get();
