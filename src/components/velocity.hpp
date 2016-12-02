@@ -2,6 +2,7 @@
 #define COMPONENTS_VELOCITY_HPP
 
 #include <anax/Component.hpp>
+#include <string>
 
 namespace components
 {
@@ -15,6 +16,8 @@ struct Vector
     float y;
 };
 
+extern const std::string str_name_movement;
+
 struct MovementComponent : anax::Component
 {
 public:
@@ -23,6 +26,8 @@ public:
     float accel;
     float top_speed;
 };
+
+extern const std::string str_name_physics;
 
 struct PhysicsComponent : anax::Component
 {

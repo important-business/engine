@@ -3,9 +3,12 @@
 
 #include <anax/Component.hpp>
 #include <SDL.h>
+#include <string>
 
 namespace components
 {
+
+extern const std::string str_name_player;
 
 struct PlayerComponent : anax::Component
 {

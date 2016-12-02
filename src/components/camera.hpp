@@ -3,9 +3,12 @@
 
 #include <anax/Component.hpp>
 #include <anax/Entity.hpp>
+#include <string>
 
 namespace components
 {
+
+extern const std::string str_name_camera;
 
 struct CameraComponent : anax::Component
 {

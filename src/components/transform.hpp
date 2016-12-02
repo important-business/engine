@@ -2,9 +2,12 @@
 #define COMPONENTS_TRANSFORM_HPP
 
 #include <anax/Component.hpp>
+#include <string>
 
 namespace components
 {
+
+extern const std::string str_name_transform;
 
 struct TransformComponent : anax::Component
 {
