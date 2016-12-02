@@ -2,7 +2,7 @@
 # Define the list of test modules
 # set(test_modules core)
 # TODO: Figure out how to link tests to the modules
-set(test_modules "core")
+set(test_modules "core;systems")
 
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 
@@ -52,4 +52,5 @@ foreach(test_mod ${test_modules})
     add_test(NAME ${test_exe_name}
     COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/${test_exe_name} --gtest_color=yes
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+
 endforeach()
