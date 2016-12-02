@@ -38,6 +38,17 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(SDL2 REQUIRED sdl2 >= 2.0.0)
 pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 
+# Download and build external third party libraries
+include(FetchAnax)
+FetchAnax(GITVERSION "d68526bfad15ed6e2f1c66c90eb8993c086e9d30")
+include(FetchSpdlog)
+FetchSpdlog()
+include(FetchJsonCpp)
+FetchJsonCpp(GITVERSION "1.7.7")
+include(FetchWinkSignals)
+FetchWinkSignals(GITVERSION "4165ddb83ca0f33d707e3b7aa6e59349ab08b591")
+include(ClangTidy)
+
 set(CHECK_SRCS "")
 
 include_directories(inc)

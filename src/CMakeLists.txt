@@ -1,13 +1,3 @@
-include(FetchAnax)
-FetchAnax(GITVERSION "d68526bfad15ed6e2f1c66c90eb8993c086e9d30")
-include(FetchSpdlog)
-FetchSpdlog()
-include(FetchJsonCpp)
-FetchJsonCpp(GITVERSION "1.7.7")
-include(FetchWinkSignals)
-FetchWinkSignals(GITVERSION "4165ddb83ca0f33d707e3b7aa6e59349ab08b591")
-include(ClangTidy)
-
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
