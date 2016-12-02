@@ -1,6 +1,8 @@
 #ifndef SYSTEMS_MOVEMENT_HPP
 #define SYSTEMS_MOVEMENT_HPP
 
+#include "systems.hpp"
+
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
 #include "core/logging.hpp"

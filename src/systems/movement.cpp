@@ -1,4 +1,5 @@
 #include "systems/movement.hpp"
+#include "components/id.hpp"
 #include "core/exception.hpp"
 
 #include <cmath>
@@ -14,14 +15,9 @@ Movement::Movement()
 
 void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)
 {
-    if (!entity.hasComponent<components::MovementComponent>())
-    {
-        throw core::ExceptionMissingComponent("Movement");
-    }
-    if (!entity.hasComponent<components::PhysicsComponent>())
-    {
-        throw core::ExceptionMissingComponent("Physics");
-    }
+    throw_if_missing_component<components::MovementComponent>(entity);
+    throw_if_missing_component<components::PhysicsComponent>(entity);
+
     auto& movement = entity.getComponent<components::MovementComponent>();
     const float top_speed = movement.top_speed;
     const float accel = movement.accel;

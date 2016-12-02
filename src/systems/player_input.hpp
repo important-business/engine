@@ -1,6 +1,8 @@
 #ifndef SYSTEMS_PLAYER_INPUT_HPP
 #define SYSTEMS_PLAYER_INPUT_HPP
 
+#include "systems.hpp"
+
 #include "components/player.hpp"
 #include "components/velocity.hpp"
 #include "core/logging.hpp"

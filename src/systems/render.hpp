@@ -1,6 +1,8 @@
 #ifndef SYSTEMS_RENDER_HPP
 #define SYSTEMS_RENDER_HPP
 
+#include "systems.hpp"
+
 #include "components/camera.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"

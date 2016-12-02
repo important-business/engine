@@ -1,13 +1,16 @@
 #ifndef SYSTEMS_COLLISION_HPP
 #define SYSTEMS_COLLISION_HPP
 
+#include "systems.hpp"
+
+#include "core/logging.hpp"
+#include "components/collision.hpp"
+#include "components/transform.hpp"
+#include "components/velocity.hpp"
+
 #include <vector>
 #include <algorithm>
 #include <anax/System.hpp>
-#include "core/logging.hpp"
-#include "components/transform.hpp"
-#include "components/collision.hpp"
-#include "components/velocity.hpp"
 
 namespace systems
 {

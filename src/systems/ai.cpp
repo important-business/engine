@@ -196,10 +196,7 @@ AiNodeMoveTo::AiNodeMoveTo(double pos_x, double pos_y, double tolerance)
 
 AiResult AiNodeMoveTo::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
-    if (!entity.hasComponent<components::TransformComponent>())
-    {
-        throw core::ExceptionMissingComponent("Transform");
-    }
+    throw_if_missing_component<components::TransformComponent>(entity);
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
 
@@ -243,17 +240,11 @@ AiNodeFollow::AiNodeFollow(
 AiResult AiNodeFollow::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
 
-    if (!entity.hasComponent<components::TransformComponent>())
-    {
-        throw core::ExceptionMissingComponent("Transform");
-    }
+    throw_if_missing_component<components::TransformComponent>(entity);
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
 
-    if (!m_target.hasComponent<components::TransformComponent>())
-    {
-        throw core::ExceptionMissingComponent("Transform");
-    }
+    throw_if_missing_component<components::TransformComponent>(m_target);
     auto& target_transform_component =
         m_target.getComponent<components::TransformComponent>();
 

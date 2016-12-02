@@ -27,10 +27,5 @@ public:
 };
 
 
-class ExceptionMissingComponent : public Exception
-{
-public:
-    ExceptionMissingComponent(std::string component, std::string entityname = "");
-};
 } // namespace core
 #endif /* EXCEPTION_HPP */
