@@ -11,6 +11,13 @@
                 "x" : 0,
                 "y" : 0
             },
+            "physics" : 
+            {
+                "friction" : 0,
+                "mass" : 1,
+                "vel_x" : 0,
+                "vel_y" : 0
+            },
             "texture" : 
             {
                 "texture_path" : "resources/angry_goose_head.png"
@@ -22,13 +29,6 @@
                 "rotation" : 0,
                 "size_x" : 128,
                 "size_y" : 128
-            },
-            "velocity" : 
-            {
-                "friction" : 0,
-                "mass" : 1,
-                "vel_x" : 0,
-                "vel_y" : 0
             }
         }
     },
@@ -60,6 +60,13 @@
                 "target" : "player",
                 "zoom" : 1
             },
+            "physics" : 
+            {
+                "friction" : 5,
+                "mass" : 1,
+                "vel_x" : 0,
+                "vel_y" : 0
+            },
             "transform" : 
             {
                 "flip_horiz" : false,
@@ -69,13 +76,6 @@
                 "rotation" : 0,
                 "size_x" : 0,
                 "size_y" : 0
-            },
-            "velocity" : 
-            {
-                "friction" : 5,
-                "mass" : 1,
-                "vel_x" : 0,
-                "vel_y" : 0
             }
         }
     },
@@ -191,14 +191,14 @@
                 },
                 "top_speed" : 1000
             },
+            "physics" : 
+            {
+                "mass" : 5
+            },
             "transform" : 
             {
                 "pos_x" : 100,
                 "pos_y" : 300
-            },
-            "velocity" : 
-            {
-                "mass" : 5
             }
         },
         "template" : "$goose"
@@ -238,6 +238,11 @@
     {
         "components" : 
         {
+            "physics" : 
+            {
+                "friction" : 0,
+                "mass" : 5
+            },
             "player" : 
             {
                 "move_accel" : 150,
@@ -247,11 +252,6 @@
             {
                 "pos_x" : 100,
                 "pos_y" : 500
-            },
-            "velocity" : 
-            {
-                "friction" : 0,
-                "mass" : 5
             }
         },
         "template" : "$goose"

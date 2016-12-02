@@ -15,16 +15,16 @@ void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)
 {
     const float top_speed = 500.0f;
     const float accel = 150.0f;
-    auto& velocity = entity.getComponent<components::VelocityComponent>();
+    auto& physics = entity.getComponent<components::PhysicsComponent>();
 
-    float vel_error_x = (vel_x * top_speed) - (velocity.velocity.x);
-    float vel_error_y = (vel_y * top_speed) - (velocity.velocity.y);
+    float vel_error_x = (vel_x * top_speed) - (physics.velocity.x);
+    float vel_error_y = (vel_y * top_speed) - (physics.velocity.y);
 
     float vel_factor_x = vel_error_x / top_speed;
     float vel_factor_y = vel_error_y / top_speed;
 
-    velocity.force.x += accel * vel_factor_x;
-    velocity.force.y += accel * vel_factor_y;
+    physics.force.x += accel * vel_factor_x;
+    physics.force.y += accel * vel_factor_y;
 }
 
 void Movement::update(double delta_time)
@@ -33,52 +33,52 @@ void Movement::update(double delta_time)
     for (auto& entity : entities)
     {
         auto& transform = entity.getComponent<components::TransformComponent>();
-        auto& velocity = entity.getComponent<components::VelocityComponent>();
+        auto& physics = entity.getComponent<components::PhysicsComponent>();
 
-        velocity.velocity.x += velocity.force.x * velocity.inv_mass;
-        velocity.velocity.y += velocity.force.y * velocity.inv_mass;
-        velocity.force.x = 0.0f;
-        velocity.force.y = 0.0f;
+        physics.velocity.x += physics.force.x * physics.inv_mass;
+        physics.velocity.y += physics.force.y * physics.inv_mass;
+        physics.force.x = 0.0f;
+        physics.force.y = 0.0f;
 
         // Mass increase of normal force and reduction in delta velocity cancel
-        if (velocity.velocity.x > 0.0f)
+        if (physics.velocity.x > 0.0f)
         {
-            velocity.velocity.x -= velocity.friction;
+            physics.velocity.x -= physics.friction;
         }
-        else if (velocity.velocity.x < 0.0f)
+        else if (physics.velocity.x < 0.0f)
         {
-            velocity.velocity.x += velocity.friction;
-        }
-
-        if (velocity.velocity.y > 0.0f)
-        {
-            velocity.velocity.y -= velocity.friction;
-        }
-        else if (velocity.velocity.y < 0.0f)
-        {
-            velocity.velocity.y += velocity.friction;
+            physics.velocity.x += physics.friction;
         }
 
-        if (std::abs(velocity.velocity.y) > m_min_vel)
+        if (physics.velocity.y > 0.0f)
+        {
+            physics.velocity.y -= physics.friction;
+        }
+        else if (physics.velocity.y < 0.0f)
+        {
+            physics.velocity.y += physics.friction;
+        }
+
+        if (std::abs(physics.velocity.y) > m_min_vel)
         {
             auto distance_moved_y =
-                velocity.velocity.y * static_cast<float>(delta_time);
+                physics.velocity.y * static_cast<float>(delta_time);
             transform.pos_y += distance_moved_y;
         }
         else
         {
-            velocity.velocity.y = 0.0f;
+            physics.velocity.y = 0.0f;
         }
 
-        if (std::abs(velocity.velocity.x) > m_min_vel)
+        if (std::abs(physics.velocity.x) > m_min_vel)
         {
             auto distance_moved_x =
-                velocity.velocity.x * static_cast<float>(delta_time);
+                physics.velocity.x * static_cast<float>(delta_time);
             transform.pos_x += distance_moved_x;
         }
         else
         {
-            velocity.velocity.x = 0.0f;
+            physics.velocity.x = 0.0f;
         }
     }
 }

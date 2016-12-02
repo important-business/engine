@@ -15,7 +15,7 @@ struct Vector
     float y;
 };
 
-struct VelocityComponent : anax::Component
+struct PhysicsComponent : anax::Component
 {
 private:
     static float calc_inv_mass(float mass)
@@ -33,7 +33,7 @@ private:
     }
 
 public:
-    VelocityComponent(float mass,
+    PhysicsComponent(float mass,
         float friction,
         float vel_x,
         float vel_y,

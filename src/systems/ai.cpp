@@ -198,7 +198,7 @@ AiResult AiNodeMoveTo::_execute(anax::Entity entity, AiSystem const& aisystem)
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
     auto& velocity_component =
-        entity.getComponent<components::VelocityComponent>();
+        entity.getComponent<components::PhysicsComponent>();
     auto& ai_component = entity.getComponent<components::AiComponent>();
     double delta_x = m_pos_x - transform_component.pos_x;
     double delta_y = m_pos_y - transform_component.pos_y;

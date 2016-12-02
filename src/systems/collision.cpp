@@ -81,11 +81,11 @@ void Collision::resolve_collision(
     anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
 {
     // TODO(Keegan, Assert p_manifold != nullptr)
-    auto& velocity1 = e1.getComponent<components::VelocityComponent>();
-    auto& velocity2 = e2.getComponent<components::VelocityComponent>();
+    auto& physics1 = e1.getComponent<components::PhysicsComponent>();
+    auto& physics2 = e2.getComponent<components::PhysicsComponent>();
 
-    float vel_dx = velocity2.velocity.x - velocity1.velocity.x;
-    float vel_dy = velocity2.velocity.y - velocity1.velocity.y;
+    float vel_dx = physics2.velocity.x - physics1.velocity.x;
+    float vel_dy = physics2.velocity.y - physics1.velocity.y;
 
     float vel_normal =
         vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
@@ -109,16 +109,16 @@ void Collision::resolve_collision(
 
     m_sp_logger->debug("impulse is x{}, y{}", impulse_x, impulse_y);
 
-    velocity1.force.x -= impulse_x;
-    velocity2.force.x += impulse_x;
+    physics1.force.x -= impulse_x;
+    physics2.force.x += impulse_x;
 
-    velocity1.force.y -= impulse_y;
-    velocity2.force.y += impulse_y;
+    physics1.force.y -= impulse_y;
+    physics2.force.y += impulse_y;
 
     m_sp_logger->debug(
-        "entity1 force is x{}, y{}", velocity1.force.x, velocity1.force.y);
+        "entity1 force is x{}, y{}", physics1.force.x, physics1.force.y);
     m_sp_logger->debug(
-        "entity2 force is x{}, y{}", velocity2.force.x, velocity2.force.y);
+        "entity2 force is x{}, y{}", physics2.force.x, physics2.force.y);
 }
 
 void Collision::update(double delta_time)

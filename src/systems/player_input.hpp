@@ -14,7 +14,7 @@ namespace systems
 
 // TODO(Keegan, Make systems classes)
 struct PlayerInput : anax::System<anax::Requires<components::PlayerComponent,
-                         components::VelocityComponent>>
+                         components::PhysicsComponent>>
 {
 public:
     PlayerInput();

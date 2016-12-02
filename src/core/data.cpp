@@ -22,7 +22,7 @@ const std::string component_name_collision{"collision"};
 const std::string component_name_player{"player"};
 const std::string component_name_texture{"texture"};
 const std::string component_name_transform{"transform"};
-const std::string component_name_velocity{"velocity"};
+const std::string component_name_physics{"physics"};
 
 std::string basename(const std::string& pathname)
 {
@@ -311,7 +311,7 @@ void DataReader::factory_component_transform(
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
 
-void DataReader::factory_component_velocity(
+void DataReader::factory_component_physics(
     const Json::Value data, anax::Entity entity)
 {
     const std::string prop_mass{"mass"};
@@ -329,14 +329,14 @@ void DataReader::factory_component_velocity(
     float velocity_y = data.get(prop_vel_y, prop_vel_y_default).asFloat();
     float force_x = data.get(prop_force_x, prop_force_x_default).asFloat();
     float force_y = data.get(prop_force_y, prop_force_y_default).asFloat();
-    check_required_component_property(data, component_name_velocity, prop_mass);
+    check_required_component_property(data, component_name_physics, prop_mass);
     float mass = data[prop_mass].asFloat();
 
     check_required_component_property(
-        data, component_name_velocity, prop_friction);
+        data, component_name_physics, prop_friction);
     float friction = data[prop_friction].asFloat();
 
-    entity.addComponent<components::VelocityComponent>(
+    entity.addComponent<components::PhysicsComponent>(
         mass, friction, velocity_x, velocity_y, force_x, force_y);
 }
 
@@ -357,7 +357,7 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
     component_factories.insert(std::make_pair(
         component_name_transform, &DataReader::factory_component_transform));
     component_factories.insert(std::make_pair(
-        component_name_velocity, &DataReader::factory_component_velocity));
+        component_name_physics, &DataReader::factory_component_physics));
 }
 
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
