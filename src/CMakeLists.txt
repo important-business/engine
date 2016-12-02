@@ -29,6 +29,10 @@ target_link_libraries(engine sdl_wrap)
 target_link_libraries(engine anax)
 target_include_directories(engine PUBLIC ${ANAX_INCLUDE_DIR})
 
+# Link to google test and use its include directories
+target_link_libraries(engine gtest)
+target_include_directories(engine PUBLIC ${GTEST_INCLUDE_DIR})
+
 # Use jsoncpp include directories
 target_link_libraries(engine jsoncpp)
 target_include_directories(engine PUBLIC ${JSONCPP_INCLUDE_DIR})

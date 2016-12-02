@@ -12,6 +12,10 @@ add_executable(jsoncheck ${SRCS_JSONCHECK})
 target_link_libraries(jsoncheck jsoncpp)
 target_include_directories(jsoncheck PUBLIC ${JSONCPP_INCLUDE_DIR})
 
+# Link to google test and use its include directories
+target_link_libraries(jsoncheck gtest)
+target_include_directories(jsoncheck PUBLIC ${GTEST_INCLUDE_DIR})
+
 # Use spdlog include directories (no library file)
 target_include_directories(jsoncheck PUBLIC ${SPDLOG_INCLUDE_DIR})
 add_dependencies(jsoncheck spdlog)

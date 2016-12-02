@@ -29,5 +29,5 @@ function(FetchGoogleTest)
         Threads::Threads
         "${binary_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}"
     )
-    target_include_directories(gtest INTERFACE "${source_dir}/include")
+    set(GTEST_INCLUDE_DIR "${source_dir}/include" "${binary_dir}/include" PARENT_SCOPE)
 endfunction(FetchGoogleTest)

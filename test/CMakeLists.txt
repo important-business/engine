@@ -1,6 +1,3 @@
-# Use the FetchGtest module to get gtest library
-include(FetchGtest)
-FetchGoogleTest()
 
 # Define the list of test modules
 # set(test_modules core)
@@ -18,8 +15,9 @@ foreach(test_mod ${test_modules})
     set (test_exe_name test_${test_mod})
     add_executable(${test_exe_name} ${SRCS_TESTMOD} test_main.cpp)
 
-    # WTF: Why public?
+    # Link to google test and use its include directories
     target_link_libraries(${test_exe_name} gtest)
+    target_include_directories(${test_exe_name} PUBLIC ${GTEST_INCLUDE_DIR})
 
     target_link_libraries(${test_exe_name} sdl_wrap)
 

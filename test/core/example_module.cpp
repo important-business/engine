@@ -19,7 +19,6 @@ TEST(module_get_set_test, positive_test)
     ASSERT_EQ(15, a.get_me());
 }
 
-/* This test fails on purpose! */
 TEST(module_get_set_test, negative_test)
 {
     auto a = core::ExampleModule(-2);
