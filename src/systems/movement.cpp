@@ -1,6 +1,7 @@
 #include "systems/movement.hpp"
 
 #include <cmath>
+#include <iostream>
 
 namespace systems
 {
@@ -15,14 +16,15 @@ void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)
     const float top_speed = 500.0f;
     const float accel = 150.0f;
     auto& velocity = entity.getComponent<components::VelocityComponent>();
-    if (std::abs(velocity.velocity.x) < top_speed)
-    {
-        velocity.force.x += accel * vel_x;
-    }
-    if (std::abs(velocity.velocity.y) < top_speed)
-    {
-        velocity.force.y += accel * vel_y;
-    }
+
+    float vel_error_x = (vel_x * top_speed) - (velocity.velocity.x);
+    float vel_error_y = (vel_y * top_speed) - (velocity.velocity.y);
+
+    float vel_factor_x = vel_error_x / top_speed;
+    float vel_factor_y = vel_error_y / top_speed;
+
+    velocity.force.x += accel * vel_factor_x;
+    velocity.force.y += accel * vel_factor_y;
 }
 
 void Movement::update(double delta_time)

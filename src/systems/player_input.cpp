@@ -37,10 +37,7 @@ void PlayerInput::update()
             vel_y = 1.0f;
         }
 
-        if (vel_x != 0.0f || vel_y != 0.0f)
-        {
-            m_movement_signal.emit(e, vel_x, vel_y);
-        }
+        m_movement_signal.emit(e, vel_x, vel_y);
     }
 }
 
