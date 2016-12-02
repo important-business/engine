@@ -1,6 +1,8 @@
 #include "systems/render.hpp"
 #include "core/resource_manager.hpp"
 
+#include <cassert>
+
 namespace systems
 {
 
@@ -32,9 +34,13 @@ void Render::render(core::Level* plevel)
 void Render::get_camera_offsets(
     int* p_camera_offset_x, int* p_camera_offset_y, float* p_camera_zoom)
 {
-    // TODO(Keegan): Verify only one camera entity, error otherwise
     auto cameraentities = m_camerasystem.getEntities();
     auto& cameraentity = cameraentities.front();
+
+    // Only allow one camera
+    assert(cameraentities.size() == 1);
+
+    // No hasComponent check is needed since camera system does filtering
     auto& camera_camera_component =
         cameraentity.getComponent<components::CameraComponent>();
     auto& camera_transform_component =
@@ -54,6 +60,7 @@ void Render::render_entities(
 
     for (auto& entity : entities)
     {
+        // No hasComponent check is needed since render system does filtering
         auto& texture_component =
             entity.getComponent<components::TextureComponent>();
         auto& transform_component =

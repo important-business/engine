@@ -1,7 +1,9 @@
 #include "systems/collision.hpp"
+#include "core/exception.hpp"
 
 #include <anax/System.hpp>
 
+#include <cassert>
 #include <cmath>
 
 namespace systems
@@ -19,9 +21,28 @@ Collision::Collision()
 Manifold* systems::Collision::check_collision(
     anax::Entity& e1, anax::Entity& e2)
 {
+    if (!e1.hasComponent<components::TransformComponent>())
+    {
+        throw core::ExceptionMissingComponent("Transform");
+    }
     auto& transform1 = e1.getComponent<components::TransformComponent>();
+
+    if (!e2.hasComponent<components::TransformComponent>())
+    {
+        throw core::ExceptionMissingComponent("Transform");
+    }
     auto& transform2 = e2.getComponent<components::TransformComponent>();
+
+    if (!e1.hasComponent<components::Collision>())
+    {
+        throw core::ExceptionMissingComponent("Collision");
+    }
     auto& bbox1 = e1.getComponent<components::Collision>().bounding_box;
+
+    if (!e2.hasComponent<components::Collision>())
+    {
+        throw core::ExceptionMissingComponent("Collision");
+    }
     auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
 
     Manifold* p_manifold = nullptr;
@@ -80,8 +101,18 @@ Manifold* systems::Collision::check_collision(
 void Collision::resolve_collision(
     anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
 {
-    // TODO(Keegan, Assert p_manifold != nullptr)
+    assert(p_manifold != nullptr);
+
+    if (!e1.hasComponent<components::PhysicsComponent>())
+    {
+        throw core::ExceptionMissingComponent("Physics");
+    }
     auto& physics1 = e1.getComponent<components::PhysicsComponent>();
+
+    if (!e2.hasComponent<components::PhysicsComponent>())
+    {
+        throw core::ExceptionMissingComponent("Physics");
+    }
     auto& physics2 = e2.getComponent<components::PhysicsComponent>();
 
     float vel_dx = physics2.velocity.x - physics1.velocity.x;
@@ -129,6 +160,7 @@ void Collision::update(double delta_time)
     {
         auto& e1 = colliders[i];
 
+        // No hasComponent check needed since system filters entities
         if (!e1.getComponent<components::Collision>().can_cause_events)
         {
             continue;

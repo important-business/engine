@@ -1,4 +1,5 @@
 #include "systems/movement.hpp"
+#include "core/exception.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -13,6 +14,14 @@ Movement::Movement()
 
 void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)
 {
+    if (!entity.hasComponent<components::MovementComponent>())
+    {
+        throw core::ExceptionMissingComponent("Movement");
+    }
+    if (!entity.hasComponent<components::PhysicsComponent>())
+    {
+        throw core::ExceptionMissingComponent("Physics");
+    }
     auto& movement = entity.getComponent<components::MovementComponent>();
     const float top_speed = movement.top_speed;
     const float accel = movement.accel;
@@ -33,6 +42,8 @@ void Movement::update(double delta_time)
     auto entities = getEntities();
     for (auto& entity : entities)
     {
+        // No hasComponent check necessary since getEntities filters
+        // already
         auto& transform = entity.getComponent<components::TransformComponent>();
         auto& physics = entity.getComponent<components::PhysicsComponent>();
 

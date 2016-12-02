@@ -1,4 +1,5 @@
 #include "systems/ai.hpp"
+#include "core/exception.hpp"
 #include "components/velocity.hpp"
 #include "components/transform.hpp"
 
@@ -195,11 +196,13 @@ AiNodeMoveTo::AiNodeMoveTo(double pos_x, double pos_y, double tolerance)
 
 AiResult AiNodeMoveTo::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
+    if (!entity.hasComponent<components::TransformComponent>())
+    {
+        throw core::ExceptionMissingComponent("Transform");
+    }
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
-    auto& velocity_component =
-        entity.getComponent<components::PhysicsComponent>();
-    auto& ai_component = entity.getComponent<components::AiComponent>();
+
     double delta_x = m_pos_x - transform_component.pos_x;
     double delta_y = m_pos_y - transform_component.pos_y;
     auto result = AI_RESULT_SUCCESS;
@@ -239,11 +242,21 @@ AiNodeFollow::AiNodeFollow(
 
 AiResult AiNodeFollow::_execute(anax::Entity entity, AiSystem const& aisystem)
 {
+
+    if (!entity.hasComponent<components::TransformComponent>())
+    {
+        throw core::ExceptionMissingComponent("Transform");
+    }
     auto& transform_component =
         entity.getComponent<components::TransformComponent>();
+
+    if (!m_target.hasComponent<components::TransformComponent>())
+    {
+        throw core::ExceptionMissingComponent("Transform");
+    }
     auto& target_transform_component =
         m_target.getComponent<components::TransformComponent>();
-    auto& ai_component = entity.getComponent<components::AiComponent>();
+
     double delta_x =
         target_transform_component.pos_x - transform_component.pos_x;
     double delta_y =
