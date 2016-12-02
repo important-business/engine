@@ -29,6 +29,7 @@ private:
     void factory_component_camera(const Json::Value data, anax::Entity entity);
     void factory_component_collision(
         const Json::Value data, anax::Entity entity);
+    void factory_component_movement(const Json::Value data, anax::Entity entity);
     void factory_component_texture(const Json::Value data, anax::Entity entity);
     void factory_component_transform(
         const Json::Value data, anax::Entity entity);

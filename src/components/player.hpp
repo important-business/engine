@@ -9,13 +9,9 @@ namespace components
 
 struct PlayerComponent : anax::Component
 {
-    PlayerComponent(float move_accel, float top_speed)
-        : move_accel(move_accel), top_speed(top_speed)
+    PlayerComponent()
     {
     }
-
-    float move_accel;
-    float top_speed;
 
     struct Controls
     {

@@ -15,10 +15,8 @@ namespace components
 {
 struct AiComponent : anax::Component
 {
-    AiComponent(systems::AiNode* p_root_node, float move_accel, float top_speed)
-        : up_root_node(p_root_node),
-          move_accel(move_accel),
-          top_speed(top_speed)
+    AiComponent(systems::AiNode* p_root_node)
+        : up_root_node(p_root_node)
     {
     }
 

@@ -13,8 +13,9 @@ Movement::Movement()
 
 void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)
 {
-    const float top_speed = 500.0f;
-    const float accel = 150.0f;
+    auto& movement = entity.getComponent<components::MovementComponent>();
+    const float top_speed = movement.top_speed;
+    const float accel = movement.accel;
     auto& physics = entity.getComponent<components::PhysicsComponent>();
 
     float vel_error_x = (vel_x * top_speed) - (physics.velocity.x);

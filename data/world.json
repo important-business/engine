@@ -18,6 +18,11 @@
                 "vel_x" : 0,
                 "vel_y" : 0
             },
+            "movement" : 
+            {
+                "accel" : 150,
+                "top_speed" : 500
+            },
             "texture" : 
             {
                 "texture_path" : "resources/angry_goose_head.png"
@@ -38,7 +43,6 @@
         {
             "ai" : 
             {
-                "move_accel" : 50,
                 "root_node" : 
                 {
                     "children" : 
@@ -52,7 +56,11 @@
                         }
                     ],
                     "type" : "loop"
-                },
+                }
+            },
+            "movement" : 
+            {
+                "accel" : 150,
                 "top_speed" : 500
             },
             "camera" : 
@@ -85,7 +93,6 @@
         {
             "ai" : 
             {
-                "move_accel" : 150,
                 "root_node" : 
                 {
                     "children" : 
@@ -140,8 +147,7 @@
                         }
                     ],
                     "type" : "loop"
-                },
-                "top_speed" : 500
+                }
             },
             "transform" : 
             {
@@ -157,7 +163,6 @@
         {
             "ai" : 
             {
-                "move_accel" : 150,
                 "root_node" : 
                 {
                     "children" : 
@@ -188,8 +193,7 @@
                         }
                     ],
                     "type" : "loop"
-                },
-                "top_speed" : 1000
+                }
             },
             "physics" : 
             {
@@ -209,7 +213,6 @@
         {
             "ai" : 
             {
-                "move_accel" : 150,
                 "root_node" : 
                 {
                     "children" : 
@@ -223,8 +226,7 @@
                         }
                     ],
                     "type" : "loop"
-                },
-                "top_speed" : 500
+                }
             },
             "transform" : 
             {
@@ -245,7 +247,10 @@
             },
             "player" : 
             {
-                "move_accel" : 150,
+            },
+            "movement" : 
+            {
+                "accel" : 150,
                 "top_speed" : 500
             },
             "transform" : 

@@ -19,6 +19,7 @@ namespace core
 const std::string component_name_ai{"ai"};
 const std::string component_name_camera{"camera"};
 const std::string component_name_collision{"collision"};
+const std::string component_name_movement{"movement"};
 const std::string component_name_player{"player"};
 const std::string component_name_texture{"texture"};
 const std::string component_name_transform{"transform"};
@@ -102,19 +103,12 @@ static std::vector<int32_t> string_decode(const std::string& in)
 void DataReader::factory_component_ai(
     const Json::Value data, anax::Entity entity)
 {
-    const std::string prop_move_accel{"move_accel"};
-    const std::string prop_top_speed{"top_speed"};
     const std::string prop_root_node{"root_node"};
 
-    check_required_component_property(data, component_name_ai, prop_move_accel);
-    float move_accel = data[prop_move_accel].asFloat();
-    check_required_component_property(data, component_name_ai, prop_top_speed);
-    float top_speed = data[prop_top_speed].asFloat();
     check_required_component_property(data, component_name_ai, prop_root_node);
     // TODO(Keegan, use real root node data)
     auto p_root_node = factory_ai_node(data[prop_root_node]);
-    entity.addComponent<components::AiComponent>(
-        p_root_node, move_accel, top_speed);
+    entity.addComponent<components::AiComponent>(p_root_node);
 }
 
 systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
@@ -211,16 +205,7 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
 void DataReader::factory_component_player(
     const Json::Value data, anax::Entity entity)
 {
-    const std::string prop_move_accel{"move_accel"};
-    const std::string prop_top_speed{"top_speed"};
-
-    check_required_component_property(
-        data, component_name_player, prop_move_accel);
-    float move_accel = data[prop_move_accel].asFloat();
-    check_required_component_property(
-        data, component_name_player, prop_top_speed);
-    float top_speed = data[prop_top_speed].asFloat();
-    entity.addComponent<components::PlayerComponent>(move_accel, top_speed);
+    entity.addComponent<components::PlayerComponent>();
 }
 
 void DataReader::factory_component_camera(
@@ -311,6 +296,23 @@ void DataReader::factory_component_transform(
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
 
+void DataReader::factory_component_movement(
+    const Json::Value data, anax::Entity entity)
+{
+    const std::string prop_accel{"accel"};
+    const std::string prop_top_speed{"top_speed"};
+
+    check_required_component_property(
+        data, component_name_movement, prop_accel);
+    float accel = data[prop_accel].asFloat();
+
+    check_required_component_property(
+        data, component_name_movement, prop_top_speed);
+    float top_speed = data[prop_top_speed].asFloat();
+
+    entity.addComponent<components::MovementComponent>(accel, top_speed);
+}
+
 void DataReader::factory_component_physics(
     const Json::Value data, anax::Entity entity)
 {
@@ -358,6 +360,8 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
         component_name_transform, &DataReader::factory_component_transform));
     component_factories.insert(std::make_pair(
         component_name_physics, &DataReader::factory_component_physics));
+    component_factories.insert(std::make_pair(
+        component_name_movement, &DataReader::factory_component_movement));
 }
 
 anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)

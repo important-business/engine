@@ -15,6 +15,15 @@ struct Vector
     float y;
 };
 
+struct MovementComponent : anax::Component
+{
+public:
+    MovementComponent(float accel, float top_speed)
+        : accel(accel), top_speed(top_speed){}
+    float accel;
+    float top_speed;
+};
+
 struct PhysicsComponent : anax::Component
 {
 private:
