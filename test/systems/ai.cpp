@@ -165,7 +165,7 @@ TEST_F(AiNodeSelectorTest, sequence_ready_success){
     p_node->result = AI_RESULT_SUCCESS;
     ASSERT_EQ(AI_RESULT_SUCCESS, a.execute(entity, sys));
     outputstring = "";
-    ASSERT_EQ(0, a.get_child_count());
+    ASSERT_EQ(1, a.get_child_count());
 }
 
 /* Test that add_child increments child count */
