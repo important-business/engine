@@ -47,7 +47,7 @@ FetchGoogleTest(GITVERSION "release-1.8.0")
 include(FetchJsonCpp)
 FetchJsonCpp(GITVERSION "1.7.7")
 include(FetchSpdlog)
-FetchSpdlog()
+FetchSpdlog(GITVERSION "v0.11.0")
 include(FetchWinkSignals)
 FetchWinkSignals(GITVERSION "4165ddb83ca0f33d707e3b7aa6e59349ab08b591")
 
