@@ -10,11 +10,13 @@ A game engine of sorts.
  * CMake 3.3
 
 ## Uses
- * Google Test
- * Anax - Entity Component System
+ * [Anax](https://github.com/miguelmartin75/anax) - Entity Component System
+ * [Google Test](https://github.com/google/googletest) - Unit testing library
+ * [JsonCpp](https://github.com/open-source-parsers/jsoncpp) - Json library
+ * [SDL2](https://www.libsdl.org/index.php) - Multimedia library
+ * [Wink-Signals](https://github.com/miguelmartin75/Wink-Signals) - Signals/Slots library
 
 ## Build Instructions
-There isn't a whole lot to build at the moment, but...
 ```
 git clone https://github.com/important-business/engine.git engine
 cd engine
