@@ -1,4 +1,14 @@
 function(FetchGoogleTest)
+    set(options)
+    set(oneValueArgs GITVERSION BUILD_SHARED)
+    set(multiValueArgs)
+    cmake_parse_arguments(FetchGoogleTest "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+    # Set defaults for unprovided arguments
+    if(NOT FetchGoogleTest_GITVERSION)
+        set(FetchGoogleTest_GITVERSION "master")
+    endif()
+
     # Required for google test
     find_package(Threads REQUIRED)
 
@@ -12,7 +22,7 @@ function(FetchGoogleTest)
     ExternalProject_Add(
         gtest_proj
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.7.0
+        GIT_TAG ${FetchGoogleTest_GITVERSION}
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
         # Disable install step
         INSTALL_COMMAND ""
