@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/important-business/engine.svg?branch=master)](https://travis-ci.org/important-business/engine)
+[![Build status](https://ci.appveyor.com/api/projects/status/n94irhj8j234jykf?svg=true)](https://ci.appveyor.com/project/Korrow/engine)
 # engine
 A game engine of sorts.
 
