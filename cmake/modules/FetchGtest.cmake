@@ -32,12 +32,32 @@ function(FetchGoogleTest)
 
     # Create an interface library for tests to link against
     add_library(gtest INTERFACE)
+    add_library(gmock INTERFACE)
+
     add_dependencies(gtest gtest_proj)
+    add_dependencies(gmock gtest_proj)
+
     target_link_libraries(
         gtest
         INTERFACE
         Threads::Threads
-        "${binary_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}"
+        "${binary_dir}/googlemock/gtest/${CMAKE_STATIC_LIBRARY_PREFIX}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}"
     )
-    set(GTEST_INCLUDE_DIR "${source_dir}/include" "${binary_dir}/include" PARENT_SCOPE)
+    target_link_libraries(
+        gmock
+        INTERFACE
+        Threads::Threads
+        "${binary_dir}/googlemock/${CMAKE_STATIC_LIBRARY_PREFIX}gmock${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    )
+
+    set(GTEST_INCLUDE_DIR "${source_dir}/include"
+        "${source_dir}/googletest/include"
+        "${binary_dir}/include"
+        PARENT_SCOPE
+        )
+    set(GMOCK_INCLUDE_DIR "${source_dir}/include"
+        "${source_dir}/google_mock/include"
+        "${binary_dir}/include"
+        PARENT_SCOPE
+        )
 endfunction(FetchGoogleTest)
