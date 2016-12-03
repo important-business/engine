@@ -35,7 +35,7 @@ check_result "Execute tests" "make" "test" "ARGS='-V'"
 check_result "Run Linters" "make" "lint"
 
 # Check ClangFormat output
-check_result "Check formatting" "../travis/check_clang_format.sh"
+check_result "Check formatting" "../ci/travis/check_clang_format.sh"
 
 if [ $script_exit_code -eq 0 ];then
     echo "########################################################################"
