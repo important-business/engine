@@ -93,9 +93,13 @@ void Collision::resolve_collision(
 
     throw_if_missing_component<components::PhysicsComponent>(e1);
     auto& physics1 = e1.getComponent<components::PhysicsComponent>();
+    throw_if_missing_component<components::TransformComponent>(e1);
+    auto& transform1 = e1.getComponent<components::TransformComponent>();
 
     throw_if_missing_component<components::PhysicsComponent>(e2);
     auto& physics2 = e2.getComponent<components::PhysicsComponent>();
+    throw_if_missing_component<components::TransformComponent>(e2);
+    auto& transform2 = e2.getComponent<components::TransformComponent>();
 
     float vel_dx = physics2.velocity.x - physics1.velocity.x;
     float vel_dy = physics2.velocity.y - physics1.velocity.y;
@@ -132,6 +136,21 @@ void Collision::resolve_collision(
         "entity1 force is x{}, y{}", physics1.force.x, physics1.force.y);
     m_sp_logger->debug(
         "entity2 force is x{}, y{}", physics2.force.x, physics2.force.y);
+
+    const float positional_percent = 0.2;
+    const float positional_slop = 0.01;
+    float x_correction =
+        std::max(p_manifold->penetration.x - positional_slop, 0.0f) /
+        (physics1.inv_mass + physics2.inv_mass) * positional_percent *
+        p_manifold->normal.x;
+    float y_correction =
+        std::max(p_manifold->penetration.y - positional_slop, 0.0f) /
+        (physics1.inv_mass + physics2.inv_mass) * positional_percent *
+        p_manifold->normal.y;
+    transform1.pos_x -= physics1.inv_mass * x_correction;
+    transform1.pos_y -= physics1.inv_mass * y_correction;
+    transform2.pos_x += physics2.inv_mass * x_correction;
+    transform2.pos_y += physics2.inv_mass * y_correction;
 }
 
 void Collision::update(double delta_time)
