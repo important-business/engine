@@ -28,13 +28,58 @@ public:
     std::string &outputstring;
 };
 
-class AiNodeSequenceTest : public testing::Test {
-protected:
+class AiNodeTest : public testing::Test {
+public:
     virtual void SetUp() {}
     anax::Entity entity;
     AiSystem sys;
-    AiNodeSequence a;
     std::string outputstring;
+};
+
+
+class AiNodeDecoratorInvertTest : public AiNodeTest{
+public:
+};
+
+/* Test that null decoratee returns failure */
+TEST_F(AiNodeDecoratorInvertTest, invert_nullptr)
+{
+    AiNodeDecoratorInvert a(nullptr);
+    ASSERT_EQ(AI_RESULT_FAIL, a.execute(entity, sys));
+}
+
+/* Test that failing decoratee returns success */
+TEST_F(AiNodeDecoratorInvertTest, invert_fail)
+{
+    AiNodeDecoratorInvert a(new TestNode("A", AI_RESULT_FAIL, outputstring));
+    ASSERT_EQ(AI_RESULT_SUCCESS, a.execute(entity, sys));
+    ASSERT_EQ("AE\n", outputstring);
+    a.success(entity, sys);
+    ASSERT_EQ("AE\nAF\n", outputstring);
+}
+
+/* Test that failing decoratee returns success */
+TEST_F(AiNodeDecoratorInvertTest, invert_ready)
+{
+    AiNodeDecoratorInvert a(new TestNode("A", AI_RESULT_READY, outputstring));
+    ASSERT_EQ(AI_RESULT_READY, a.execute(entity, sys));
+    ASSERT_EQ("AE\n", outputstring);
+}
+
+/* Test that succesful decoratee returns fail */
+TEST_F(AiNodeDecoratorInvertTest, invert_success)
+{
+    AiNodeDecoratorInvert a(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
+    ASSERT_EQ(AI_RESULT_FAIL, a.execute(entity, sys));
+    ASSERT_EQ("AE\n", outputstring);
+    a.failure(entity, sys);
+    ASSERT_EQ("AE\nAS\n", outputstring);
+}
+
+
+class AiNodeSequenceTest : public AiNodeTest{
+public:
+    AiNodeSequence a;
 };
 
 /* Test that empty returns success */
@@ -119,13 +164,9 @@ TEST_F(AiNodeSequenceTest, sequence_mid_sequence_faisequencel){
     ASSERT_EQ(2, a.get_child_count());
 }
 
-class AiNodeSelectorTest : public testing::Test {
-protected:
-    virtual void SetUp() {}
-    anax::Entity entity;
-    AiSystem sys;
+class AiNodeSelectorTest : public AiNodeTest{
+public:
     AiNodeSelector a;
-    std::string outputstring;
 };
 
 /* Test that empty returns failure */
