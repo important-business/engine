@@ -88,6 +88,8 @@ public:
 
 protected:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual void _success(anax::Entity entity, AiSystem const& aisystem);
+    virtual void _failure(anax::Entity entity, AiSystem const& aisystem);
 };
 
 class AiNodeMoveTo : public AiNode

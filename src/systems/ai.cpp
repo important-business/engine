@@ -163,35 +163,68 @@ AiResult AiNodeSelector::_execute(anax::Entity entity, AiSystem const& aisystem)
 AiResult AiNodeDecorator::_execute(
     anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->execute(entity, aisystem);
+    if (m_up_decoratee != nullptr)
+    {
+        return m_up_decoratee->execute(entity, aisystem);
+    }
+    else
+    {
+        return AI_RESULT_FAIL;
+    }
 }
 void AiNodeDecorator::_success(anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->success(entity, aisystem);
+    if (m_up_decoratee != nullptr)
+    {
+        return m_up_decoratee->success(entity, aisystem);
+    }
 }
 void AiNodeDecorator::_failure(anax::Entity entity, AiSystem const& aisystem)
 {
-    return m_up_decoratee->failure(entity, aisystem);
+    if (m_up_decoratee != nullptr)
+    {
+        return m_up_decoratee->failure(entity, aisystem);
+    }
 }
 
 AiResult AiNodeDecoratorInvert::_execute(
     anax::Entity entity, AiSystem const& aisystem)
 {
-    auto status = m_up_decoratee->execute(entity, aisystem);
-    AiResult result;
-    switch (status)
+    AiResult result = AI_RESULT_FAIL;
+    if (m_up_decoratee != nullptr)
     {
-    case AI_RESULT_FAIL:
-        result = AI_RESULT_SUCCESS;
-        break;
-    case AI_RESULT_SUCCESS:
-        result = AI_RESULT_FAIL;
-        break;
-    case AI_RESULT_READY:
-    default:
-        result = status;
+        auto status = m_up_decoratee->execute(entity, aisystem);
+        switch (status)
+        {
+        case AI_RESULT_FAIL:
+            result = AI_RESULT_SUCCESS;
+            break;
+        case AI_RESULT_SUCCESS:
+            result = AI_RESULT_FAIL;
+            break;
+        case AI_RESULT_READY:
+        default:
+            result = status;
+        }
     }
     return result;
+}
+
+void AiNodeDecoratorInvert::_success(
+    anax::Entity entity, AiSystem const& aisystem)
+{
+    if (m_up_decoratee != nullptr)
+    {
+        return m_up_decoratee->failure(entity, aisystem);
+    }
+}
+void AiNodeDecoratorInvert::_failure(
+    anax::Entity entity, AiSystem const& aisystem)
+{
+    if (m_up_decoratee != nullptr)
+    {
+        return m_up_decoratee->success(entity, aisystem);
+    }
 }
 
 AiNodeMoveTo::AiNodeMoveTo(double pos_x, double pos_y, double tolerance)
