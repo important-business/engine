@@ -14,13 +14,13 @@ Hockey::Hockey(int score_limit)
 void Hockey::check_trigger(std::string msg, anax::Entity e_target)
 {
     auto id = e_target.getComponent<components::IdComponent>().id;
-    m_sp_logger->info("trigger {}", id);
 
     if (id.compare("puck") == 0)
     {
         bool reset = false;
         if (msg.compare("goal_a"))
         {
+            m_sp_logger->info("A team scores!");
             m_score_a++;
             reset = true;
             if (m_score_a > m_score_limit)
@@ -32,6 +32,7 @@ void Hockey::check_trigger(std::string msg, anax::Entity e_target)
         {
             m_score_b++;
             reset = true;
+            m_sp_logger->info("B team scores!");
             if (m_score_b > m_score_limit)
             {
                 m_sp_logger->info("B team wins!");
@@ -40,6 +41,7 @@ void Hockey::check_trigger(std::string msg, anax::Entity e_target)
 
         if (reset)
         {
+            m_sp_logger->info("Score is now A:{} B:{}", m_score_a, m_score_b);
             throw_if_missing_component<components::TransformComponent>(
                 e_target);
             throw_if_missing_component<components::PhysicsComponent>(e_target);
