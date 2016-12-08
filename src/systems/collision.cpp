@@ -89,7 +89,7 @@ void Collision::resolve_collision(
     assert(p_manifold != nullptr);
 
     if (!e1.hasComponent<components::PhysicsComponent>() ||
-        !e1.hasComponent<components::PhysicsComponent>())
+        !e2.hasComponent<components::PhysicsComponent>())
     {
         return;
     }
