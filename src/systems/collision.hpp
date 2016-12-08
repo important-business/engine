@@ -11,6 +11,8 @@
 #include <vector>
 #include <algorithm>
 #include <anax/System.hpp>
+#include <wink/signal.hpp>
+#include <wink/slot.hpp>
 
 namespace systems
 {
@@ -28,22 +30,17 @@ struct Collision
 public:
     Collision();
 
-    struct Listener
-    {
-        virtual ~Listener() = 0;
-
-        virtual void on_collision_occured(
-            anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold) = 0;
-    };
     void update(double delta_time);
-    void add_listener(Listener& listener);
-    void remove_listener(Listener& listener);
+
+    wink::signal<wink::slot<void (std::string, anax::Entity)>> m_trigger_signal;
 
 private:
     Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
     void resolve_collision(
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
-    std::vector<Listener*> m_listeners;
+    void check_trigger(
+        anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
+
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }

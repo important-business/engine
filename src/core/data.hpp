@@ -33,6 +33,8 @@ private:
     void factory_component_texture(const Json::Value data, anax::Entity entity);
     void factory_component_transform(
         const Json::Value data, anax::Entity entity);
+    void factory_component_trigger(
+        const Json::Value data, anax::Entity entity);
     void factory_component_physics(
         const Json::Value data, anax::Entity entity);
 

@@ -17,6 +17,7 @@ const std::string MovementComponent::name{"movement"};
 const std::string PlayerComponent::name{"player"};
 const std::string TextureComponent::name{"texture"};
 const std::string TransformComponent::name{"transform"};
+const std::string Trigger::name{"trigger"};
 const std::string PhysicsComponent::name{"physics"};
 
 } // namespace components

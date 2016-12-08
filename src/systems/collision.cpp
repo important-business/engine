@@ -1,4 +1,5 @@
 #include "systems/collision.hpp"
+#include "components/id.hpp"
 #include "core/exception.hpp"
 
 #include <anax/System.hpp>
@@ -8,10 +9,6 @@
 
 namespace systems
 {
-
-Collision::Listener::~Listener()
-{
-}
 
 Collision::Collision()
 {
@@ -179,25 +176,25 @@ void Collision::update(double delta_time)
             if (up_manifold)
             {
                 resolve_collision(e1, e2, up_manifold.get());
-                for (auto& listener : m_listeners)
-                {
-                    listener->on_collision_occured(e1, e2, up_manifold.get());
-                }
+                check_trigger(e1, e2, up_manifold.get());
             }
         }
     }
 }
 
-void Collision::add_listener(Listener& listener)
+void Collision::check_trigger(
+    anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
 {
-    m_listeners.push_back(&listener);
-}
-
-void Collision::remove_listener(Listener& listener)
-{
-    m_listeners.erase(
-        std::remove(m_listeners.begin(), m_listeners.end(), &listener),
-        m_listeners.end());
+    if (e1.hasComponent<components::Trigger>())
+    {
+        auto msg = e1.getComponent<components::Trigger>().trigger_msg;
+        m_trigger_signal.emit(msg, e2);
+    }
+    else if (e2.hasComponent<components::Trigger>())
+    {
+        auto msg = e2.getComponent<components::Trigger>().trigger_msg;
+        m_trigger_signal.emit(msg, e1);
+    }
 }
 
 } // namespace systems

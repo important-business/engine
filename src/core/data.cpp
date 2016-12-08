@@ -291,6 +291,18 @@ void DataReader::factory_component_transform(
         pos_x, pos_y, size_x, size_y, rotation, flip_vert, flip_horiz);
 }
 
+void DataReader::factory_component_trigger(
+    const Json::Value data, anax::Entity entity)
+{
+    const std::string prop_msg{"msg"};
+
+    check_required_component_property(
+        data, components::Trigger::name, prop_msg);
+    std::string msg = data[prop_msg].asString();
+
+    entity.addComponent<components::Trigger>(msg);
+}
+
 void DataReader::factory_component_movement(
     const Json::Value data, anax::Entity entity)
 {
@@ -356,6 +368,8 @@ DataReader::DataReader(std::string filename) : JsonFileReader(filename)
     component_factories.insert(
         std::make_pair(components::TransformComponent::name,
             &DataReader::factory_component_transform));
+    component_factories.insert(std::make_pair(
+        components::Trigger::name, &DataReader::factory_component_trigger));
     component_factories.insert(
         std::make_pair(components::PhysicsComponent::name,
             &DataReader::factory_component_physics));

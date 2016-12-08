@@ -23,6 +23,16 @@ struct Collision : anax::Component
 
     static const std::string name;
 };
+
+struct Trigger : anax::Component
+{
+    Trigger(
+    std::string trigger_msg)
+    :trigger_msg(trigger_msg){}
+    std::string trigger_msg;
+    static const std::string name;
+};
+
 }
 
 #endif /* COMPONENTS_COLLISION_HPP */
