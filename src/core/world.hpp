@@ -6,6 +6,7 @@
 #include "core/resource_manager.hpp"
 #include "systems/ai.hpp"
 #include "systems/movement.hpp"
+#include "systems/hockey.hpp"
 #include "systems/player_input.hpp"
 #include "systems/render.hpp"
 #include "systems/collision.hpp"
@@ -48,6 +49,8 @@ private:
     std::unique_ptr<systems::Render> m_up_render_system;
 
     std::unique_ptr<systems::Movement> m_up_movement_system;
+
+    std::unique_ptr<systems::Hockey> m_up_hockey_system;
 
     std::unique_ptr<systems::PlayerInput> m_up_player_input_system;
 

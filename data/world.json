@@ -87,125 +87,37 @@
             }
         }
     },
-    "goose1" : 
+    "goal" : 
     {
         "components" : 
         {
-            "ai" : 
+            "collision" : 
             {
-                "root_node" : 
-                {
-                    "children" : 
-                    [
-                        {
-                            "pos_x" : 0,
-                            "pos_y" : 0,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 800,
-                            "pos_y" : 800,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 1600,
-                            "pos_y" : 0,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 800,
-                            "pos_y" : 800,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 1600,
-                            "pos_y" : 1600,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 800,
-                            "pos_y" : 800,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 0,
-                            "pos_y" : 1600,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 800,
-                            "pos_y" : 800,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        }
-                    ],
-                    "type" : "loop"
-                }
+                "cancauseevents" : true,
+                "h" : 2048,
+                "w" : 512,
+                "x" : 0,
+                "y" : 0
+            },
+            "texture" : 
+            {
+                "texture_path" : "resources/angry_goose_head.png"
             },
             "transform" : 
             {
-                "pos_x" : 100,
-                "pos_y" : 100
-            }
-        },
-        "template" : "$goose"
-    },
-    "goose2" : 
-    {
-        "components" : 
-        {
-            "ai" : 
-            {
-                "root_node" : 
-                {
-                    "children" : 
-                    [
-                        {
-                            "pos_x" : 0,
-                            "pos_y" : 0,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 1600,
-                            "pos_y" : 0,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 1600,
-                            "pos_y" : 1600,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        },
-                        {
-                            "pos_x" : 0,
-                            "pos_y" : 1600,
-                            "tolerance" : 6,
-                            "type" : "moveto"
-                        }
-                    ],
-                    "type" : "loop"
-                }
+                "flip_horiz" : false,
+                "flip_vert" : false,
+                "pos_x" : 0,
+                "pos_y" : 0,
+                "rotation" : 0,
+                "size_x" : 2048,
+                "size_y" : 512
             },
-            "physics" : 
+            "trigger" : 
             {
-                "mass" : 5
-            },
-            "transform" : 
-            {
-                "pos_x" : 100,
-                "pos_y" : 300
+                "msg" : "goal_a"
             }
-        },
-        "template" : "$goose"
+        }
     },
     "goosegoalie" : 
     {
@@ -220,7 +132,7 @@
                         {
                             "follow_x" : true,
                             "follow_y" : false,
-                            "target" : "goose1",
+                            "target" : "puck",
                             "tolerance" : 100,
                             "type" : "follow"
                         }
@@ -259,9 +171,28 @@
         },
         "template" : "$goose"
     },
+    "puck" : 
+    {
+        "components" : 
+        {
+            "transform" : 
+            {
+                "pos_x" : 800,
+                "pos_y" : 800,
+                "size_x" : 32,
+                "size_y" : 32
+            }
+        },
+        "physics" : 
+        {
+            "friction" : 1,
+            "mass" : 2
+        },
+        "template" : "$goose"
+    },
     "world" : 
     {
-        "entities" : [ "goose1", "goose2", "goosegoalie", "player", "camera" ],
+        "entities" : [ "goal", "player", "camera", "puck" ],
         "level" : "asdf",
         "systems" : 
         [

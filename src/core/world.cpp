@@ -99,6 +99,8 @@ void World::init(Uint32 sdl_render_flags)
     m_up_player_input_system = std::make_unique<systems::PlayerInput>();
     m_up_collision_system = std::make_unique<systems::Collision>();
 
+    m_up_hockey_system = std::make_unique<systems::Hockey>();
+
     m_up_texture_manager->set_default_renderer(
         m_up_render_system->get_renderer());
 
@@ -114,6 +116,10 @@ void World::init(Uint32 sdl_render_flags)
     m_up_anax_world->addSystem(*m_up_movement_system);
     m_up_anax_world->addSystem(*m_up_player_input_system);
     m_up_anax_world->addSystem(*m_up_collision_system);
+
+    m_up_collision_system->m_trigger_signal.connect(
+        m_up_hockey_system.get(), &systems::Hockey::check_trigger);
+
     m_up_player_input_system->m_movement_signal.connect(
         m_up_movement_system.get(), &systems::Movement::move_actor);
     m_up_ai_system->m_movement_signal.connect(
