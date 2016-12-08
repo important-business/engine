@@ -3,17 +3,6 @@
 namespace core
 {
 
-bool LevelTile::collides() const
-{
-    return m_collides;
-}
-void LevelTile::get_color(uint8_t& red, uint8_t& blue, uint8_t& green) const
-{
-    red = m_red;
-    blue = m_blue;
-    green = m_green;
-}
-
 int Level::get(int x, int y) const
 {
     if ((x > m_size_x) || (y > m_size_y))

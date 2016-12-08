@@ -9,34 +9,6 @@
 namespace core
 {
 
-// TODO: don't duplicate all the data for each tile
-class LevelTile
-{
-public:
-    LevelTile(bool collides = false,
-        uint8_t red = 0,
-        uint8_t blue = 0,
-        uint8_t green = 0)
-        : m_tilechar(' '),
-          m_sp_texture(nullptr),
-          m_collides(collides),
-          m_red(red),
-          m_blue(blue),
-          m_green(green)
-    {
-    }
-    bool collides() const;
-
-    void get_color(uint8_t& red, uint8_t& blue, uint8_t& green) const;
-
-    char m_tilechar;
-
-private:
-    std::shared_ptr<sdl_wrap::Texture> m_sp_texture;
-    bool m_collides;
-    uint8_t m_red, m_blue, m_green;
-};
-
 class LevelTileSet
 {
 public:
