@@ -29,6 +29,14 @@
     ],
     "nextobjectid" : 1,
     "orientation" : "orthogonal",
+    "properties" : 
+    {
+        "defaulttile" : 2
+    },
+    "propertytypes" : 
+    {
+        "defaulttile" : "int"
+    },
     "renderorder" : "right-down",
     "tileheight" : 32,
     "tilesets" : 
