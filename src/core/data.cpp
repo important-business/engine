@@ -464,13 +464,12 @@ LevelReader::LevelReader(std::string filename) : JsonFileReader(filename)
 
 void LevelReader::build_level(std::unique_ptr<Level>& up_level)
 {
-    uint16_t size_x = m_json_data["width"].asInt();
-    uint16_t size_y = m_json_data["height"].asInt();
-    uint16_t layer_count = m_json_data["layers"].size();
+    unsigned int size_x = m_json_data["width"].asInt();
+    unsigned int size_y = m_json_data["height"].asInt();
+    unsigned int layer_count = m_json_data["layers"].size();
     float tileheight = m_json_data["tileheight"].asFloat();
     float scale = m_json_data["properties"].get("scale", 1.0).asFloat();
-    int32_t default_tile =
-        m_json_data["properties"].get("defaulttile", 1).asInt();
+    int default_tile = m_json_data["properties"].get("defaulttile", 1).asInt();
 
     up_level = std::make_unique<Level>(
         size_x, size_y, layer_count, tileheight * scale, default_tile);

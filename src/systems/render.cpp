@@ -148,8 +148,8 @@ void Render::render_level(core::Level* plevel,
     float camera_max_y,
     float camera_zoom)
 {
-    int32_t size_x, size_y, size_layers;
-    int32_t level_min_x, level_min_y, level_max_x, level_max_y;
+    int size_x, size_y, size_layers;
+    int level_min_x, level_min_y, level_max_x, level_max_y;
 
     plevel->get_size(size_x, size_y, size_layers);
     plevel->get_tile(camera_min_x, camera_min_y, level_min_x, level_min_y);
