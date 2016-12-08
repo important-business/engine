@@ -507,11 +507,11 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
         auto data = val["data"];
         // TODO(Keegan, check encoding, don't just assume)
         auto decoded = string_decode(base64_decode(data.asString()));
-        for (uint16_t index = 0; index < decoded.size(); ++index)
+        for (int index = 0; index < decoded.size(); ++index)
         {
-            uint16_t tile_x = index % width;
-            uint16_t tile_y = index / width;
-            int16_t tilegid = decoded[index];
+            int tile_x = index % width;
+            int tile_y = index / width;
+            int tilegid = decoded[index];
             p_level->set(tile_x, tile_y, layerindex, tilegid);
         }
     }
@@ -535,12 +535,12 @@ LevelTileSet* LevelReader::load_tileset(std::string filename)
     std::string image_filename =
         pathname(filename) + m_json_tileset["image"].asString();
     std::string name = m_json_tileset["name"].asString();
-    uint16_t tilewidth = m_json_tileset["tilewidth"].asInt();
-    uint16_t tileheight = m_json_tileset["tilewidth"].asInt();
-    uint16_t tilecount = m_json_tileset["tilecount"].asInt();
-    uint16_t columns = m_json_tileset["columns"].asInt();
-    uint16_t margin = m_json_tileset["margin"].asInt();
-    uint16_t spacing = m_json_tileset["spacing"].asInt();
+    unsigned int tilewidth = m_json_tileset["tilewidth"].asInt();
+    unsigned int tileheight = m_json_tileset["tilewidth"].asInt();
+    unsigned int tilecount = m_json_tileset["tilecount"].asInt();
+    unsigned int columns = m_json_tileset["columns"].asInt();
+    unsigned int margin = m_json_tileset["margin"].asInt();
+    unsigned int spacing = m_json_tileset["spacing"].asInt();
     return new LevelTileSet{name,
         image_filename,
         columns,
