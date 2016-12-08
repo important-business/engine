@@ -1,4 +1,34 @@
 {
+    "$goal" : 
+    {
+        "components" : 
+        {
+            "collision" : 
+            {
+                "cancauseevents" : true,
+                "h" : 2048,
+                "w" : 512,
+                "x" : 0,
+                "y" : 0
+            },
+            "texture" : 
+            {
+                "texture_path" : "resources/angry_goose_head.png"
+            },
+            "transform" : 
+            {
+                "flip_horiz" : false,
+                "flip_vert" : false,
+                "rotation" : 0,
+                "size_x" : 2048,
+                "size_y" : 512
+            },
+            "trigger" : 
+            {
+                "msg" : "goal_a"
+            }
+        }
+    },
     "$goose" : 
     {
         "components" : 
@@ -87,37 +117,37 @@
             }
         }
     },
-    "goal" : 
+    "goal_a" : 
     {
         "components" : 
         {
-            "collision" : 
-            {
-                "cancauseevents" : true,
-                "h" : 2048,
-                "w" : 512,
-                "x" : 0,
-                "y" : 0
-            },
-            "texture" : 
-            {
-                "texture_path" : "resources/angry_goose_head.png"
-            },
             "transform" : 
             {
-                "flip_horiz" : false,
-                "flip_vert" : false,
-                "pos_x" : 0,
-                "pos_y" : 0,
-                "rotation" : 0,
-                "size_x" : 2048,
-                "size_y" : 512
+                "pos_x" : 800,
+                "pos_y" : 0
             },
             "trigger" : 
             {
                 "msg" : "goal_a"
             }
-        }
+        },
+        "template" : "$goal"
+    },
+    "goal_b" : 
+    {
+        "components" : 
+        {
+            "transform" : 
+            {
+                "pos_x" : 800,
+                "pos_y" : 1600
+            },
+            "trigger" : 
+            {
+                "msg" : "goal_b"
+            }
+        },
+        "template" : "$goal"
     },
     "goosegoalie" : 
     {
@@ -192,7 +222,7 @@
     },
     "world" : 
     {
-        "entities" : [ "goal", "player", "camera", "puck" ],
+        "entities" : [ "goal_a", "goal_b", "player", "camera", "puck" ],
         "level" : "asdf",
         "systems" : 
         [
