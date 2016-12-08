@@ -469,9 +469,11 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
     uint16_t layer_count = m_json_data["layers"].size();
     float tileheight = m_json_data["tileheight"].asFloat();
     float scale = m_json_data["properties"].get("scale", 1.0).asFloat();
+    int32_t default_tile =
+        m_json_data["properties"].get("defaulttile", 1).asInt();
 
     up_level = std::make_unique<Level>(
-        size_x, size_y, layer_count, tileheight * scale);
+        size_x, size_y, layer_count, tileheight * scale, default_tile);
     auto p_level = up_level.get();
 
     // TODO(Keegan): Use tilewidth as well

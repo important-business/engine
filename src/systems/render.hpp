@@ -43,32 +43,36 @@ struct Render : anax::System<anax::Requires<components::TextureComponent,
 
     bool is_valid() const;
 
-    sdl_wrap::Renderer* get_renderer() const;
+    sdl_wrap::Renderer* get_renderer();
 
-    sdl_wrap::Window* get_window() const;
+    sdl_wrap::Window* get_window();
 
 private:
-    void get_camera_offsets(
-        int* p_camera_offset_x, int* p_camera_offset_y, float* p_camera_zoom);
+    void get_camera_extents(
+        float& camera_min_x, float& camera_min_y, float &camera_max_x,float &camera_max_y, float &camera_zoom);
 
-    void render_entities(int camera_offset_x = 0,
-        int camera_offset_y = 0,
-        float camera_zoom = 1.0);
+    void render_entities(float camera_min_x = 0.0f,
+        float camera_min_y = 0.0f,
+        float camera_max_x = 0.0f,
+        float camera_max_y = 0.0f,
+        float camera_zoom = 1.0f);
 
     void render_level(core::Level* plevel,
-        int camera_offset_x = 0,
-        int camera_offset_y = 0,
-        float camera_zoom = 1.0);
+        float camera_min_x = 0.0f,
+        float camera_min_y = 0.0f,
+        float camera_max_x = 0.0f,
+        float camera_max_y = 0.0f,
+        float camera_zoom = 1.0f);
 
-    sdl_wrap::Window* m_p_window;
+    std::unique_ptr<sdl_wrap::Window> m_up_window;
 
-    sdl_wrap::Renderer* m_p_renderer;
+    std::unique_ptr<sdl_wrap::Renderer> m_up_renderer;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
 
     Camera& m_camerasystem;
 
-    core::ResourceManagerTexture* m_p_resourcemanager;
+    std::unique_ptr<core::ResourceManagerTexture> m_up_resourcemanager;
 };
 }
 #endif /* SYSTEMS_RENDER_HPP */

@@ -14,7 +14,7 @@ void LevelTile::get_color(uint8_t& red, uint8_t& blue, uint8_t& green) const
     green = m_green;
 }
 
-int32_t Level::get(uint16_t x, uint16_t y) const
+int32_t Level::get(int32_t x, int32_t y) const
 {
     if ((x > m_size_x) || (y > m_size_y))
     {
@@ -32,28 +32,42 @@ int32_t Level::get(uint16_t x, uint16_t y) const
     return result;
 }
 
-int32_t& Level::get_raw(uint16_t pos_x, uint16_t pos_y, uint16_t layer)
+int32_t& Level::get_raw(int32_t pos_x, int32_t pos_y, int32_t layer)
 {
     return const_cast<int32_t&>(
         const_cast<const Level*>(this)->get_raw(pos_x, pos_y, layer));
 }
 
-const int32_t& Level::get_raw(
-    uint16_t pos_x, uint16_t pos_y, uint16_t layer) const
+const int32_t& Level::get_raw(int32_t pos_x, int32_t pos_y, int32_t layer) const
 {
-    return m_p_tiles[pos_x + (pos_y * m_size_x) +
-        (layer * m_size_y * m_size_x)];
+    if (pos_x > m_size_x || pos_x < 0 || pos_y > m_size_y || pos_y < 0)
+    {
+        return m_default_tile;
+    }
+    else
+    {
+        return m_p_tiles[pos_x + (pos_y * m_size_x) +
+            (layer * m_size_y * m_size_x)];
+    }
 }
 
-Level::Level(uint16_t size_x, uint16_t size_y, uint16_t layers, float scale)
-    : m_size_x(size_x), m_size_y(size_y), m_layers(layers), m_scale(scale)
+Level::Level(int32_t size_x,
+    int32_t size_y,
+    int32_t layers,
+    float scale,
+    int32_t default_tile)
+    : m_size_x(size_x),
+      m_size_y(size_y),
+      m_layers(layers),
+      m_scale(scale),
+      m_default_tile(default_tile)
 {
     m_p_tiles = new int32_t[size_x * size_y * layers];
-    for (uint16_t layer = 0; layer < layers; layer++)
+    for (int32_t layer = 0; layer < layers; layer++)
     {
-        for (uint16_t pos_x = 0; pos_x < size_x; pos_x++)
+        for (int32_t pos_x = 0; pos_x < size_x; pos_x++)
         {
-            for (uint16_t pos_y = 0; pos_y < size_y; pos_y++)
+            for (int32_t pos_y = 0; pos_y < size_y; pos_y++)
             {
                 set(pos_x, pos_y, layer, -1);
             }
@@ -73,7 +87,7 @@ float Level::get_scale() const
     return m_scale;
 }
 
-void Level::get_size(uint16_t& x, uint16_t& y, uint16_t& layers) const
+void Level::get_size(int32_t& x, int32_t& y, int32_t& layers) const
 {
     x = m_size_x;
     y = m_size_y;
@@ -81,11 +95,11 @@ void Level::get_size(uint16_t& x, uint16_t& y, uint16_t& layers) const
 }
 
 void Level::get_tile(
-    float world_x, float world_y, uint16_t& tile_x, uint16_t& tile_y) const
+    float world_x, float world_y, int32_t& tile_x, int32_t& tile_y) const
 {
     // TODO(Keegan): Don't think it's actually quite this simple
-    tile_x = world_x * m_scale;
-    tile_y = world_y * m_scale;
+    tile_x = world_x / m_scale;
+    tile_y = world_y / m_scale;
 }
 
 LevelTileSet* Level::get_tileset() const
@@ -99,12 +113,12 @@ uint16_t LevelTileSet::get_tilecount() const
 }
 void Level::print() const
 {
-    for (uint16_t layer = 0; layer < m_layers; layer++)
+    for (int32_t layer = 0; layer < m_layers; layer++)
     {
         std::cout << "layer " << layer << std::endl;
-        for (uint16_t pos_y = 0; pos_y < m_size_y; pos_y++)
+        for (int32_t pos_y = 0; pos_y < m_size_y; pos_y++)
         {
-            for (uint16_t pos_x = 0; pos_x < m_size_x; pos_x++)
+            for (int32_t pos_x = 0; pos_x < m_size_x; pos_x++)
             {
                 auto currtile = get(pos_x, pos_y);
                 std::cout << '[' << currtile << ']';
@@ -115,7 +129,7 @@ void Level::print() const
     }
 }
 
-void Level::set(uint16_t pos_x, uint16_t pos_y, uint16_t layer, int16_t tile_id)
+void Level::set(int32_t pos_x, int32_t pos_y, int32_t layer, int16_t tile_id)
 {
     auto& tile = get_raw(pos_x, pos_y, layer);
     tile = tile_id;
