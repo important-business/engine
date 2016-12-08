@@ -172,7 +172,7 @@
             },
             "transform" : 
             {
-                "pos_x" : 500,
+                "pos_x" : 800,
                 "pos_y" : 1200
             }
         },
@@ -215,14 +215,14 @@
         },
         "physics" : 
         {
-            "friction" : 1,
+            "friction" : 10,
             "mass" : 2
         },
         "template" : "$goose"
     },
     "world" : 
     {
-        "entities" : [ "goal_a", "goal_b", "player", "camera", "puck" ],
+        "entities" : ["puck", "goal_a", "goal_b", "goosegoalie", "player", "camera"],
         "level" : "asdf",
         "systems" : 
         [
