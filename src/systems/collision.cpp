@@ -91,13 +91,17 @@ void Collision::resolve_collision(
 {
     assert(p_manifold != nullptr);
 
-    throw_if_missing_component<components::PhysicsComponent>(e1);
+    if (!e1.hasComponent<components::PhysicsComponent>() ||
+        !e1.hasComponent<components::PhysicsComponent>())
+    {
+        return;
+    }
+    auto& physics2 = e2.getComponent<components::PhysicsComponent>();
     auto& physics1 = e1.getComponent<components::PhysicsComponent>();
+
     throw_if_missing_component<components::TransformComponent>(e1);
     auto& transform1 = e1.getComponent<components::TransformComponent>();
 
-    throw_if_missing_component<components::PhysicsComponent>(e2);
-    auto& physics2 = e2.getComponent<components::PhysicsComponent>();
     throw_if_missing_component<components::TransformComponent>(e2);
     auto& transform2 = e2.getComponent<components::TransformComponent>();
 
