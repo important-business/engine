@@ -4,6 +4,7 @@
 #include "systems.hpp"
 
 #include "core/logging.hpp"
+#include "core/level.hpp"
 #include "components/collision.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
@@ -30,14 +31,17 @@ struct Collision
 public:
     Collision();
 
-    void update(double delta_time);
+    void update(core::Level *p_level = nullptr);
 
     wink::signal<wink::slot<void (std::string, anax::Entity)>> m_trigger_signal;
 
 private:
     Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
+    Manifold* check_level_collision(anax::Entity& e, core::Level *p_level);
     void resolve_collision(
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
+    void resolve_collision(
+        anax::Entity& e1, Manifold* p_manifold);
     void check_trigger(
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
 

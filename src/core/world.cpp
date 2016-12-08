@@ -137,7 +137,7 @@ void World::execute_fixed(float dt)
     m_up_anax_world->refresh();
     m_up_player_input_system->update();
     m_up_ai_system->update();
-    m_up_collision_system->update(dt);
+    m_up_collision_system->update(m_up_level.get());
     m_up_movement_system->update(dt);
     m_up_render_system->render(m_up_level.get());
 }
