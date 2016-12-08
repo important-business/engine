@@ -49,7 +49,7 @@
             "physics" : 
             {
                 "friction" : 0,
-                "mass" : 1,
+                "mass" : 5,
                 "vel_x" : 0,
                 "vel_y" : 0
             },
@@ -101,7 +101,7 @@
             "physics" : 
             {
                 "friction" : 5,
-                "mass" : 1,
+                "mass" : 5,
                 "vel_x" : 0,
                 "vel_y" : 0
             },
@@ -205,24 +205,40 @@
     {
         "components" : 
         {
+            "collision" : 
+            {
+                "cancauseevents" : true,
+                "h" : 32,
+                "w" : 32,
+                "x" : 0,
+                "y" : 0
+            },
+            "physics" : 
+            {
+                "friction" : 2,
+                "mass" : 1,
+                "vel_x" : 0,
+                "vel_y" : 0
+            },
+            "texture" : 
+            {
+                "texture_path" : "resources/angry_goose_head.png"
+            },
             "transform" : 
             {
+                "flip_horiz" : false,
+                "flip_vert" : false,
                 "pos_x" : 800,
                 "pos_y" : 800,
+                "rotation" : 0,
                 "size_x" : 32,
                 "size_y" : 32
             }
-        },
-        "physics" : 
-        {
-            "friction" : 10,
-            "mass" : 2
-        },
-        "template" : "$goose"
+        }
     },
     "world" : 
     {
-        "entities" : ["puck", "goal_a", "goal_b", "goosegoalie", "player", "camera"],
+        "entities" : [ "puck", "goal_a", "goal_b", "goosegoalie", "player", "camera" ],
         "level" : "asdf",
         "systems" : 
         [
