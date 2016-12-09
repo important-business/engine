@@ -47,11 +47,12 @@ private:
 public:
     PhysicsComponent(float mass,
         float friction,
+        float restitution,
         float vel_x,
         float vel_y,
         float force_x,
         float force_y)
-        : inv_mass(calc_inv_mass(mass)), friction(friction)
+        : inv_mass(calc_inv_mass(mass)), friction(friction), restitution(restitution)
     {
         velocity.x = vel_x;
         velocity.y = vel_y;
@@ -60,6 +61,7 @@ public:
     }
     float inv_mass;
     float friction;
+    float restitution;
     Vector velocity;
     Vector force;
 

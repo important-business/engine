@@ -21,7 +21,7 @@ anax::Entity camera_factory(anax::World& world, float pos_x, float pos_y)
     (void)entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 0.0f, 0.0f, 0.0f, false, true);
     (void)entity.addComponent<components::PhysicsComponent>(
-        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
     (void)entity.addComponent<components::CameraComponent>(1.0f);
 
     entity.activate();
@@ -40,7 +40,7 @@ anax::Entity goose_factory(anax::World& world,
     auto transform = entity.addComponent<components::TransformComponent>(
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::PhysicsComponent>(
-        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
     (void)entity.addComponent<components::Collision>(0,
         0,
@@ -66,7 +66,7 @@ anax::Entity player_factory(anax::World& world,
         pos_x, pos_y, 128.0f, 128.0f, 0.0f, false, true);
     (void)entity.addComponent<components::PlayerComponent>();
     (void)entity.addComponent<components::PhysicsComponent>(
-        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
     (void)entity.addComponent<components::Collision>(0,
         0,

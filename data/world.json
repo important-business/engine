@@ -49,6 +49,7 @@
             "physics" : 
             {
                 "friction" : 0,
+                "restitution" : 1,
                 "mass" : 5,
                 "vel_x" : 0,
                 "vel_y" : 0
@@ -102,6 +103,7 @@
             {
                 "friction" : 5,
                 "mass" : 5,
+                "restitution" : 1,
                 "vel_x" : 0,
                 "vel_y" : 0
             },
@@ -218,6 +220,7 @@
                 "friction" : 2,
                 "mass" : 1,
                 "vel_x" : 0,
+                "restitution" : 2,
                 "vel_y" : 0
             },
             "texture" : 

@@ -168,7 +168,8 @@ void Collision::resolve_collision(
         return;
     }
     // TODO(Keegan): Add restitution calculation
-    const float restitution = 1.0f;
+    const float restitution =
+        std::max(physics1.restitution, physics2.restitution);
 
     float impulse = -(1.0f * restitution) * vel_normal;
 
@@ -232,8 +233,7 @@ void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
         m_sp_logger->debug("Objects are moving away");
         return;
     }
-    // TODO(Keegan) Add restitution calculation
-    const float restitution = 2.0f;
+    const float restitution = physics1.restitution;
 
     float impulse = -(1.0f * restitution) * vel_normal;
 
