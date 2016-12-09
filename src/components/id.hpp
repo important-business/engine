@@ -9,7 +9,7 @@ namespace components
 
 struct IdComponent : anax::Component
 {
-    IdComponent(std::string id) : id(id)
+    explicit IdComponent(std::string id) : id(id)
     {
     }
 

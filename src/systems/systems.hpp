@@ -11,7 +11,7 @@ template <class T>
 class ExceptionMissingComponent : public core::Exception
 {
 public:
-    ExceptionMissingComponent(anax::Entity e)
+    explicit ExceptionMissingComponent(anax::Entity e)
     : Exception("Missing component '")
     {
         m_message.append(T::name);

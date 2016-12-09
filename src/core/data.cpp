@@ -1,3 +1,4 @@
+#include "data.hpp"
 #include "components/ai.hpp"
 #include "components/camera.hpp"
 #include "components/collision.hpp"
@@ -6,9 +7,7 @@
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "data.hpp"
 #include "exception.hpp"
-#include "systems/ai.hpp"
 
 #include <cassert>
 #include <fstream>
@@ -521,7 +520,7 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
         auto data = val["data"];
         // TODO(Keegan, check encoding, don't just assume)
         auto decoded = string_decode(base64_decode(data.asString()));
-        for (int index = 0; index < decoded.size(); ++index)
+        for (unsigned int index = 0; index < decoded.size(); ++index)
         {
             int tile_x = index % width;
             int tile_y = index / width;

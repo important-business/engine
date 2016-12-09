@@ -10,11 +10,13 @@ namespace core
 class Exception : public std::exception
 {
 public:
-    Exception(std::string message) : m_message(message)
+    explicit Exception(std::string message) : m_message(message)
     {
     }
 
     virtual const char* what() const throw();
+
+    virtual ~Exception(){}
 
 protected:
     std::string m_message;

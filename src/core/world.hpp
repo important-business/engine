@@ -22,7 +22,7 @@ class World
 
 {
 public:
-    World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
+    explicit World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
     {
         m_sp_logger = core::logging_get_logger("world");
     }

@@ -18,7 +18,7 @@ namespace components
 
 struct AiComponent : anax::Component
 {
-    AiComponent(systems::AiNode* p_root_node);
+    explicit AiComponent(systems::AiNode* p_root_node);
 
     std::unique_ptr<systems::AiNode> up_root_node;
     float move_accel;

@@ -26,10 +26,11 @@ struct Collision : anax::Component
 
 struct Trigger : anax::Component
 {
-    Trigger(
-    std::string trigger_msg)
+    explicit Trigger( std::string trigger_msg)
     :trigger_msg(trigger_msg){}
+
     std::string trigger_msg;
+
     static const std::string name;
 };
 

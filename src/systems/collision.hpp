@@ -20,8 +20,15 @@ namespace systems
 
 struct Manifold
 {
-    components::Vector normal = {0.0f, 0.0f};
-    components::Vector penetration = {0.0f, 0.0f};
+public:
+    Manifold(){
+        normal.x = 0.0f;
+        normal.y = 0.0f;
+        penetration.x = 0.0f;
+        penetration.y = 0.0f;
+    }
+    components::Vector normal;
+    components::Vector penetration;
 };
 
 struct Collision

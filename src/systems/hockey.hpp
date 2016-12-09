@@ -19,7 +19,7 @@ struct Hockey : anax::System<anax::Requires<components::PlayerComponent,
                          components::PhysicsComponent>>
 {
 public:
-    Hockey(int score_limit=5);
+    explicit Hockey(int score_limit=5);
     void update();
     void check_trigger(std::string msg, anax::Entity e_target);
 

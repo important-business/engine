@@ -11,7 +11,7 @@ namespace core
 class Configuration
 {
 public:
-    Configuration(std::string filename);
+    explicit Configuration(std::string filename);
     int get_window_height();
     int get_window_width();
 

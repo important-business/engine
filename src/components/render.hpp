@@ -11,7 +11,7 @@ namespace components
 
 struct TextureComponent : anax::Component
 {
-    TextureComponent(std::string texture_path) : texture_path(texture_path)
+    explicit TextureComponent(std::string texture_path) : texture_path(texture_path)
     {
     }
 

@@ -27,6 +27,7 @@ public:
     AiResult execute(anax::Entity entity, AiSystem const& aisystem);
     void success(anax::Entity entity, AiSystem const& aisystem);
     void failure(anax::Entity entity, AiSystem const& aisystem);
+    virtual ~AiNode(){}
 
 private:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
@@ -47,6 +48,7 @@ protected:
 class AiNodeSequence : public AiNodeComposite
 {
 public:
+    virtual ~AiNodeSequence(){}
 private:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
 };
@@ -54,6 +56,7 @@ private:
 class AiNodeLoop : public AiNodeSequence
 {
 public:
+    virtual ~AiNodeLoop(){}
 private:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
 };
@@ -61,6 +64,7 @@ private:
 class AiNodeSelector : public AiNodeComposite
 {
 public:
+    virtual ~AiNodeSelector(){}
 private:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
 };
@@ -68,9 +72,10 @@ private:
 class AiNodeDecorator : public AiNode
 {
 public:
-    AiNodeDecorator(AiNode* p_decoratee) : m_up_decoratee(p_decoratee)
+    explicit AiNodeDecorator(AiNode* p_decoratee) : m_up_decoratee(p_decoratee)
     {
     }
+    virtual ~AiNodeDecorator(){}
 
 protected:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
@@ -82,10 +87,11 @@ protected:
 class AiNodeDecoratorInvert : public AiNodeDecorator
 {
 public:
-    AiNodeDecoratorInvert(AiNode* p_decoratee) : AiNodeDecorator(p_decoratee)
+    explicit AiNodeDecoratorInvert(AiNode* p_decoratee) : AiNodeDecorator(p_decoratee)
     {
     }
 
+    virtual ~AiNodeDecoratorInvert(){}
 protected:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
     virtual void _success(anax::Entity entity, AiSystem const& aisystem);
@@ -96,6 +102,8 @@ class AiNodeMoveTo : public AiNode
 {
 public:
     AiNodeMoveTo(double pos_x, double pos_y, double tolerance);
+
+    virtual ~AiNodeMoveTo(){}
 
 private:
     double m_pos_x, m_pos_y, m_tolerance;
@@ -119,6 +127,8 @@ class AiNodeFollow : public AiNode
 public:
     AiNodeFollow(
         anax::Entity target, double tolerance, bool follow_x, bool follow_y);
+
+    virtual ~AiNodeFollow(){}
 
 private:
     virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);

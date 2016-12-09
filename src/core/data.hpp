@@ -4,6 +4,8 @@
 #include "json.hpp"
 #include "level.hpp"
 #include "logging.hpp"
+#include "systems/ai.hpp"
+
 #include "core/level.hpp"
 #include <string>
 #include <anax/anax.hpp>
@@ -17,7 +19,7 @@ public:
     typedef void (DataReader::*factory_method)(
         const Json::Value data, anax::Entity);
 
-    DataReader(std::string filename);
+    explicit DataReader(std::string filename);
     anax::Entity makeEntity(std::string entityname, anax::World& world);
     void makeEntities(anax::World& world);
     std::map<std::string, DataReader::factory_method> component_factories;
@@ -46,7 +48,7 @@ class LevelReader : public JsonFileReader
 public:
     void build_level(std::unique_ptr<Level>& up_level);
     LevelTileSet* load_tileset(std::string filename);
-    LevelReader(std::string filename);
+    explicit LevelReader(std::string filename);
 
 private:
     Json::Value m_json_tileset;
