@@ -33,3 +33,8 @@ ClangFormat(
     TARGETNAME jsoncheck
     FILES ${SRCS_JSONCHECK}
     )
+CppCheck(
+    TARGETNAME jsoncheck
+    FILES ${SRCS_JSONCHECK}
+    INCLUDEDIRS ${INCLUDEDIRS_JSONCHECK}
+    )

@@ -57,6 +57,11 @@ foreach(test_mod ${test_modules})
         TARGETNAME ${test_exe_name}
         FILES ${SRCS_TESTMOD}
         )
+    CppCheck(
+        TARGETNAME ${test_exe_name}
+        FILES ${SRCS_TESTMOD}
+        INCLUDEDIRS ${INCLUDEDIRS_TEST}
+        )
 
     # Add the test executable to ctest
     add_test(NAME ${test_exe_name}
