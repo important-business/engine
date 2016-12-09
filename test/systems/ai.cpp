@@ -6,38 +6,57 @@
 
 using namespace systems;
 
-class TestNode : public AiNode {
+class TestNode : public AiNode
+{
 public:
-    TestNode( std::string name, AiResult result, std::string &outputstring):name(name),result(result),outputstring(outputstring){}
+    TestNode(std::string name, AiResult result, std::string& outputstring)
+        : name(name), result(result), outputstring(outputstring)
+    {
+    }
 
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem){
+    virtual ~TestNode()
+    {
+    }
+
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem)
+    {
         outputstring.append(name);
         outputstring.append("E\n");
         return result;
     }
-    virtual void _success(anax::Entity entity, AiSystem const& aisystem){
+    virtual void _success(anax::Entity entity, AiSystem const& aisystem)
+    {
         outputstring.append(name);
         outputstring.append("S\n");
     }
-    virtual void _failure(anax::Entity entity, AiSystem const& aisystem){
+    virtual void _failure(anax::Entity entity, AiSystem const& aisystem)
+    {
         outputstring.append(name);
         outputstring.append("F\n");
     }
     const std::string name;
     AiResult result;
-    std::string &outputstring;
+    std::string& outputstring;
 };
 
-class AiNodeTest : public testing::Test {
+class AiNodeTest : public testing::Test
+{
 public:
-    virtual void SetUp() {}
+    virtual void SetUp()
+    {
+    }
+
+    virtual ~AiNodeTest()
+    {
+    }
+
     anax::Entity entity;
     AiSystem sys;
     std::string outputstring;
 };
 
-
-class AiNodeDecoratorInvertTest : public AiNodeTest{
+class AiNodeDecoratorInvertTest : public AiNodeTest
+{
 public:
 };
 
@@ -76,8 +95,8 @@ TEST_F(AiNodeDecoratorInvertTest, invert_success)
     ASSERT_EQ("AE\nAS\n", outputstring);
 }
 
-
-class AiNodeSequenceTest : public AiNodeTest{
+class AiNodeSequenceTest : public AiNodeTest
+{
 public:
     AiNodeSequence a;
 };
@@ -103,7 +122,8 @@ TEST_F(AiNodeSequenceTest, sequence_ready)
 }
 
 /* Test that success returns success if empty and calls success*/
-TEST_F(AiNodeSequenceTest, sequence_success){
+TEST_F(AiNodeSequenceTest, sequence_success)
+{
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     ASSERT_EQ(AI_RESULT_SUCCESS, a.execute(entity, sys));
     ASSERT_EQ("AE\nAS\n", outputstring);
@@ -111,7 +131,8 @@ TEST_F(AiNodeSequenceTest, sequence_success){
 }
 
 /* Test that returns ready if child node does */
-TEST_F(AiNodeSequenceTest, sequence_ready_success){
+TEST_F(AiNodeSequenceTest, sequence_ready_success)
+{
     auto p_node = new TestNode("A", AI_RESULT_READY, outputstring);
     a.add_child(p_node);
     ASSERT_EQ(AI_RESULT_READY, a.execute(entity, sys));
@@ -123,7 +144,8 @@ TEST_F(AiNodeSequenceTest, sequence_ready_success){
 }
 
 /* Test that add_child increments child count */
-TEST_F(AiNodeSequenceTest, sequence_child_count){
+TEST_F(AiNodeSequenceTest, sequence_child_count)
+{
     ASSERT_EQ(0, a.get_child_count());
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     ASSERT_EQ(1, a.get_child_count());
@@ -134,7 +156,8 @@ TEST_F(AiNodeSequenceTest, sequence_child_count){
 }
 
 /* Test that series of successes  returns ready until final success */
-TEST_F(AiNodeSequenceTest, sequence){
+TEST_F(AiNodeSequenceTest, sequence)
+{
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     a.add_child(new TestNode("B", AI_RESULT_SUCCESS, outputstring));
     a.add_child(new TestNode("C", AI_RESULT_SUCCESS, outputstring));
@@ -151,7 +174,8 @@ TEST_F(AiNodeSequenceTest, sequence){
  * Test that failure results in no further nodes being run
  * and failure being returned
  */
-TEST_F(AiNodeSequenceTest, sequence_mid_sequence_faisequencel){
+TEST_F(AiNodeSequenceTest, sequence_mid_sequence_faisequencel)
+{
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     a.add_child(new TestNode("B", AI_RESULT_SUCCESS, outputstring));
     a.add_child(new TestNode("C", AI_RESULT_FAIL, outputstring));
@@ -164,7 +188,8 @@ TEST_F(AiNodeSequenceTest, sequence_mid_sequence_faisequencel){
     ASSERT_EQ(2, a.get_child_count());
 }
 
-class AiNodeSelectorTest : public AiNodeTest{
+class AiNodeSelectorTest : public AiNodeTest
+{
 public:
     AiNodeSelector a;
 };
@@ -190,7 +215,8 @@ TEST_F(AiNodeSelectorTest, sequence_ready)
 }
 
 /* Test that returns success if single node returns success*/
-TEST_F(AiNodeSelectorTest, sequence_success){
+TEST_F(AiNodeSelectorTest, sequence_success)
+{
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     ASSERT_EQ(AI_RESULT_SUCCESS, a.execute(entity, sys));
     ASSERT_EQ("AE\nAS\n", outputstring);
@@ -198,7 +224,8 @@ TEST_F(AiNodeSelectorTest, sequence_success){
 }
 
 /* Test that returns ready if child node does */
-TEST_F(AiNodeSelectorTest, sequence_ready_success){
+TEST_F(AiNodeSelectorTest, sequence_ready_success)
+{
     auto p_node = new TestNode("A", AI_RESULT_READY, outputstring);
     a.add_child(p_node);
     ASSERT_EQ(AI_RESULT_READY, a.execute(entity, sys));
@@ -210,7 +237,8 @@ TEST_F(AiNodeSelectorTest, sequence_ready_success){
 }
 
 /* Test that add_child increments child count */
-TEST_F(AiNodeSelectorTest, sequence_child_count){
+TEST_F(AiNodeSelectorTest, sequence_child_count)
+{
     ASSERT_EQ(0, a.get_child_count());
     a.add_child(new TestNode("A", AI_RESULT_SUCCESS, outputstring));
     ASSERT_EQ(1, a.get_child_count());
@@ -221,7 +249,8 @@ TEST_F(AiNodeSelectorTest, sequence_child_count){
 }
 
 /* Test that series of failures  returns ready until final failure */
-TEST_F(AiNodeSelectorTest, sequence){
+TEST_F(AiNodeSelectorTest, sequence)
+{
     a.add_child(new TestNode("A", AI_RESULT_FAIL, outputstring));
     a.add_child(new TestNode("B", AI_RESULT_FAIL, outputstring));
     a.add_child(new TestNode("C", AI_RESULT_FAIL, outputstring));
@@ -238,7 +267,8 @@ TEST_F(AiNodeSelectorTest, sequence){
  * Test that success results in no further nodes being run
  * and success being returned
  */
-TEST_F(AiNodeSelectorTest, sequence_mid_sequence_success){
+TEST_F(AiNodeSelectorTest, sequence_mid_sequence_success)
+{
     a.add_child(new TestNode("A", AI_RESULT_FAIL, outputstring));
     a.add_child(new TestNode("B", AI_RESULT_FAIL, outputstring));
     a.add_child(new TestNode("C", AI_RESULT_SUCCESS, outputstring));
