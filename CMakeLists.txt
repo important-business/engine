@@ -12,6 +12,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 include(ClangFormat)
 include(ClangTidy)
 include(CppCheck)
+include(OcLint)
 
 #Do debug build by default
 if (NOT CMAKE_BUILD_TYPE)
@@ -68,4 +69,4 @@ add_dependencies(json_validate jsoncheck)
 add_custom_target (
     lint
     )
-add_dependencies(lint clangtidy cppcheck json_validate)
+add_dependencies(lint clangtidy cppcheck json_validate oclint)

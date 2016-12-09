@@ -62,6 +62,12 @@ foreach(test_mod ${test_modules})
         FILES ${SRCS_TESTMOD}
         INCLUDEDIRS ${INCLUDEDIRS_TEST}
         )
+    OcLint(
+        TARGETNAME ${test_exe_name}
+        FILES ${SRCS_TESTMOD}
+        INCLUDEDIRS ${INCLUDEDIRS_TEST}
+        CXX_STANDARD ${CXX_STANDARD_TEST}
+        )
 
     # Add the test executable to ctest
     add_test(NAME ${test_exe_name}
