@@ -18,7 +18,6 @@ function(FetchGoogleTest)
     # Download and install GoogleTest
     # Based off http://www.kaizou.org/2014/11/gtest-cmake/
     # Thanks to David Corvoysier and Henry Schreiner
-    # TODO: Update Gtest?
     ExternalProject_Add(
         gtest_proj
         GIT_REPOSITORY https://github.com/google/googletest.git

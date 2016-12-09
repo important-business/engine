@@ -1,4 +1,4 @@
-# TODO: Add option to link statically
+# TODO(Keegan): Add option to link statically
 function(FetchAnax)
     set(options)
     set(oneValueArgs GITVERSION BUILD_SHARED)
@@ -18,7 +18,7 @@ function(FetchAnax)
     # Download and Install Anax
     # Based off http://www.kaizou.org/2014/11/gtest-cmake/
     # Thanks to David Corvoysier and Henry Schreiner
-    # TODO: Select version of Anax
+    # TODO(Keegan): Select version of Anax
     ExternalProject_Add(
         anax_proj
         GIT_REPOSITORY https://github.com/miguelmartin75/anax.git
@@ -47,6 +47,6 @@ function(FetchAnax)
         INTERFACE
         "${binary_dir}/${LIBRARY_PREFIX}anax${LIBRARY_SUFFIX}"
     )
-    # TODO: Is this the best way to export the include directory?
+    # TODO(Keegan: Is this the best way to export the include directory?
     set(ANAX_INCLUDE_DIR "${source_dir}/include" "${binary_dir}/include" PARENT_SCOPE)
 endfunction(FetchAnax)

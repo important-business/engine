@@ -35,7 +35,7 @@ endif()
 # Aquire external libraries
 find_package(PkgConfig REQUIRED)
 
-# TODO(Keegan) Think more about required SDL versions
+# TODO(Keegan): Think more about required SDL versions
 pkg_search_module(SDL2 REQUIRED sdl2 >= 2.0.0)
 pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 

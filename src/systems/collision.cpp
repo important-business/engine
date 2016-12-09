@@ -31,7 +31,7 @@ Manifold* systems::Collision::check_collision(
     auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
 
     Manifold* p_manifold = nullptr;
-    // TODO(Keegan, Don't ignore bounding box x/y positions)
+    // TODO(Keegan): Don't ignore bounding box x/y positions)
     float pos_dx = transform1.pos_x - transform2.pos_x;
     float pos_dy = transform1.pos_y - transform2.pos_y;
 

@@ -1,4 +1,4 @@
-# TODO: Add option to link statically
+# TODO(Keegan): Add option to link statically
 function(FetchJsonCpp)
     set(options)
     set(oneValueArgs GITVERSION)
@@ -15,7 +15,7 @@ function(FetchJsonCpp)
     # Download and Install JsonCpp
     # Based off http://www.kaizou.org/2014/11/gtest-cmake/
     # Thanks to David Corvoysier and Henry Schreiner
-    # TODO: Select version of JsonCpp
+    # TODO(Keegan): Select version of JsonCpp
     ExternalProject_Add(
         jsoncpp_proj
         GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
@@ -35,6 +35,6 @@ function(FetchJsonCpp)
         INTERFACE
         "${binary_dir}/src/lib_json/${CMAKE_SHARED_LIBRARY_PREFIX}jsoncpp${CMAKE_STATIC_LIBRARY_SUFFIX}"
     )
-    # TODO: Is this the best way to export the include directory?
+    # TODO(Keegan): Is this the best way to export the include directory?
     set(JSONCPP_INCLUDE_DIR "${source_dir}/include" "${binary_dir}/include" PARENT_SCOPE)
 endfunction(FetchJsonCpp)

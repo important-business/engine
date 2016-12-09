@@ -14,7 +14,7 @@
 namespace systems
 {
 
-// TODO(Keegan, Make systems classes)
+// TODO(Keegan): Make systems classes)
 struct Hockey : anax::System<anax::Requires<components::PlayerComponent,
                          components::PhysicsComponent>>
 {

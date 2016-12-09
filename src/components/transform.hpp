@@ -27,7 +27,7 @@ struct TransformComponent : anax::Component
           flip_horiz(flip_horiz)
     {
     }
-    // TODO: Decide if floats are appropriate, or if we want ints
+    // TODO(Keegan): Decide if floats are appropriate, or if we want ints
     float pos_x;
     float pos_y;
     float size_x;

@@ -1,7 +1,3 @@
-
-# Define the list of test modules
-# set(test_modules core)
-# TODO: Figure out how to link tests to the modules
 set(test_modules "core;systems")
 
 include_directories(${CMAKE_SOURCE_DIR}/src/)

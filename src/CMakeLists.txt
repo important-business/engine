@@ -20,8 +20,6 @@ set(SRCS_ENGINE
     )
 add_executable(engine ${SRCS_ENGINE})
 
-
-# TODO: Link to components once they have been added
 # Link to local modules
 target_link_libraries(engine sdl_wrap)
 

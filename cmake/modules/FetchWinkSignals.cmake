@@ -1,4 +1,4 @@
-# TODO: Add option to link statically
+# TODO(Keegan): Add option to link statically
 function(FetchWinkSignals)
     set(options)
     set(oneValueArgs GITVERSION)
@@ -15,7 +15,7 @@ function(FetchWinkSignals)
     # Download and Install WinkSignals
     # Based off http://www.kaizou.org/2014/11/gtest-cmake/
     # Thanks to David Corvoysier and Henry Schreiner
-    # TODO: Select version of WinkSignals
+    # TODO(Keegan): Select version of WinkSignals
     ExternalProject_Add(
         winksignals_proj
         GIT_REPOSITORY https://github.com/important-business/Wink-Signals.git
@@ -36,6 +36,5 @@ function(FetchWinkSignals)
         INTERFACE
         "${binary_dir}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}winksignals${CMAKE_SHARED_LIBRARY_SUFFIX}"
     )
-    # TODO: Is this the best way to export the include directory?
     set(WINKSIGNALS_INCLUDE_DIR "${source_dir}" PARENT_SCOPE)
 endfunction(FetchWinkSignals)

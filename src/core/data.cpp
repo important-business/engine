@@ -18,8 +18,8 @@ namespace core
 
 std::string basename(const std::string& pathname)
 {
-    // TODO(Keegan, Check if works on Windows)
-    // TODO(Keegan, Test properly)
+    // TODO(Keegan): Check if works on Windows)
+    // TODO(Keegan): Test properly)
     return {std::find_if(pathname.rbegin(),
                 pathname.rend(),
                 [](char c) { return (c == '/' || c == '\\'); })
@@ -29,8 +29,8 @@ std::string basename(const std::string& pathname)
 
 std::string pathname(const std::string& pathname)
 {
-    // TODO(Keegan, Check if works on Windows)
-    // TODO(Keegan, Test properly)
+    // TODO(Keegan); Check if works on Windows)
+    // TODO(Keegan): Test properly)
     return {pathname.begin(),
         std::find_if(pathname.rbegin(), pathname.rend(), [](char c) {
             return (c == '/' || c == '\\');
@@ -72,7 +72,7 @@ static std::vector<int32_t> string_decode(const std::string& in)
     std::vector<int32_t> result;
     if (in.size() % 4 != 0u)
     {
-        // TODO(Keegan, Handle error better)
+        // TODO(Keegan): Handle error better)
         assert(false);
     }
     for (auto it = in.begin(); it < in.end(); it += 4)
@@ -82,7 +82,7 @@ static std::vector<int32_t> string_decode(const std::string& in)
         auto b3 = *(it + 2);
         auto b4 = *(it + 3);
         int32_t val = b1;
-        // TODO(Keegan, This is awfully endian dependent...)
+        // TODO(Keegan): This is awfully endian dependent...)
         val |= b2 << 8;
         val |= b3 << 16;
         val |= b4 << 24;
@@ -98,7 +98,7 @@ void DataReader::factory_component_ai(
 
     check_required_component_property(
         data, components::AiComponent::name, prop_root_node);
-    // TODO(Keegan, use real root node data)
+    // TODO(Keegan): use real root node data)
     auto p_root_node = factory_ai_node(data[prop_root_node]);
     entity.addComponent<components::AiComponent>(p_root_node);
 }
@@ -518,7 +518,7 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
             height,
             opacity);
         auto data = val["data"];
-        // TODO(Keegan, check encoding, don't just assume)
+        // TODO(Keegan): check encoding, don't just assume)
         auto decoded = string_decode(base64_decode(data.asString()));
         for (unsigned int index = 0; index < decoded.size(); ++index)
         {

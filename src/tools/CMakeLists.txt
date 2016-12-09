@@ -1,5 +1,5 @@
 # Define jsoncheck executable
-# TODO: Add SRCS_COMPONENTS once components with cpp files are added
+# TODO(Keegan): Add SRCS_COMPONENTS once components with cpp files are added
 set(SRCS_JSONCHECK
     ${CMAKE_CURRENT_SOURCE_DIR}/jsoncheck.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../core/exception.cpp
