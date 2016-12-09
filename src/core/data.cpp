@@ -92,7 +92,7 @@ static std::vector<int32_t> string_decode(const std::string& in)
 }
 
 void DataReader::factory_component_ai(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_root_node{"root_node"};
 
@@ -103,7 +103,7 @@ void DataReader::factory_component_ai(
     entity.addComponent<components::AiComponent>(p_root_node);
 }
 
-systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
+systems::AiNode* DataReader::factory_ai_node(const Json::Value &data)
 {
     const std::string prop_type{"type"};
     const std::string prop_type_node{"node"};
@@ -195,13 +195,13 @@ systems::AiNode* DataReader::factory_ai_node(const Json::Value data)
     return p_to_return;
 }
 void DataReader::factory_component_player(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     entity.addComponent<components::PlayerComponent>();
 }
 
 void DataReader::factory_component_camera(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_zoom{"zoom"};
 
@@ -211,7 +211,7 @@ void DataReader::factory_component_camera(
 }
 
 void DataReader::factory_component_collision(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_x{"x"};
     const std::string prop_y{"y"};
@@ -236,7 +236,7 @@ void DataReader::factory_component_collision(
 }
 
 void DataReader::factory_component_texture(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_texture_path{"texture_path"};
 
@@ -248,7 +248,7 @@ void DataReader::factory_component_texture(
 }
 
 void DataReader::factory_component_transform(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_pos_x{"pos_x"};
     const std::string prop_pos_y{"pos_y"};
@@ -291,7 +291,7 @@ void DataReader::factory_component_transform(
 }
 
 void DataReader::factory_component_trigger(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_msg{"msg"};
 
@@ -303,7 +303,7 @@ void DataReader::factory_component_trigger(
 }
 
 void DataReader::factory_component_movement(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_accel{"accel"};
     const std::string prop_top_speed{"top_speed"};
@@ -320,7 +320,7 @@ void DataReader::factory_component_movement(
 }
 
 void DataReader::factory_component_physics(
-    const Json::Value data, anax::Entity entity)
+    const Json::Value &data, anax::Entity entity)
 {
     const std::string prop_mass{"mass"};
     const std::string prop_friction{"friction"};

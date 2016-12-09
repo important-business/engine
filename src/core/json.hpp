@@ -18,7 +18,7 @@ public:
 
 protected:
     void check_required_component_property(
-        const Json::Value data, std::string component, std::string property);
+        const Json::Value &data, std::string component, std::string property);
 
     void scan_references(Json::Value data);
 

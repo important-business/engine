@@ -29,7 +29,7 @@ void logging_init(bool logfiles)
     }
 }
 
-std::shared_ptr<spdlog::logger> logging_get_logger(const std::string loggername)
+std::shared_ptr<spdlog::logger> logging_get_logger(const std::string &loggername)
 {
     /* return std::make_shared<spdlog::logger>(nullptr); */
     log_logger->info("Making logger {}", loggername);

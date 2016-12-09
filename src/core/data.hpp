@@ -17,7 +17,7 @@ class DataReader : public JsonFileReader
 {
 public:
     typedef void (DataReader::*factory_method)(
-        const Json::Value data, anax::Entity);
+        const Json::Value &data, anax::Entity);
 
     explicit DataReader(std::string filename);
     anax::Entity makeEntity(std::string entityname, anax::World& world);
@@ -25,20 +25,20 @@ public:
     std::map<std::string, DataReader::factory_method> component_factories;
 
 private:
-    void factory_component_ai(const Json::Value data, anax::Entity entity);
-    systems::AiNode* factory_ai_node(const Json::Value data);
-    void factory_component_player(const Json::Value data, anax::Entity entity);
-    void factory_component_camera(const Json::Value data, anax::Entity entity);
+    void factory_component_ai(const Json::Value &data, anax::Entity entity);
+    systems::AiNode* factory_ai_node(const Json::Value &data);
+    void factory_component_player(const Json::Value &data, anax::Entity entity);
+    void factory_component_camera(const Json::Value &data, anax::Entity entity);
     void factory_component_collision(
-        const Json::Value data, anax::Entity entity);
-    void factory_component_movement(const Json::Value data, anax::Entity entity);
-    void factory_component_texture(const Json::Value data, anax::Entity entity);
+        const Json::Value &data, anax::Entity entity);
+    void factory_component_movement(const Json::Value &data, anax::Entity entity);
+    void factory_component_texture(const Json::Value &data, anax::Entity entity);
     void factory_component_transform(
-        const Json::Value data, anax::Entity entity);
+        const Json::Value &data, anax::Entity entity);
     void factory_component_trigger(
-        const Json::Value data, anax::Entity entity);
+        const Json::Value &data, anax::Entity entity);
     void factory_component_physics(
-        const Json::Value data, anax::Entity entity);
+        const Json::Value &data, anax::Entity entity);
 
     std::map<std::string, anax::Entity> m_map_entities;
 };

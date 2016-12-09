@@ -10,7 +10,7 @@ namespace core
 {
 
 void JsonReader::check_required_component_property(
-    const Json::Value data, std::string component, std::string property)
+    const Json::Value &data, std::string component, std::string property)
 {
     if (!data.isMember(property))
     {
