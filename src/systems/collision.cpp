@@ -130,6 +130,7 @@ Manifold* Collision::check_level_collision(
     }
     else
     {
+        delete p_manifold;
         return nullptr;
     }
 }
@@ -166,12 +167,12 @@ void Collision::resolve_collision(
         m_sp_logger->debug("Objects are moving away");
         return;
     }
-    // TODO(Keegan "Add restitution calculation)
+    // TODO(Keegan): Add restitution calculation
     const float restitution = 1.0f;
 
     float impulse = -(1.0f * restitution) * vel_normal;
 
-    // TODO(Keegan "Add mass consideration? Or keep in movement?
+    // TODO(Keegan): Add mass consideration? Or keep in movement?
 
     float impulse_x = impulse * p_manifold->normal.x;
     float impulse_y = impulse * p_manifold->normal.y;
@@ -231,12 +232,12 @@ void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
         m_sp_logger->debug("Objects are moving away");
         return;
     }
-    // TODO(Keegan "Add restitution calculation)
+    // TODO(Keegan) Add restitution calculation
     const float restitution = 2.0f;
 
     float impulse = -(1.0f * restitution) * vel_normal;
 
-    // TODO(Keegan "Add mass consideration? Or keep in movement?
+    // TODO(Keegan): Add mass consideration? Or keep in movement?
 
     float impulse_x = impulse * p_manifold->normal.x;
     float impulse_y = impulse * p_manifold->normal.y;

@@ -169,7 +169,6 @@ void Render::render_level(core::Level* plevel,
         p_tileset->set_texture(sp_texture);
     }
 
-    // TODO: Add some smartness to clip out irrelevant portions of the level
     for (int pos_y = level_min_y; pos_y < level_max_y; pos_y++)
     {
         for (int pos_x = level_min_x; pos_x < level_max_x; pos_x++)

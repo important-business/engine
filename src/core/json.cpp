@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <utility>
 
 namespace core
 {
@@ -21,7 +22,7 @@ void JsonReader::check_required_component_property(
 }
 
 JsonReader::JsonReader(std::string json_string, std::string description)
-    : m_str_description(description)
+    : m_str_description(std::move(description))
 {
     m_sp_logger = logging_get_logger("json");
 

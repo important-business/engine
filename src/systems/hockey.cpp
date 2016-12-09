@@ -1,6 +1,6 @@
 #include "systems/hockey.hpp"
-#include "components/velocity.hpp"
 #include "components/transform.hpp"
+#include "components/velocity.hpp"
 
 namespace systems
 {
@@ -18,7 +18,7 @@ void Hockey::check_trigger(std::string msg, anax::Entity e_target)
     if (id.compare("puck") == 0)
     {
         bool reset = false;
-        if (msg.compare("goal_a"))
+        if (msg.compare("goal_a") == 0)
         {
             m_sp_logger->info("A team scores!");
             m_score_a++;
@@ -28,7 +28,7 @@ void Hockey::check_trigger(std::string msg, anax::Entity e_target)
                 m_sp_logger->info("A team wins!");
             }
         }
-        else if (msg.compare("goal_b"))
+        else if (msg.compare("goal_b") == 0)
         {
             m_score_b++;
             reset = true;

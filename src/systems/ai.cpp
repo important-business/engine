@@ -1,7 +1,7 @@
 #include "systems/ai.hpp"
-#include "core/exception.hpp"
-#include "components/velocity.hpp"
 #include "components/transform.hpp"
+#include "components/velocity.hpp"
+#include "core/exception.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -163,14 +163,16 @@ AiResult AiNodeSelector::_execute(anax::Entity entity, AiSystem const& aisystem)
 AiResult AiNodeDecorator::_execute(
     anax::Entity entity, AiSystem const& aisystem)
 {
+    AiResult result;
     if (m_up_decoratee != nullptr)
     {
-        return m_up_decoratee->execute(entity, aisystem);
+        result = m_up_decoratee->execute(entity, aisystem);
     }
     else
     {
-        return AI_RESULT_FAIL;
+        result = AI_RESULT_FAIL;
     }
+    return result;
 }
 void AiNodeDecorator::_success(anax::Entity entity, AiSystem const& aisystem)
 {

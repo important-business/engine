@@ -1,5 +1,8 @@
 #include "level.hpp"
+
 #include <iostream>
+#include <utility>
+
 namespace core
 {
 
@@ -29,15 +32,17 @@ int& Level::get_raw(int pos_x, int pos_y, int layer)
 
 const int& Level::get_raw(int pos_x, int pos_y, int layer) const
 {
+    const int* p_ret_val = nullptr;
     if (pos_x > m_size_x || pos_x < 0 || pos_y > m_size_y || pos_y < 0)
     {
-        return m_default_tile;
+        p_ret_val = &m_default_tile;
     }
     else
     {
-        return m_p_tiles[pos_x + (pos_y * m_size_x) +
-            (layer * m_size_y * m_size_x)];
+        p_ret_val = &(m_p_tiles[pos_x + (pos_y * m_size_x) +
+            (layer * m_size_y * m_size_x)]);
     }
+    return *p_ret_val;
 }
 
 Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
@@ -133,8 +138,8 @@ LevelTileSet::LevelTileSet(std::string name,
     unsigned int tileheight,
     unsigned int spacing,
     unsigned int margin)
-    : m_name(name),
-      m_filename(filename),
+    : m_name(std::move(name)),
+      m_filename(std::move(filename)),
       m_columns(columns),
       m_tilecount(tilecount),
       m_tilewidth(tilewidth),

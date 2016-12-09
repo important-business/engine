@@ -1,4 +1,4 @@
-#include "components/ai.hpp"
+#include "ai.hpp"
 #include "systems/ai.hpp"
 
 namespace components
