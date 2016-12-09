@@ -49,6 +49,11 @@ private:
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
     void resolve_collision(
         anax::Entity& e1, Manifold* p_manifold);
+    void do_resolve_collision(components::PhysicsComponent *p_physics1,
+            components::TransformComponent *p_transform1,
+            components::PhysicsComponent *p_physics2,
+            components::TransformComponent *p_transform2,
+            Manifold* p_manifold);
     void check_trigger(
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
 

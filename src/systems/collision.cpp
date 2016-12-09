@@ -153,9 +153,70 @@ void Collision::resolve_collision(
 
     throw_if_missing_component<components::TransformComponent>(e2);
     auto& transform2 = e2.getComponent<components::TransformComponent>();
+    do_resolve_collision(
+        &physics1, &transform1, &physics2, &transform2, p_manifold);
+}
 
-    float vel_dx = physics2.velocity.x - physics1.velocity.x;
-    float vel_dy = physics2.velocity.y - physics1.velocity.y;
+void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
+{
+    const float level_mass = 0.0f;
+    const float level_friction = 0.0f;
+    const float level_restitution = 0.0f;
+    const float level_vel_x = 0.0f;
+    const float level_vel_y = 0.0f;
+    const float level_force_x = 0.0f;
+    const float level_force_y = 0.0f;
+
+    const float level_pos_x = 0.0f;
+    const float level_pos_y = 0.0f;
+    const float level_size_x = 0.0f;
+    const float level_size_y = 0.0f;
+    const float level_rotation = 0.0f;
+    const bool level_flip_vert = false;
+    const bool level_flip_horiz = false;
+    assert(p_manifold != nullptr);
+
+    if (!e1.hasComponent<components::PhysicsComponent>())
+    {
+        return;
+    }
+    auto& physics1 = e1.getComponent<components::PhysicsComponent>();
+    auto physics2 = components::PhysicsComponent{level_mass,
+        level_friction,
+        level_restitution,
+        level_vel_x,
+        level_vel_y,
+        level_force_x,
+        level_force_y};
+
+    throw_if_missing_component<components::TransformComponent>(e1);
+    auto& transform1 = e1.getComponent<components::TransformComponent>();
+    auto transform2 = components::TransformComponent{level_pos_x,
+        level_pos_y,
+        level_size_x,
+        level_size_y,
+        level_rotation,
+        level_flip_vert,
+        level_flip_horiz};
+
+    do_resolve_collision(
+        &physics1, &transform1, &physics2, &transform2, p_manifold);
+}
+
+void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
+    components::TransformComponent* p_transform1,
+    components::PhysicsComponent* p_physics2,
+    components::TransformComponent* p_transform2,
+    Manifold* p_manifold)
+{
+    assert(p_manifold != nullptr);
+    assert(p_physics1 != nullptr);
+    assert(p_transform1 != nullptr);
+    assert(p_physics2 != nullptr);
+    assert(p_transform2 != nullptr);
+
+    float vel_dx = p_physics2->velocity.x - p_physics1->velocity.x;
+    float vel_dy = p_physics2->velocity.y - p_physics1->velocity.y;
 
     float vel_normal =
         vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
@@ -169,7 +230,7 @@ void Collision::resolve_collision(
     }
     // TODO(Keegan): Add restitution calculation
     const float restitution =
-        std::max(physics1.restitution, physics2.restitution);
+        std::max(p_physics1->restitution, p_physics2->restitution);
 
     float impulse = -(1.0f * restitution) * vel_normal;
 
@@ -180,87 +241,33 @@ void Collision::resolve_collision(
 
     m_sp_logger->debug("impulse is x{}, y{}", impulse_x, impulse_y);
 
-    physics1.force.x -= impulse_x;
-    physics2.force.x += impulse_x;
+    p_physics1->force.x -= impulse_x;
+    p_physics2->force.x += impulse_x;
 
-    physics1.force.y -= impulse_y;
-    physics2.force.y += impulse_y;
+    p_physics1->force.y -= impulse_y;
+    p_physics2->force.y += impulse_y;
 
     m_sp_logger->debug(
-        "entity1 force is x{}, y{}", physics1.force.x, physics1.force.y);
+        "entity1 force is x{}, y{}", p_physics1->force.x, p_physics1->force.y);
     m_sp_logger->debug(
-        "entity2 force is x{}, y{}", physics2.force.x, physics2.force.y);
+        "entity2 force is x{}, y{}", p_physics2->force.x, p_physics2->force.y);
 
     const float positional_percent = 0.2;
     const float positional_slop = 0.01;
     float x_correction =
         std::max(p_manifold->penetration.x - positional_slop, 0.0f) /
-        (physics1.inv_mass + physics2.inv_mass) * positional_percent *
+        (p_physics1->inv_mass + p_physics2->inv_mass) * positional_percent *
         p_manifold->normal.x;
     float y_correction =
         std::max(p_manifold->penetration.y - positional_slop, 0.0f) /
-        (physics1.inv_mass + physics2.inv_mass) * positional_percent *
+        (p_physics1->inv_mass + p_physics2->inv_mass) * positional_percent *
         p_manifold->normal.y;
-    transform1.pos_x -= physics1.inv_mass * x_correction;
-    transform1.pos_y -= physics1.inv_mass * y_correction;
-    transform2.pos_x += physics2.inv_mass * x_correction;
-    transform2.pos_y += physics2.inv_mass * y_correction;
+    p_transform1->pos_x -= p_physics1->inv_mass * x_correction;
+    p_transform1->pos_y -= p_physics1->inv_mass * y_correction;
+    p_transform2->pos_x += p_physics2->inv_mass * x_correction;
+    p_transform2->pos_y += p_physics2->inv_mass * y_correction;
 }
 
-void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
-{
-    assert(p_manifold != nullptr);
-
-    if (!e1.hasComponent<components::PhysicsComponent>())
-    {
-        return;
-    }
-    auto& physics1 = e1.getComponent<components::PhysicsComponent>();
-
-    throw_if_missing_component<components::TransformComponent>(e1);
-    auto& transform1 = e1.getComponent<components::TransformComponent>();
-
-    float vel_dx = 0.0f - physics1.velocity.x;
-    float vel_dy = 0.0f - physics1.velocity.y;
-
-    float vel_normal =
-        vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
-
-    m_sp_logger->debug("Normal velocity is {}", vel_normal);
-    m_sp_logger->debug("rel velocity is x{}, y{}", vel_dx, vel_dy);
-    if (vel_normal > 0)
-    {
-        m_sp_logger->debug("Objects are moving away");
-        return;
-    }
-    const float restitution = physics1.restitution;
-
-    float impulse = -(1.0f * restitution) * vel_normal;
-
-    // TODO(Keegan): Add mass consideration? Or keep in movement?
-
-    float impulse_x = impulse * p_manifold->normal.x;
-    float impulse_y = impulse * p_manifold->normal.y;
-
-    m_sp_logger->debug("impulse is x{}, y{}", impulse_x, impulse_y);
-
-    physics1.force.x -= impulse_x;
-    physics1.force.y -= impulse_y;
-
-    m_sp_logger->debug(
-        "entity1 force is x{}, y{}", physics1.force.x, physics1.force.y);
-
-    const float positional_percent = 0.2;
-    const float positional_slop = 0.01;
-    float x_correction =
-        std::max(p_manifold->penetration.x - positional_slop, 0.0f) /
-        (physics1.inv_mass) * positional_percent * p_manifold->normal.x;
-    float y_correction =
-        std::max(p_manifold->penetration.y - positional_slop, 0.0f) /
-        (physics1.inv_mass) * positional_percent * p_manifold->normal.y;
-    transform1.pos_x -= physics1.inv_mass * x_correction;
-    transform1.pos_y -= physics1.inv_mass * y_correction;
-}
 void Collision::update(core::Level* p_level)
 {
     auto colliders = getEntities();
