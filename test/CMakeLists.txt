@@ -17,8 +17,9 @@ foreach(test_mod ${test_modules})
     add_subdirectory(${test_mod})
 
     # Define an executable for each test module
-    set (test_exe_name test_${test_mod})
-    add_executable(${test_exe_name} ${SRCS_TESTMOD} test_main.cpp)
+    set(test_exe_name test_${test_mod})
+    set(SRCS_TESTMOD ${SRCS_TESTMOD} ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp)
+    add_executable(${test_exe_name} ${SRCS_TESTMOD})
 
     # Link to google test and use its include directories
     target_link_libraries(${test_exe_name} gtest)
@@ -47,6 +48,19 @@ foreach(test_mod ${test_modules})
     target_include_directories(${test_exe_name} PUBLIC ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
     add_dependencies(build_test ${test_exe_name})
+    get_target_property(INCLUDEDIRS_TEST ${test_exe_name} INCLUDE_DIRECTORIES)
+    get_target_property(CXX_STANDARD_TEST ${test_exe_name} CXX_STANDARD)
+
+    ClangTidy(
+        TARGETNAME ${test_exe_name}
+        FILES ${SRCS_TESTMOD}
+        INCLUDEDIRS ${INCLUDEDIRS_TEST}
+        CXX_STANDARD ${CXX_STANDARD_TEST}
+        )
+    ClangFormat(
+        TARGETNAME ${test_exe_name}
+        FILES ${SRCS_TESTMOD}
+        )
 
     # Add the test executable to ctest
     add_test(NAME ${test_exe_name}
