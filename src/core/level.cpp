@@ -15,7 +15,7 @@ int& Level::get_tile(int pos_x, int pos_y, int layer)
 const int& Level::get_tile(int pos_x, int pos_y, int layer) const
 {
     const int* p_ret_val = nullptr;
-    if (pos_x > m_size_x || pos_x < 0 || pos_y > m_size_y || pos_y < 0)
+    if (pos_x >= m_size_x || pos_x < 0 || pos_y >= m_size_y || pos_y < 0)
     {
         p_ret_val = &m_default_tile;
     }
