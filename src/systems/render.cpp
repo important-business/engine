@@ -162,14 +162,6 @@ void Render::render_level(core::Level* plevel,
     level_max_y += 1;
 
     auto scale = plevel->get_scale();
-    auto p_tileset = plevel->get_tileset();
-    auto p_texture = p_tileset->get_texture();
-    if (p_texture == nullptr)
-    {
-        auto sp_texture = m_up_resourcemanager->get(p_tileset->get_filename());
-        p_texture = sp_texture.get();
-        p_tileset->set_texture(sp_texture);
-    }
 
     for (int pos_y = level_min_y; pos_y < level_max_y; pos_y++)
     {
@@ -186,11 +178,34 @@ void Render::render_level(core::Level* plevel,
                     static_cast<int>((1.0f) * scale * camera_zoom)};
 
                 auto tile = plevel->get_tile(pos_x, pos_y, layer);
-                if (tile != -1)
+                if (tile == 0)
                 {
+                    // Do not draw
+                }
+                else if (tile != -1)
+                {
+                    core::LevelTileSet* p_tileset = nullptr;
+                    int tileset_tile = -1;
+                    plevel->get_tileset(tile, p_tileset, tileset_tile);
+                    assert(p_tileset != nullptr);
+                    if (p_tileset == nullptr)
+                    {
+                        continue;
+                    }
+                    auto p_texture = p_tileset->get_texture();
+                    if (p_texture == nullptr)
+                    {
+                        auto sp_texture = m_up_resourcemanager->get(
+                            p_tileset->get_filename());
+                        p_texture = sp_texture.get();
+                        p_tileset->set_texture(sp_texture);
+                    }
                     SDL_Rect src_rect;
-                    p_tileset->getTileClipping(
-                        tile, src_rect.x, src_rect.y, src_rect.w, src_rect.h);
+                    p_tileset->getTileClipping(tileset_tile,
+                        src_rect.x,
+                        src_rect.y,
+                        src_rect.w,
+                        src_rect.h);
                     m_up_renderer->copy(
                         *p_texture, &src_rect, &dest_rect, 0, SDL_FLIP_NONE);
                 }

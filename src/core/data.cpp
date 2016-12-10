@@ -503,10 +503,10 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
         tileset_source = cur_path + tileset["source"].asString();
         m_sp_logger->info(
             "Found a tileset gid {} source {}", firstgid, tileset_source);
+        auto p_tileset = load_tileset(tileset_source);
+        p_level->add_tileset(firstgid, p_tileset);
     }
     // Only load last tileset for now
-    auto p_tileset = load_tileset(tileset_source);
-    p_level->set_tileset(p_tileset);
 
     auto layers = m_json_data["layers"];
     for (unsigned int layerindex = 0; layerindex < layers.size(); ++layerindex)

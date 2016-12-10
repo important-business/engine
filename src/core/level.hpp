@@ -57,11 +57,11 @@ public:
 
     void get_tile_coords(
         float world_x, float world_y, int& tile_x, int& tile_y) const;
-    LevelTileSet* get_tileset() const;
+    void get_tileset(int tile, LevelTileSet* &p_tileset, int &tileset_tile) const;
 
     void print() const;
 
-    void set_tileset(LevelTileSet* p_tileset);
+    void add_tileset(int first_tile, LevelTileSet* p_tileset);
 
     void set(int pos_x, int pos_y, int layer, int tile_id);
 
@@ -75,7 +75,8 @@ private:
 
     int m_default_tile;
 
-    std::unique_ptr<LevelTileSet> m_up_tileset;
+    std::vector<int> m_vec_firsttile;
+    std::vector<std::unique_ptr<LevelTileSet>> m_vec_tileset;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };

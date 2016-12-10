@@ -74,9 +74,38 @@ void Level::get_tile_coords(
     tile_y = world_y / m_scale;
 }
 
-LevelTileSet* Level::get_tileset() const
+void Level::get_tileset(
+    int tile, LevelTileSet*& p_tileset, int& tileset_tile) const
 {
-    return (m_up_tileset.get());
+    int result_index = -1;
+    for (unsigned int index = 0; index < m_vec_firsttile.size(); index++)
+    {
+        if (tile < m_vec_firsttile[index])
+        {
+            result_index = index - 1;
+            break;
+        }
+        else if (tile == m_vec_firsttile[index])
+        {
+            result_index = index;
+            break;
+        }
+        else if (index == m_vec_firsttile.size() - 1)
+        {
+            result_index = index;
+            break;
+        }
+    }
+    if (result_index != -1)
+    {
+        p_tileset = m_vec_tileset.at(result_index).get();
+        tileset_tile = tile - m_vec_firsttile[result_index];
+    }
+    else
+    {
+        m_sp_logger->error("no match found for tile {}", tile);
+        p_tileset = nullptr;
+    }
 }
 
 unsigned int LevelTileSet::get_tilecount() const
@@ -107,9 +136,11 @@ void Level::set(int pos_x, int pos_y, int layer, int tile_id)
     tile = tile_id;
 }
 
-void Level::set_tileset(LevelTileSet* p_tileset)
+void Level::add_tileset(int first_tile, LevelTileSet* p_tileset)
 {
-    m_up_tileset = std::unique_ptr<LevelTileSet>(p_tileset);
+    // TODO(Keegan): Place these in order
+    m_vec_firsttile.emplace_back(first_tile);
+    m_vec_tileset.emplace_back(p_tileset);
 }
 
 LevelTileSet::LevelTileSet(std::string name,
@@ -135,8 +166,8 @@ LevelTileSet::LevelTileSet(std::string name,
 bool LevelTileSet::getTileClipping(
     int tile_id, int& x, int& y, int& w, int& h) const
 {
-    int tilecoord_x = (tile_id - 1) % m_columns;
-    int tilecoord_y = (tile_id - 1) / m_columns;
+    int tilecoord_x = (tile_id) % m_columns;
+    int tilecoord_y = (tile_id) / m_columns;
 
     x = m_margin + (m_tilewidth + m_spacing) * tilecoord_x;
     y = m_margin + (m_tileheight + m_spacing) * tilecoord_y;
