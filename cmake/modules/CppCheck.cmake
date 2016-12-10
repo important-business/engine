@@ -20,7 +20,7 @@ function(CppCheck)
 
     # Set defaults for unprovided arguments
     if(NOT CppCheck_ENABLE)
-        set(CppCheck_ENABLE "warning,performance")
+        set(CppCheck_ENABLE "all")
     endif()
 
     foreach(dir ${CppCheck_INCLUDEDIRS})
