@@ -1,0 +1,12 @@
+{
+    "columns" : 1,
+    "image" : "../../../resources/tiles/collision.png",
+    "imageheight" : 32,
+    "imagewidth" : 32,
+    "margin" : 0,
+    "name" : "collision",
+    "spacing" : 0,
+    "tilecount" : 1,
+    "tileheight" : 32,
+    "tilewidth" : 32
+}
