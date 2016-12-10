@@ -29,6 +29,7 @@ function(OcLint)
 
     add_custom_target(
         oclint_${OcLint_TARGETNAME}
+        COMMAND ln -sf ${PROJECT_SOURCE_DIR}/.oclint ${CMAKE_CURRENT_BUILD_DIR}
         COMMAND ${OCLINT_BIN} ${OcLint_FILES} -- ${INCLUDE_ARGS} -std=c++${OcLint_CXX_STANDARD}
     )
 
