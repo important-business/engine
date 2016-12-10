@@ -47,17 +47,15 @@ public:
 
     ~Level();
 
-    int get(int x, int y) const;
-
     float get_scale() const;
 
     void get_size(int& x, int& y, int& layers) const;
 
-    int& get_raw(int pos_x, int pos_y, int layer);
-    const int& get_raw(
+    int& get_tile(int pos_x, int pos_y, int layer);
+    const int& get_tile(
         int pos_x, int pos_y, int layer) const;
 
-    void get_tile(
+    void get_tile_coords(
         float world_x, float world_y, int& tile_x, int& tile_y) const;
     LevelTileSet* get_tileset() const;
 

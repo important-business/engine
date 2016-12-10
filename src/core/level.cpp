@@ -6,31 +6,13 @@
 namespace core
 {
 
-int Level::get(int x, int y) const
-{
-    if ((x > m_size_x) || (y > m_size_y))
-    {
-        return -1;
-    }
-    int result = -1;
-    for (auto cur_layer = m_layers - 1; cur_layer >= 0; --cur_layer)
-    {
-        result = get_raw(x, y, cur_layer);
-        if (result > 0)
-        {
-            break;
-        }
-    }
-    return result;
-}
-
-int& Level::get_raw(int pos_x, int pos_y, int layer)
+int& Level::get_tile(int pos_x, int pos_y, int layer)
 {
     return const_cast<int&>(
-        const_cast<const Level*>(this)->get_raw(pos_x, pos_y, layer));
+        const_cast<const Level*>(this)->get_tile(pos_x, pos_y, layer));
 }
 
-const int& Level::get_raw(int pos_x, int pos_y, int layer) const
+const int& Level::get_tile(int pos_x, int pos_y, int layer) const
 {
     const int* p_ret_val = nullptr;
     if (pos_x > m_size_x || pos_x < 0 || pos_y > m_size_y || pos_y < 0)
@@ -84,7 +66,7 @@ void Level::get_size(int& x, int& y, int& layers) const
     layers = m_layers;
 }
 
-void Level::get_tile(
+void Level::get_tile_coords(
     float world_x, float world_y, int& tile_x, int& tile_y) const
 {
     // TODO(Keegan): Don't think it's actually quite this simple
@@ -110,7 +92,7 @@ void Level::print() const
         {
             for (int pos_x = 0; pos_x < m_size_x; pos_x++)
             {
-                auto currtile = get(pos_x, pos_y);
+                auto currtile = get_tile(pos_x, pos_y, layer);
                 std::cout << '[' << currtile << ']';
             }
             std::cout << std::endl;
@@ -121,7 +103,7 @@ void Level::print() const
 
 void Level::set(int pos_x, int pos_y, int layer, int tile_id)
 {
-    auto& tile = get_raw(pos_x, pos_y, layer);
+    auto& tile = get_tile(pos_x, pos_y, layer);
     tile = tile_id;
 }
 

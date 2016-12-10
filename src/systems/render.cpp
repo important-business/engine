@@ -152,8 +152,10 @@ void Render::render_level(core::Level* plevel,
     int level_min_x, level_min_y, level_max_x, level_max_y;
 
     plevel->get_size(size_x, size_y, size_layers);
-    plevel->get_tile(camera_min_x, camera_min_y, level_min_x, level_min_y);
-    plevel->get_tile(camera_max_x, camera_max_y, level_max_x, level_max_y);
+    plevel->get_tile_coords(
+        camera_min_x, camera_min_y, level_min_x, level_min_y);
+    plevel->get_tile_coords(
+        camera_max_x, camera_max_y, level_max_x, level_max_y);
     level_min_x -= 1;
     level_min_y -= 1;
     level_max_x += 1;
@@ -183,7 +185,7 @@ void Render::render_level(core::Level* plevel,
                     static_cast<int>((1.0f) * scale * camera_zoom),
                     static_cast<int>((1.0f) * scale * camera_zoom)};
 
-                auto tile = plevel->get_raw(pos_x, pos_y, layer);
+                auto tile = plevel->get_tile(pos_x, pos_y, layer);
                 if (tile != -1)
                 {
                     SDL_Rect src_rect;
