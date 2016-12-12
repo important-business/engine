@@ -18,6 +18,15 @@ set(SRCS_ENGINE
     ${SRCS_SYSTEMS}
     ${SRCS_COMPONENTS}
     )
+
+set(SRCS_ENGINE_MODULE
+    ${SRCS_CORE}
+    ${SRCS_SYSTEMS}
+    ${SRCS_COMPONENTS}
+    PARENT_SCOPE
+    )
+
+
 add_executable(engine ${SRCS_ENGINE})
 
 # Link to local modules
