@@ -1,3 +1,5 @@
+include(CodeCoverage)
+
 add_custom_target (
     build_test
     ALL
@@ -5,6 +7,11 @@ add_custom_target (
 
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_SOURCE_DIR}/src)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_COVERAGE}")
+set(CMAKE_CFLAGS "${CMAKE_CFLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_COVERAGE}")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_EXE_SHARED_FLAGS_COVERAGE}")
 
 add_subdirectory(core)
 add_subdirectory(systems)
@@ -45,6 +52,8 @@ add_dependencies(test_engine spdlog)
 target_link_libraries(test_engine ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
 target_include_directories(test_engine PUBLIC ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
+target_link_libraries(test_engine gcov)
+
 add_dependencies(build_test test_engine)
 get_target_property(INCLUDEDIRS_TEST test_engine INCLUDE_DIRECTORIES)
 get_target_property(CXX_STANDARD_TEST test_engine CXX_STANDARD)
@@ -71,8 +80,12 @@ OcLint(
     CXX_STANDARD ${CXX_STANDARD_TEST}
     )
 
+
 # Add the test executable to ctest
 add_test(NAME test_engine
 COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/test_engine --gtest_color=yes
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+
+# Set up a target to to run the coverage check
+SETUP_TARGET_FOR_COVERAGE(coverage_test_engine test_engine coverage_test_engine)
 
