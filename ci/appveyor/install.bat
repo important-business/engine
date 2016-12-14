@@ -21,6 +21,7 @@ IF %COMPILER%==msys2 (
         echo "Unsupported build tool '%BUILDTOOL%' selected for compiler '%COMPILER%' in install script"
     )
 
+    bash -lc "pacman -S --needed --noconfirm lcov"
     bash -lc "pacman -S --needed --noconfirm mingw-w64-x86_64-gcc"
     bash -lc "pacman -S --needed --noconfirm mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image"
     bash -lc "pacman -S --needed --noconfirm mingw-w64-x86_64-pkg-config"
