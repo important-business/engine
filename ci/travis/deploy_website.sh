@@ -5,7 +5,7 @@ DoDeploy () {
     deploydir="build-output/${REPO_VER}/${TRAVIS_OS_NAME}-${CXX}"
     echo "Deploying to ${deploydir}"
     mkdir -p "${deploydir}"
-    cp -r $curdir/build/coverage* "${deploydir}"
+    cp -r ${ENGINEPWD}/build/coverage* "${deploydir}"
     ln -sf "${deploydir}" "build-output/latest"
 
 }
@@ -16,6 +16,7 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 REPO_VER=`git rev-parse --verify HEAD`
 
 git clone "$REPO" "$DESTDIR"
+ENGINEDIR="$(pwd)"
 cd "${DESTDIR}"
 DoDeploy
 
