@@ -31,6 +31,8 @@ check_result "Build tests" "make" "build_test"
 # Run unit tests with verbose output
 check_result "Execute tests" "make" "test" "ARGS='-V'"
 
+check_result "Generate coverage" "make" "coverage_test"
+
 # Run linters (but don't check output yet)
 check_result "Run Linters" "make" "lint"
 

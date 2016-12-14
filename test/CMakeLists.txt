@@ -5,6 +5,10 @@ add_custom_target (
     ALL
 )
 
+add_custom_target (
+    coverage_test
+)
+
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
@@ -88,4 +92,4 @@ WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
 
 # Set up a target to to run the coverage check
 SETUP_TARGET_FOR_COVERAGE(coverage_test_engine test_engine coverage_test_engine)
-
+add_dependencies(coverage_test coverage_test_engine)
