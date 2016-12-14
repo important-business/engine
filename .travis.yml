@@ -46,3 +46,8 @@ install:
 
 script:
   - ./ci/travis/script_unix.sh
+
+env:
+  global:
+    - DEPLOY_KEY_ENCRYPTION_LABEL: "5eecc1da4d3b"
+

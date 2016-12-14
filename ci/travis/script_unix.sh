@@ -34,8 +34,10 @@ check_result "Execute tests" "make" "test" "ARGS='-V'"
 # Run linters (but don't check output yet)
 check_result "Run Linters" "make" "lint"
 
+check_result "Leave Build directory" "cd" ".."
 # Check ClangFormat output
-check_result "Check formatting" "../ci/travis/check_clang_format.sh"
+check_result "Check formatting" "./ci/travis/check_clang_format.sh"
+check_result "Update Site" "./ci/travis/deploy_website.sh"
 
 if [ $script_exit_code -eq 0 ];then
     echo "########################################################################"
