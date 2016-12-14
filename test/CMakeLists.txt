@@ -24,11 +24,10 @@ add_subdirectory(systems)
 set(SRCS_TEST_ENGINE
     ${SRCS_TEST_CORE}
     ${SRCS_TEST_SYSTEMS}
-    ${SRCS_ENGINE_MODULE}
     ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
     )
 
-add_executable(test_engine ${SRCS_TEST_ENGINE})
+add_executable(test_engine ${SRCS_TEST_ENGINE} ${SRCS_ENGINE_MODULE})
 
 # Link to google test and use its include directories
 target_link_libraries(test_engine gtest)
@@ -64,22 +63,22 @@ get_target_property(CXX_STANDARD_TEST test_engine CXX_STANDARD)
 
 ClangTidy(
     TARGETNAME test_engine
-    FILES ${SRCS_TESTMOD}
+    FILES ${SRCS_TEST_ENGINE}
     INCLUDEDIRS ${INCLUDEDIRS_TEST}
     CXX_STANDARD ${CXX_STANDARD_TEST}
     )
 ClangFormat(
     TARGETNAME test_engine
-    FILES ${SRCS_TESTMOD}
+    FILES ${SRCS_TEST_ENGINE}
     )
 CppCheck(
     TARGETNAME test_engine
-    FILES ${SRCS_TESTMOD}
+    FILES ${SRCS_TEST_ENGINE}
     INCLUDEDIRS ${INCLUDEDIRS_TEST}
     )
 OcLint(
     TARGETNAME test_engine
-    FILES ${SRCS_TESTMOD}
+    FILES ${SRCS_TEST_ENGINE}
     INCLUDEDIRS ${INCLUDEDIRS_TEST}
     CXX_STANDARD ${CXX_STANDARD_TEST}
     )
