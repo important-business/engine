@@ -5,7 +5,7 @@ DoDeploy () {
     deploydir="build-output/${REPO_VER}/${TRAVIS_OS_NAME}-${CXX}"
     echo "Deploying to ${deploydir}"
     mkdir -p "${deploydir}"
-    cp -r ${ENGINEPWD}/build/coverage* "${deploydir}"
+    cp -r ${ENGINEDIR}/build/coverage* "${deploydir}"
     ln -sf "${deploydir}" "build-output/latest"
 
 }
