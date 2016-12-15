@@ -67,8 +67,16 @@
 #
 #
 
+
+if (DEFINED ENV{GCOV})
+    set(GCOV_BIN "$ENV{GCOV}")
+    message("Using ${GCOV_BIN} for gcov")
+else()
+    set(GCOV_BIN "gcov")
+endif()
+
 # Check prereqs
-FIND_PROGRAM( GCOV_PATH gcov )
+FIND_PROGRAM( GCOV_PATH ${GCOV_BIN} )
 FIND_PROGRAM( LCOV_PATH lcov )
 FIND_PROGRAM( GENHTML_PATH genhtml )
 FIND_PROGRAM( GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/tests)
@@ -145,8 +153,8 @@ FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _testrunner _outputname)
 		COMMAND ${test_command} ${ARGV3}
 
 		# Capturing lcov counters and generating report
-		COMMAND ${LCOV_PATH} --directory . --capture --output-file ${coverage_info}
-		COMMAND ${LCOV_PATH} --remove ${coverage_info} 'tests/*' '/usr/*' --output-file ${coverage_cleaned}
+        COMMAND ${LCOV_PATH} --directory . --capture --output-file ${coverage_info} --gcov-tool ${GCOV_PATH}
+        COMMAND ${LCOV_PATH} --remove ${coverage_info} 'tests/*' '/usr/*' --output-file ${coverage_cleaned} --gcov-tool ${GCOV_PATH}
 		COMMAND ${GENHTML_PATH} -o ${_outputname} ${coverage_cleaned}
 		COMMAND ${CMAKE_COMMAND} -E remove ${coverage_info} ${coverage_cleaned}
 
@@ -183,6 +191,7 @@ FUNCTION(SETUP_TARGET_FOR_COVERAGE_COBERTURA _targetname _testrunner _outputname
 		${_testrunner} ${ARGV3}
 
 		# Running gcovr
+        COMMAND ${GCOVR_PATH} --version
 		COMMAND ${GCOVR_PATH} -x -r ${CMAKE_SOURCE_DIR} -e '${CMAKE_SOURCE_DIR}/tests/'  -o ${_outputname}.xml
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		COMMENT "Running gcovr to produce Cobertura code coverage report."
