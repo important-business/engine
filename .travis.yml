@@ -38,7 +38,7 @@ install:
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ./ci/travis/linux_cmake.sh ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$HOME/cmake-3.3.1-Linux-x86_64/bin:$PATH ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export GCOV_CMD=gcov-5; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export GCOV=gcov-5; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CXX" = "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CLANG_FORMAT=clang-format-3.8; fi
