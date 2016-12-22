@@ -27,8 +27,8 @@ public:
         penetration.x = 0.0f;
         penetration.y = 0.0f;
     }
-    components::Vector normal;
-    components::Vector penetration;
+    core::Vector normal;
+    core::Vector penetration;
 };
 
 struct Collision

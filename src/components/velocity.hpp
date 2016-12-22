@@ -1,20 +1,12 @@
 #ifndef COMPONENTS_VELOCITY_HPP
 #define COMPONENTS_VELOCITY_HPP
 
+#include "core/math.hpp"
 #include <anax/Component.hpp>
 #include <string>
 
 namespace components
 {
-
-struct Vector
-{
-    explicit Vector(float x = 0.0f, float y = 0.0f) : x(x), y(y)
-    {
-    }
-    float x;
-    float y;
-};
 
 struct MovementComponent : anax::Component
 {
@@ -62,8 +54,8 @@ public:
     float inv_mass;
     float friction;
     float restitution;
-    Vector velocity;
-    Vector force;
+    core::Vector velocity;
+    core::Vector force;
 
     static const std::string name;
 };

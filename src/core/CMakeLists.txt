@@ -7,6 +7,7 @@ set(SRCS_CORE
     "${CMAKE_CURRENT_SOURCE_DIR}/json.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/level.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/math.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/resource_manager.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/world.cpp"
     PARENT_SCOPE
