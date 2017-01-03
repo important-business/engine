@@ -107,3 +107,25 @@ TEST(math_vector_dot, dot_negative_test)
     auto result = a.dot(b);
     ASSERT_FLOAT_EQ(40824.0f, result);
 }
+
+TEST(math_vector_mag, mag_zero_test)
+{
+    auto a = core::Vector(0.0f, 0.0f);
+    auto result = a.mag();
+    ASSERT_FLOAT_EQ(0.0f, result);
+}
+
+TEST(math_vector_mag, mag_positive_test)
+{
+    auto a = core::Vector(8.0f, 15.0f);
+    auto result = a.mag();
+    ASSERT_FLOAT_EQ(17.0f, result);
+}
+
+TEST(math_vector_mag, mag_negative_test)
+{
+    auto a = core::Vector(-7.0f, -24.0f);
+    auto result = a.mag();
+    ASSERT_FLOAT_EQ(25.0f, result);
+}
+

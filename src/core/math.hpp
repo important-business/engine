@@ -13,6 +13,8 @@ struct Vector
 
     float dot(const Vector& other);
 
+    float mag();
+
     float x;
     float y;
 };

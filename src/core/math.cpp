@@ -1,4 +1,5 @@
 #include "core/math.hpp"
+#include <cmath>
 
 namespace core
 {
@@ -31,6 +32,11 @@ Vector Vector::operator*(const Vector& other)
 float Vector::dot(const Vector& other)
 {
     return other.x * x + other.y * y;
+}
+
+float Vector::mag()
+{
+    return sqrt(x*x+y*y);
 }
 
 } // namespace core
