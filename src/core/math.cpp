@@ -36,7 +36,7 @@ float Vector::dot(const Vector& other)
 
 float Vector::mag()
 {
-    return sqrt(x*x+y*y);
+    return sqrt(x * x + y * y);
 }
 
 } // namespace core
