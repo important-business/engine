@@ -45,6 +45,7 @@ public:
 private:
     Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
     Manifold* check_level_collision(anax::Entity& e, core::Level *p_level);
+    Manifold* do_check_collision(anax::Entity& e1, anax::Entity& e2);
     void resolve_collision(
         anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
     void resolve_collision(

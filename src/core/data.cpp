@@ -219,8 +219,8 @@ void DataReader::factory_component_collision(
     const std::string prop_w{"w"};
     const std::string prop_causeevents{"cancauseevents"};
 
-    int x = data.get(prop_x, 0).asInt();
-    int y = data.get(prop_y, 0).asInt();
+    float x = data.get(prop_x, 0).asFloat();
+    float y = data.get(prop_y, 0).asFloat();
 
     check_required_component_property(
         data, components::Collision::name, prop_w);
@@ -228,8 +228,8 @@ void DataReader::factory_component_collision(
         data, components::Collision::name, prop_h);
     check_required_component_property(
         data, components::Collision::name, prop_causeevents);
-    int h = data[prop_h].asInt();
-    int w = data[prop_w].asInt();
+    float h = data[prop_h].asFloat();
+    float w = data[prop_w].asFloat();
     bool cancauseevents = data[prop_causeevents].asBool();
 
     entity.addComponent<components::Collision>(x, y, h, w, cancauseevents);

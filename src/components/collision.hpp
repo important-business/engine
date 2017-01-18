@@ -1,16 +1,17 @@
 #ifndef COMPONENTS_COLLISION_HPP
 #define COMPONENTS_COLLISION_HPP
 
+#include "core/math.hpp"
 #include <anax/Component.hpp>
-#include <SDL.h>
 #include <string>
+
 
 namespace components
 {
 
 struct Collision : anax::Component
 {
-    Collision(int x, int y, int w, int h, bool can_cause_events)
+    Collision(float x, float y, float w, float h, bool can_cause_events)
         : can_cause_events(can_cause_events)
     {
         bounding_box.x = x;
@@ -18,7 +19,7 @@ struct Collision : anax::Component
         bounding_box.h = h;
         bounding_box.w = w;
     }
-    SDL_Rect bounding_box;
+    core::Rectangle bounding_box;
     bool can_cause_events;
 
     static const std::string name;

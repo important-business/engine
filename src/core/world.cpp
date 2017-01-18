@@ -42,11 +42,8 @@ anax::Entity goose_factory(anax::World& world,
     (void)entity.addComponent<components::PhysicsComponent>(
         1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
-    (void)entity.addComponent<components::Collision>(0,
-        0,
-        static_cast<int>(transform.size_x),
-        static_cast<int>(transform.size_y),
-        true);
+    (void)entity.addComponent<components::Collision>(
+        0.0f, 0.0f, transform.size_x, transform.size_y, true);
 
     entity.activate();
 
@@ -68,11 +65,8 @@ anax::Entity player_factory(anax::World& world,
     (void)entity.addComponent<components::PhysicsComponent>(
         1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
-    (void)entity.addComponent<components::Collision>(0,
-        0,
-        static_cast<int>(transform.size_x),
-        static_cast<int>(transform.size_y),
-        true);
+    (void)entity.addComponent<components::Collision>(
+        0.0f, 0.0f, transform.size_x, transform.size_y, true);
 
     entity.activate();
     return entity;
