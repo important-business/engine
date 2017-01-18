@@ -15,31 +15,19 @@ Collision::Collision()
     m_sp_logger = core::logging_get_logger("collision");
 }
 
-Manifold* systems::Collision::check_collision(
-    anax::Entity& e1, anax::Entity& e2)
+Manifold* Collision::check_rect_collision(
+    const core::Rectangle& rect1, const core::Rectangle& rect2)
 {
-    throw_if_missing_component<components::TransformComponent>(e1);
-    auto& transform1 = e1.getComponent<components::TransformComponent>();
-
-    throw_if_missing_component<components::TransformComponent>(e2);
-    auto& transform2 = e2.getComponent<components::TransformComponent>();
-
-    throw_if_missing_component<components::Collision>(e1);
-    auto& bbox1 = e1.getComponent<components::Collision>().bounding_box;
-
-    throw_if_missing_component<components::Collision>(e2);
-    auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
-
     Manifold* p_manifold = nullptr;
     // TODO(Keegan): Don't ignore bounding box x/y positions)
-    float pos_dx = transform1.pos_x - transform2.pos_x;
-    float pos_dy = transform1.pos_y - transform2.pos_y;
+    float pos_dx = rect1.x - rect2.x;
+    float pos_dy = rect1.y - rect2.y;
 
-    float x_overlap = bbox1.w / 2.0f + bbox2.w / 2.0f - std::abs(pos_dx);
+    float x_overlap = rect1.w / 2.0f + rect2.w / 2.0f - std::abs(pos_dx);
 
     if (x_overlap > 0.0f)
     {
-        float y_overlap = bbox1.h / 2.0f + bbox2.h / 2.0f - std::abs(pos_dy);
+        float y_overlap = rect1.h / 2.0f + rect2.h / 2.0f - std::abs(pos_dy);
         if (y_overlap > 0.0f)
         {
             m_sp_logger->debug(
@@ -79,8 +67,34 @@ Manifold* systems::Collision::check_collision(
             }
         }
     }
-
     return p_manifold;
+}
+
+Manifold* systems::Collision::check_collision(
+    anax::Entity& e1, anax::Entity& e2)
+{
+    throw_if_missing_component<components::TransformComponent>(e1);
+    auto& transform1 = e1.getComponent<components::TransformComponent>();
+
+    throw_if_missing_component<components::TransformComponent>(e2);
+    auto& transform2 = e2.getComponent<components::TransformComponent>();
+
+    throw_if_missing_component<components::Collision>(e1);
+    auto& bbox1 = e1.getComponent<components::Collision>().bounding_box;
+
+    throw_if_missing_component<components::Collision>(e2);
+    auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
+
+    core::Rectangle rect1{transform1.pos_x + bbox1.x,
+        transform1.pos_y + bbox1.y,
+        bbox1.w,
+        bbox1.h};
+    core::Rectangle rect2{transform2.pos_x + bbox2.x,
+        transform2.pos_y + bbox2.y,
+        bbox2.w,
+        bbox2.h};
+
+    return check_rect_collision(rect1, rect2);
 }
 
 Manifold* Collision::check_level_collision(
