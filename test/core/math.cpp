@@ -156,3 +156,29 @@ TEST(math_vector_mag, mag_negative_test)
     ASSERT_FLOAT_EQ(25.0f, result);
 }
 
+TEST(math_vector_normalize, normalize_zero_test)
+{
+    auto a = core::Vector(0.0f, 0.0f);
+    auto result = a.normalize();
+    ASSERT_FLOAT_EQ(0.0f, result.mag());
+    ASSERT_FLOAT_EQ(0.0f, result.x);
+    ASSERT_FLOAT_EQ(0.0f, result.y);
+}
+
+TEST(math_vector_normalize, normalize_positive_test)
+{
+    auto a = core::Vector(8.0f, 15.0f);
+    auto result = a.normalize();
+    ASSERT_FLOAT_EQ(1.0f, result.mag());
+    ASSERT_FLOAT_EQ(8.0f / 17.f, result.x);
+    ASSERT_FLOAT_EQ(15.0f / 17.f, result.y);
+}
+
+TEST(math_vector_normalize, normalize_negative_test)
+{
+    auto a = core::Vector(-7.0f, -24.0f);
+    auto result = a.normalize();
+    ASSERT_FLOAT_EQ(1.0f, result.mag());
+    ASSERT_FLOAT_EQ(-7.0f / 25.f, result.x);
+    ASSERT_FLOAT_EQ(-24.0f / 25.f, result.y);
+}

@@ -39,6 +39,8 @@ struct Vector
 
     float mag() const;
 
+    Vector normalize() const;
+
     float x;
     float y;
 };

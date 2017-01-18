@@ -99,4 +99,19 @@ float Vector::mag() const
     return sqrt(x * x + y * y);
 }
 
+Vector Vector::normalize() const
+{
+    auto magnitude = mag();
+    if (magnitude != 0.0f)
+    {
+        auto norm_x = x / magnitude;
+        auto norm_y = y / magnitude;
+        return Vector(norm_x, norm_y);
+    }
+    else
+    {
+        return Vector(0.0f, 0.0f);
+    }
+}
+
 } // namespace core
