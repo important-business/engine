@@ -16,11 +16,16 @@ struct Vector
     explicit Vector(float x = 0.0f, float y = 0.0f);
 
     Vector operator+(const Vector& other);
+    Vector &operator+=(const Vector& other);
 
     Vector operator-(const Vector& other);
+    Vector &operator-=(const Vector& other);
 
     Vector operator*(const Vector& other);
+    Vector &operator*=(const Vector& other);
 
+    Vector operator/(const Vector& other);
+    Vector &operator/=(const Vector& other);
     float dot(const Vector& other);
 
     float mag();

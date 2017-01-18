@@ -10,6 +10,9 @@ TEST(math_vector_add, add_zero_test)
     auto result = a + b;
     ASSERT_FLOAT_EQ(5.0f, result.x);
     ASSERT_FLOAT_EQ(5.0f, result.y);
+    a += b;
+    ASSERT_FLOAT_EQ(5.0f, a.x);
+    ASSERT_FLOAT_EQ(5.0f, a.y);
 }
 
 TEST(math_vector_add, add_positive_test)
@@ -19,6 +22,9 @@ TEST(math_vector_add, add_positive_test)
     auto result = a + b;
     ASSERT_FLOAT_EQ(60.0f, result.x);
     ASSERT_FLOAT_EQ(92.0f, result.y);
+    a += b;
+    ASSERT_FLOAT_EQ(60.0f, a.x);
+    ASSERT_FLOAT_EQ(92.0f, a.y);
 }
 
 TEST(math_vector_add, add_negative_test)
@@ -28,6 +34,9 @@ TEST(math_vector_add, add_negative_test)
     auto result = a + b;
     ASSERT_FLOAT_EQ(-490.0f, result.x);
     ASSERT_FLOAT_EQ(-225.0f, result.y);
+    a += b;
+    ASSERT_FLOAT_EQ(-490.0f, a.x);
+    ASSERT_FLOAT_EQ(-225.0f, a.y);
 }
 
 TEST(math_vector_mult, mult_zero_test)
@@ -37,6 +46,9 @@ TEST(math_vector_mult, mult_zero_test)
     auto result = a * b;
     ASSERT_FLOAT_EQ(0.0f, result.x);
     ASSERT_FLOAT_EQ(0.0f, result.y);
+    a *= b;
+    ASSERT_FLOAT_EQ(0.0f, a.x);
+    ASSERT_FLOAT_EQ(0.0f, a.y);
 }
 
 TEST(math_vector_mult, mult_positive_test)
@@ -46,6 +58,9 @@ TEST(math_vector_mult, mult_positive_test)
     auto result = a * b;
     ASSERT_FLOAT_EQ(800.0f, result.x);
     ASSERT_FLOAT_EQ(2100.0f, result.y);
+    a *= b;
+    ASSERT_FLOAT_EQ(800.0f, a.x);
+    ASSERT_FLOAT_EQ(2100.0f, a.y);
 }
 
 TEST(math_vector_mult, mult_negative_test)
@@ -55,6 +70,9 @@ TEST(math_vector_mult, mult_negative_test)
     auto result = a * b;
     ASSERT_FLOAT_EQ(36000.0f, result.x);
     ASSERT_FLOAT_EQ(4824.0f, result.y);
+    a *= b;
+    ASSERT_FLOAT_EQ(36000.0f, a.x);
+    ASSERT_FLOAT_EQ(4824.0f, a.y);
 }
 
 TEST(math_vector_sub, sub_zero_test)
@@ -64,6 +82,9 @@ TEST(math_vector_sub, sub_zero_test)
     auto result = a - b;
     ASSERT_FLOAT_EQ(5.0f, result.x);
     ASSERT_FLOAT_EQ(5.0f, result.y);
+    a -= b;
+    ASSERT_FLOAT_EQ(5.0f, a.x);
+    ASSERT_FLOAT_EQ(5.0f, a.y);
 }
 
 TEST(math_vector_sub, sub_positive_test)
@@ -73,6 +94,9 @@ TEST(math_vector_sub, sub_positive_test)
     auto result = a - b;
     ASSERT_FLOAT_EQ(20.0f, result.x);
     ASSERT_FLOAT_EQ(8.0f, result.y);
+    a -= b;
+    ASSERT_FLOAT_EQ(20.0f, a.x);
+    ASSERT_FLOAT_EQ(8.0f, a.y);
 }
 
 TEST(math_vector_sub, sub_negative_test)
@@ -82,6 +106,9 @@ TEST(math_vector_sub, sub_negative_test)
     auto result = a - b;
     ASSERT_FLOAT_EQ(-310.0f, result.x);
     ASSERT_FLOAT_EQ(177.0f, result.y);
+    a -= b;
+    ASSERT_FLOAT_EQ(-310.0f, a.x);
+    ASSERT_FLOAT_EQ(177.0f, a.y);
 }
 
 TEST(math_vector_dot, dot_zero_test)

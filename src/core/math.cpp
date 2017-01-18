@@ -20,6 +20,13 @@ Vector Vector::operator+(const Vector& other)
     return Vector(res_x, res_y);
 }
 
+Vector& Vector::operator+=(const Vector& other)
+{
+    x += other.x;
+    y += other.y;
+    return (*this);
+}
+
 Vector Vector::operator-(const Vector& other)
 {
     float res_x = x - other.x;
@@ -27,11 +34,39 @@ Vector Vector::operator-(const Vector& other)
     return Vector(res_x, res_y);
 }
 
+Vector& Vector::operator-=(const Vector& other)
+{
+    x -= other.x;
+    y -= other.y;
+    return (*this);
+}
+
 Vector Vector::operator*(const Vector& other)
 {
     float res_x = x * other.x;
     float res_y = y * other.y;
     return Vector(res_x, res_y);
+}
+
+Vector& Vector::operator*=(const Vector& other)
+{
+    x *= other.x;
+    y *= other.y;
+    return (*this);
+}
+
+Vector Vector::operator/(const Vector& other)
+{
+    float res_x = x / other.x;
+    float res_y = y / other.y;
+    return Vector(res_x, res_y);
+}
+
+Vector& Vector::operator/=(const Vector& other)
+{
+    x /= other.x;
+    y /= other.y;
+    return (*this);
 }
 
 float Vector::dot(const Vector& other)
