@@ -109,37 +109,56 @@ Manifold* Collision::check_level_collision(
     auto p_manifold = new Manifold();
     bool collision = false;
 
-    int level_x, level_y, level_layers;
+    int level_x1, level_y1, level_x2, level_y2, level_layers;
     assert(p_level != nullptr);
-    p_level->get_size(level_x, level_y, level_layers);
-    level_x *= p_level->get_scale();
-    level_y *= p_level->get_scale();
-    if (transform.pos_x - bbox.w / 2.0f < 0.0f)
+    float world_x1 = transform.pos_x - (bbox.w / 2.0f);
+    float world_y1 = transform.pos_y - (bbox.h / 2.0f);
+    float world_x2 = transform.pos_x + (bbox.w / 2.0f);
+    float world_y2 = transform.pos_y + (bbox.h / 2.0f);
+    /* m_sp_logger->info( */
+    /*     "World coordinates {},{}-{},{}", world_x1, world_y1, world_x2,
+     * world_y2); */
+    p_level->get_tile_coords(world_x1, world_y1, level_x1, level_y1);
+    p_level->get_tile_coords(world_x2, world_y2, level_x2, level_y2);
+    /* m_sp_logger->info( */
+    /* "Checking tiles {},{}-{},{}", level_x1, level_y1, level_x2, level_y2); */
+    for (int x = level_x1; x <= level_x2; x++)
     {
-        collision = true;
-        p_manifold->normal.x = -1.0f;
-        p_manifold->penetration.x = 0.0 - (transform.pos_x - bbox.w / 2.0f);
-    }
-    else if (transform.pos_x + bbox.w / 2.0f > level_x)
-    {
-        collision = true;
-        p_manifold->normal.x = 1.0f;
-        p_manifold->penetration.x = level_x - transform.pos_x + bbox.w / 2.0f;
-    }
-    if (transform.pos_y - bbox.h / 2.0f < 0.0f)
-    {
-        collision = true;
-        p_manifold->normal.y = -1.0f;
-        p_manifold->penetration.y = 0.0f - transform.pos_y - bbox.h / 2.0f;
-    }
-    else if (transform.pos_y + bbox.h / 2.0f > level_y)
-    {
-        collision = true;
-        p_manifold->normal.y = 1.0f;
-        p_manifold->penetration.y = level_y - transform.pos_y + bbox.h / 2.0f;
+        for (int y = level_y1; y <= level_y2; y++)
+        {
+            if (p_level->get_collision(x, y))
+            {
+
+                float world_x, world_y, tile_size;
+                /* m_sp_logger->info("Collision"); */
+                p_level->get_world_coords(x, y, world_x, world_y);
+                tile_size = p_level->get_scale();
+                core::Rectangle rect1{transform.pos_x + bbox.x,
+                    transform.pos_y + bbox.y,
+                    bbox.w,
+                    bbox.h};
+                core::Rectangle rect2{world_x, world_y, tile_size, tile_size};
+
+                auto p_new_manifold = check_rect_collision(rect1, rect2);
+                if (p_new_manifold)
+                {
+                    collision = true;
+                    /* if (p_new_manifold->penetration >
+                     * p_manifold->penetration) */
+                    /* { */
+                    /*     *p_manifold = *p_new_manifold; */
+                    /* } */
+                    p_manifold->normal += p_new_manifold->normal;
+                    p_manifold->penetration += p_new_manifold->penetration;
+                }
+                delete p_new_manifold;
+            }
+            /* m_sp_logger->info("Checking tile {},{}", x, y); */
+        }
     }
     if (collision)
     {
+        p_manifold->penetration = p_manifold->penetration.normalize();
         return p_manifold;
     }
     else
