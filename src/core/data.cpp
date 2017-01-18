@@ -522,6 +522,11 @@ void LevelReader::build_level(std::unique_ptr<Level>& up_level)
             width,
             height,
             opacity);
+        if (name.compare("Collision") == 0)
+        {
+            p_level->set_collision_layer(layerindex);
+            m_sp_logger->info("Found Collision layer {}", layerindex);
+        }
         auto data = val["data"];
         // TODO(Keegan): check encoding, don't just assume)
         auto decoded = string_decode(base64_decode(data.asString()));

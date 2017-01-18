@@ -55,6 +55,8 @@ public:
     const int& get_tile(
         int pos_x, int pos_y, int layer) const;
 
+    bool get_collision(int pos_x, int pos_y) const;
+
     void get_tile_coords(
         float world_x, float world_y, int& tile_x, int& tile_y) const;
 
@@ -67,6 +69,8 @@ public:
 
     void add_tileset(int first_tile, LevelTileSet* p_tileset);
 
+    void set_collision_layer(int collision_layer);
+
     void set(int pos_x, int pos_y, int layer, int tile_id);
 
 private:
@@ -78,6 +82,8 @@ private:
     int* m_p_tiles;
 
     int m_default_tile;
+
+    int m_collision_layer;
 
     std::vector<int> m_vec_firsttile;
     std::vector<std::unique_ptr<LevelTileSet>> m_vec_tileset;

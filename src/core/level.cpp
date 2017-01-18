@@ -27,12 +27,27 @@ const int& Level::get_tile(int pos_x, int pos_y, int layer) const
     return *p_ret_val;
 }
 
+bool Level::get_collision(int pos_x, int pos_y) const
+{
+    const auto tile = get_tile(pos_x, pos_y, m_collision_layer);
+
+    if (tile > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
     : m_size_x(size_x),
       m_size_y(size_y),
       m_layers(layers),
       m_scale(scale),
-      m_default_tile(default_tile)
+      m_default_tile(default_tile),
+      m_collision_layer(-1)
 {
     m_p_tiles = new int[size_x * size_y * layers];
     for (int layer = 0; layer < layers; layer++)
@@ -139,6 +154,11 @@ void Level::set(int pos_x, int pos_y, int layer, int tile_id)
 {
     auto& tile = get_tile(pos_x, pos_y, layer);
     tile = tile_id;
+}
+
+void Level::set_collision_layer(int collision_layer)
+{
+    m_collision_layer = collision_layer;
 }
 
 void Level::add_tileset(int first_tile, LevelTileSet* p_tileset)
