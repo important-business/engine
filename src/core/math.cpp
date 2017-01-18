@@ -69,12 +69,12 @@ Vector& Vector::operator/=(const Vector& other)
     return (*this);
 }
 
-float Vector::dot(const Vector& other)
+float Vector::dot(const Vector& other) const
 {
     return other.x * x + other.y * y;
 }
 
-float Vector::mag()
+float Vector::mag() const
 {
     return sqrt(x * x + y * y);
 }

@@ -26,9 +26,9 @@ struct Vector
 
     Vector operator/(const Vector& other);
     Vector &operator/=(const Vector& other);
-    float dot(const Vector& other);
+    float dot(const Vector& other) const;
 
-    float mag();
+    float mag() const;
 
     float x;
     float y;
