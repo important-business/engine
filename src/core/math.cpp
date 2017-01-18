@@ -69,6 +69,26 @@ Vector& Vector::operator/=(const Vector& other)
     return (*this);
 }
 
+bool operator==(const Vector& v1, const Vector& v2)
+{
+    return v1.mag() == v2.mag();
+}
+
+bool operator!=(const Vector& v1, const Vector& v2)
+{
+    return !(v1 == v2);
+}
+
+bool operator>(const Vector& v1, const Vector& v2)
+{
+    return v1.mag() > v2.mag();
+}
+
+bool operator<(const Vector& v1, const Vector& v2)
+{
+    return v1.mag() > v2.mag();
+}
+
 float Vector::dot(const Vector& other) const
 {
     return other.x * x + other.y * y;

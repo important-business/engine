@@ -26,6 +26,15 @@ struct Vector
 
     Vector operator/(const Vector& other);
     Vector &operator/=(const Vector& other);
+
+    friend bool operator==(const Vector &v1, const Vector &v2);
+
+    friend bool operator!=(const Vector &v1, const Vector &v2);
+
+    friend bool operator>(const Vector &v1, const Vector &v2);
+
+    friend bool operator<(const Vector &v1, const Vector &v2);
+
     float dot(const Vector& other) const;
 
     float mag() const;
