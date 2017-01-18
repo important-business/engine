@@ -57,6 +57,10 @@ public:
 
     void get_tile_coords(
         float world_x, float world_y, int& tile_x, int& tile_y) const;
+
+    void get_world_coords(
+        int tile_x, int tile_y, float& world_x, float& world_y) const;
+
     void get_tileset(int tile, LevelTileSet* &p_tileset, int &tileset_tile) const;
 
     void print() const;

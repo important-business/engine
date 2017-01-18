@@ -69,9 +69,14 @@ void Level::get_size(int& x, int& y, int& layers) const
 void Level::get_tile_coords(
     float world_x, float world_y, int& tile_x, int& tile_y) const
 {
-    // TODO(Keegan): Don't think it's actually quite this simple
     tile_x = world_x / m_scale;
     tile_y = world_y / m_scale;
+}
+void Level::get_world_coords(
+    int tile_x, int tile_y, float& world_x, float& world_y) const
+{
+    world_x = tile_x * m_scale;
+    world_y = tile_y * m_scale;
 }
 
 void Level::get_tileset(
