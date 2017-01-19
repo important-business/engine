@@ -74,6 +74,8 @@ private:
     Camera& m_camerasystem;
 
     std::unique_ptr<core::ResourceManagerTexture> m_up_resourcemanager;
+
+    bool m_render_collision;
 };
 }
 #endif /* SYSTEMS_RENDER_HPP */

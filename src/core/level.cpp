@@ -40,6 +40,10 @@ bool Level::get_collision(int pos_x, int pos_y) const
         return false;
     }
 }
+int Level::get_collision_layer() const
+{
+    return m_collision_layer;
+}
 
 Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
     : m_size_x(size_x),

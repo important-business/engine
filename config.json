@@ -2,6 +2,7 @@
     "render" : 
     {
         "acceleration" : false,
+        "show_collision" : true,
         "vsync" : false
     },
     "window" : 

@@ -57,6 +57,8 @@ public:
 
     bool get_collision(int pos_x, int pos_y) const;
 
+    int get_collision_layer() const;
+
     void get_tile_coords(
         float world_x, float world_y, int& tile_x, int& tile_y) const;
 

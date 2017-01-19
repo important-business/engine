@@ -7,6 +7,7 @@ namespace core
 const int WINDOW_WIDTH_DEFAULT{640};
 const int WINDOW_HEIGHT_DEFAULT{480};
 const bool RENDER_ACCEL_DEFAULT{false};
+const bool RENDER_SHOW_COLLISION_DEFAULT{false};
 const bool RENDER_VSYNC_DEFAULT{false};
 
 Configuration::Configuration(std::string filename) : m_str_filename(filename)
@@ -22,6 +23,13 @@ bool Configuration::get_render_acceleration() const
 {
     return m_json_config["render"]
         .get("acceleration", RENDER_ACCEL_DEFAULT)
+        .asBool();
+}
+
+bool Configuration::get_render_show_collision() const
+{
+    return m_json_config["render"]
+        .get("show_collision", RENDER_SHOW_COLLISION_DEFAULT)
         .asBool();
 }
 
