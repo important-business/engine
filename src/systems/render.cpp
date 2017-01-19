@@ -7,18 +7,35 @@ namespace systems
 {
 
 Render::Render(sdl_wrap::Window* p_window,
-    Uint32 render_flags,
+    const core::Configuration& config,
     Camera& camerasystem,
     core::ResourceManagerTexture* p_resourcemanager)
     : m_up_window(p_window),
       m_camerasystem(camerasystem),
       m_up_resourcemanager(p_resourcemanager)
 {
+    m_sp_logger = core::logging_get_logger("render");
+
+    uint32_t render_flags = 0;
+    // TODO(Keegan, Decide if need render to texture)
+    if (config.get_render_acceleration())
+    {
+        render_flags |= SDL_RENDERER_ACCELERATED;
+        m_sp_logger->info("Renderer using hardware acceleration");
+    }
+    else
+    {
+        render_flags |= SDL_RENDERER_SOFTWARE;
+        m_sp_logger->info("Renderer using software");
+    }
+    if (config.get_render_vsync())
+    {
+        m_sp_logger->info("Renderer using vsync");
+        render_flags |= SDL_RENDERER_PRESENTVSYNC;
+    }
     m_up_renderer =
         std::make_unique<sdl_wrap::Renderer>(*m_up_window, -1, render_flags);
     m_up_renderer->set_draw_color(150, 150, 150, 100);
-
-    m_sp_logger = core::logging_get_logger("render");
 }
 
 void Render::render(core::Level* plevel)

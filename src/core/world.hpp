@@ -1,6 +1,7 @@
 #ifndef CORE_WORLD_HPP
 #define CORE_WORLD_HPP
 
+#include "core/configuration.hpp"
 #include "core/level.hpp"
 #include "core/logging.hpp"
 #include "core/resource_manager.hpp"
@@ -22,12 +23,12 @@ class World
 
 {
 public:
-    explicit World(sdl_wrap::Window* pwindow) : m_p_window(pwindow)
+    explicit World(sdl_wrap::Window* pwindow, const core::Configuration &config) : m_p_window(pwindow), m_config(config)
     {
         m_sp_logger = core::logging_get_logger("world");
     }
 
-    void init(Uint32 sdl_render_flags);
+    void init();
 
     void deinit();
 
@@ -63,6 +64,8 @@ private:
     anax::Entity m_player;
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
+
+    const core::Configuration &m_config;
 };
 }
 

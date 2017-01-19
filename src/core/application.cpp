@@ -28,8 +28,8 @@ void Application::init()
         window_width,
         window_height,
         SDL_WINDOW_SHOWN);
-    m_up_world = std::make_unique<core::World>(m_up_window.get());
-    m_up_world->init(SDL_RENDERER_SOFTWARE);
+    m_up_world = std::make_unique<core::World>(m_up_window.get(), config);
+    m_up_world->init();
     m_has_quit = false;
 }
 

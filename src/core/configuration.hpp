@@ -12,6 +12,8 @@ class Configuration
 {
 public:
     explicit Configuration(std::string filename);
+    bool get_render_acceleration() const;
+    bool get_render_vsync() const;
     int get_window_height() const;
     int get_window_width() const;
 

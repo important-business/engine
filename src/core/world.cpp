@@ -72,7 +72,7 @@ anax::Entity player_factory(anax::World& world,
     return entity;
 }
 
-void World::init(Uint32 sdl_render_flags)
+void World::init()
 {
     // TODO(Keegan): Remove SDL window initialization from world?
     SDL_Init(SDL_INIT_VIDEO);
@@ -82,10 +82,8 @@ void World::init(Uint32 sdl_render_flags)
 
     m_up_texture_manager = std::make_unique<core::ResourceManagerTexture>();
 
-    m_up_render_system = std::make_unique<systems::Render>(m_p_window,
-        sdl_render_flags,
-        *m_up_camera_system,
-        m_up_texture_manager.get());
+    m_up_render_system = std::make_unique<systems::Render>(
+        m_p_window, m_config, *m_up_camera_system, m_up_texture_manager.get());
 
     m_up_ai_system = std::make_unique<systems::AiSystem>();
 

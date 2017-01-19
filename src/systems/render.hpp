@@ -6,6 +6,7 @@
 #include "components/camera.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
+#include "core/configuration.hpp"
 #include "core/level.hpp"
 #include "core/logging.hpp"
 
@@ -33,7 +34,7 @@ struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
     Render(sdl_wrap::Window* p_window,
-        Uint32 render_flags,
+        const core::Configuration& config,
         Camera& camerasystem,
         core::ResourceManagerTexture* p_resourcemanager);
 

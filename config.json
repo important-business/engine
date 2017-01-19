@@ -1,4 +1,9 @@
 {
+    "render" : 
+    {
+        "acceleration" : false,
+        "vsync" : false
+    },
     "window" : 
     {
         "size_x" : 640,
