@@ -14,7 +14,7 @@ const float S_PER_UPDATE{0.016667};
 
 void Application::init()
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
 
     Configuration config{CONFIG_PATH};
