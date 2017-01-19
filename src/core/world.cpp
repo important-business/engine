@@ -74,9 +74,6 @@ anax::Entity player_factory(anax::World& world,
 
 void World::init()
 {
-    // TODO(Keegan): Remove SDL window initialization from world?
-    SDL_Init(SDL_INIT_VIDEO);
-    IMG_Init(IMG_INIT_PNG);
     m_up_anax_world = std::make_unique<anax::World>();
     m_up_camera_system = std::make_unique<systems::Camera>();
 
