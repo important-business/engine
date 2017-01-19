@@ -6,6 +6,14 @@
 namespace sdl_wrap
 {
 
+inline void sdl_throw_error(const std::string &functionname){
+        auto error = std::string("Error-") + functionname;
+        error += ": ";
+        error+= SDL_GetError();
+        error += '\n';
+        throw SdlException(error);
+}
+
 Window::Window(
     const std::string title, int x, int y, int w, int h, Uint32 flags)
 {
@@ -13,9 +21,7 @@ Window::Window(
 
     if (m_p_window == nullptr)
     {
-        std::ostringstream error;
-        error << "Error:SDL_CreateWindow: " << SDL_GetError() << "\n";
-        throw Exception(error.str());
+        sdl_throw_error("SDL_CreateWindow: ");
     }
 }
 
@@ -43,9 +49,7 @@ Renderer::Renderer(Window& window, int index, Uint32 flags)
     m_p_renderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
     if (m_p_renderer == nullptr)
     {
-        std::ostringstream error;
-        error << "Error:Renderer: " << SDL_GetError() << "\n";
-        throw Exception(error.str());
+        sdl_throw_error(std::string("SDL_CreateRenderer"));
     }
 }
 
@@ -58,29 +62,41 @@ Renderer::~Renderer()
     }
 }
 
-int Renderer::clear()
+void Renderer::clear()
 {
-    return SDL_RenderClear(m_p_renderer);
+    auto result = SDL_RenderClear(m_p_renderer);
+    if (result)
+    {
+        sdl_throw_error(std::string("SDL_RenderClear"));
+    }
 }
 
-int Renderer::copy(Texture& texture,
+void Renderer::copy(Texture& texture,
     const SDL_Rect* src_rect,
     const SDL_Rect* dest_rect,
     int angle,
     SDL_RendererFlip flip)
 {
-    return SDL_RenderCopyEx(m_p_renderer,
+    auto result = SDL_RenderCopyEx(m_p_renderer,
         texture.get_pointer(),
         src_rect,
         dest_rect,
         angle,
         nullptr,
         flip);
+    if (result)
+    {
+        sdl_throw_error(std::string("SDL_RenderCopyEx"));
+    }
 }
 
-int Renderer::fill_rect(const SDL_Rect* p_rect)
+void Renderer::fill_rect(const SDL_Rect* p_rect)
 {
-    return SDL_RenderFillRect(m_p_renderer, p_rect);
+    auto result = SDL_RenderFillRect(m_p_renderer, p_rect);
+    if (result)
+    {
+        sdl_throw_error(std::string("SDL_RenderFillRect"));
+    }
 }
 
 void Renderer::present()
@@ -88,14 +104,22 @@ void Renderer::present()
     SDL_RenderPresent(m_p_renderer);
 }
 
-int Renderer::set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha)
+void Renderer::set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha)
 {
-    return SDL_SetRenderDrawColor(m_p_renderer, red, blue, green, alpha);
+    auto result = SDL_SetRenderDrawColor(m_p_renderer, red, blue, green, alpha);
+    if (result)
+    {
+        sdl_throw_error(std::string("SDL_SetRenderDrawColor"));
+    }
 }
 
-int Renderer::set_draw_blend_mode(SDL_BlendMode blendmode)
+void Renderer::set_draw_blend_mode(SDL_BlendMode blendmode)
 {
-    return SDL_SetRenderDrawBlendMode(m_p_renderer, blendmode);
+    auto result = SDL_SetRenderDrawBlendMode(m_p_renderer, blendmode);
+    if (result)
+    {
+        sdl_throw_error(std::string("SDL_SetRenderDrawBlendMode"));
+    }
 }
 
 SDL_Renderer* Renderer::get_pointer()
@@ -108,18 +132,14 @@ Texture::Texture(std::string path, Renderer& renderer)
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (surface == nullptr)
     {
-        std::ostringstream error;
-        error << "Error:Texture: " << IMG_GetError() << "\n";
-        throw Exception(error.str());
+        sdl_throw_error(std::string("IMG_Load"));
     }
 
     SDL_Texture* texture =
         SDL_CreateTextureFromSurface(renderer.get_pointer(), surface);
     if (texture == nullptr)
     {
-        std::ostringstream error;
-        error << "Error:Texture: " << SDL_GetError() << "\n";
-        throw Exception(error.str());
+        sdl_throw_error(std::string("SDL_CreateTextureFromSurface"));
     }
 
     m_width = surface->w;
@@ -143,11 +163,6 @@ int Texture::get_height()
 SDL_Texture* Texture::get_pointer()
 {
     return m_p_texture;
-}
-
-const char* Exception::what() const throw()
-{
-    return m_message.c_str();
 }
 
 } // namespace sdl
