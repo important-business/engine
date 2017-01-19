@@ -7,6 +7,7 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 # Load CMakeLists for modules
 add_subdirectory(core)
 add_subdirectory(sdl_wrap)
+add_subdirectory(common)
 add_subdirectory(components)
 add_subdirectory(systems)
 add_subdirectory(tools)
@@ -14,6 +15,7 @@ add_subdirectory(tools)
 # Define engine executable
 set(SRCS_ENGINE
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${SRCS_COMMON}
     ${SRCS_CORE}
     ${SRCS_SYSTEMS}
     ${SRCS_COMPONENTS}
@@ -21,6 +23,7 @@ set(SRCS_ENGINE
 
 set(SRCS_ENGINE_MODULE
     ${SRCS_CORE}
+    ${SRCS_COMMON}
     ${SRCS_SYSTEMS}
     ${SRCS_COMPONENTS}
     PARENT_SCOPE
