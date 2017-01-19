@@ -1,4 +1,5 @@
 #include "systems/render.hpp"
+#include "components/collision.hpp"
 #include "core/resource_manager.hpp"
 
 #include <cassert>
@@ -42,6 +43,7 @@ Render::Render(sdl_wrap::Window* p_window,
     m_up_renderer =
         std::make_unique<sdl_wrap::Renderer>(*m_up_window, -1, render_flags);
     m_up_renderer->set_draw_color(150, 150, 150, 100);
+    m_up_renderer->set_draw_blend_mode(SDL_BLENDMODE_BLEND);
 }
 
 void Render::render(core::Level* plevel)
@@ -161,6 +163,24 @@ void Render::render_entities(float camera_min_x,
             &dest_rect,
             static_cast<int>(transform_component.rotation),
             flip);
+
+        if (m_render_collision && entity.hasComponent<components::Collision>())
+        {
+            auto& collision = entity.getComponent<components::Collision>();
+            // TODO(Keegan, Use bounding box position as well)
+            SDL_Rect dest_rect = {
+                static_cast<int>(
+                    x_center - (camera_zoom * collision.bounding_box.w / 2.0f)),
+                static_cast<int>(
+                    y_center - (camera_zoom * collision.bounding_box.h / 2.0f)),
+                static_cast<int>(
+                    std::round(collision.bounding_box.w * camera_zoom)),
+                static_cast<int>(
+                    std::round(collision.bounding_box.h * camera_zoom)),
+            };
+            m_up_renderer->set_draw_color(0, 255, 0, 128);
+            m_up_renderer->fill_rect(&dest_rect);
+        }
     }
 }
 

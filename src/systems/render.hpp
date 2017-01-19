@@ -4,6 +4,7 @@
 #include "systems.hpp"
 
 #include "components/camera.hpp"
+#include "components/collision.hpp"
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "core/configuration.hpp"
@@ -30,6 +31,7 @@ struct Camera : anax::System<anax::Requires<components::CameraComponent,
 
 private:
 };
+
 struct Render : anax::System<anax::Requires<components::TextureComponent,
                     components::TransformComponent>>
 {
@@ -77,5 +79,6 @@ private:
 
     bool m_render_collision;
 };
+
 }
 #endif /* SYSTEMS_RENDER_HPP */
