@@ -2,9 +2,7 @@
 # TODO(Keegan): Add SRCS_COMPONENTS once components with cpp files are added
 set(SRCS_JSONCHECK
     ${CMAKE_CURRENT_SOURCE_DIR}/jsoncheck.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../common/exception.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../common/logging.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../common/json.cpp
+    ${SRCS_COMMON}
     )
 add_executable(jsoncheck ${SRCS_JSONCHECK})
 
