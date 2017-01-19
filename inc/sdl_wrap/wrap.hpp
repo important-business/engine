@@ -11,6 +11,8 @@
 namespace sdl_wrap
 {
 
+void sdl_init(uint32_t sdl_flags, int img_flags);
+
 class SdlException : public core::Exception
 {
 public:

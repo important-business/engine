@@ -14,6 +14,28 @@ inline void sdl_throw_error(const std::string &functionname){
         throw SdlException(error);
 }
 
+inline void sdl_img_throw_error(const std::string &functionname){
+        auto error = std::string("Error-") + functionname;
+        error += ": ";
+        error+= IMG_GetError();
+        error += '\n';
+        throw SdlException(error);
+}
+
+void sdl_init(uint32_t sdl_flags, int img_flags)
+{
+    auto result = SDL_Init(sdl_flags);
+    if (result){
+        sdl_throw_error("SDL_Init");
+    }
+
+    result = IMG_Init(img_flags);
+    if (result != img_flags){
+        sdl_img_throw_error("IMG_Init");
+    }
+}
+
+
 Window::Window(
     const std::string title, int x, int y, int w, int h, Uint32 flags)
 {
