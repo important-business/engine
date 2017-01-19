@@ -93,6 +93,11 @@ int Renderer::set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha)
     return SDL_SetRenderDrawColor(m_p_renderer, red, blue, green, alpha);
 }
 
+int Renderer::set_draw_blend_mode(SDL_BlendMode blendmode)
+{
+    return SDL_SetRenderDrawBlendMode(m_p_renderer, blendmode);
+}
+
 SDL_Renderer* Renderer::get_pointer()
 {
     return m_p_renderer;

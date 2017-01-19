@@ -48,6 +48,8 @@ public:
 
     int set_draw_color(Uint8 red, Uint8 blue, Uint8 green, Uint8 alpha);
 
+    int set_draw_blend_mode(SDL_BlendMode blendmode);
+
     SDL_Renderer* get_pointer();
 
 private:
