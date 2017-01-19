@@ -1,10 +1,9 @@
 #include "sdl_wrap/wrap.hpp"
 
-#include <iostream>
-#include <sstream>
-
 namespace sdl_wrap
 {
+
+std::shared_ptr<spdlog::logger> sp_logger;
 
 inline void sdl_throw_error(const std::string &functionname){
         auto error = std::string("Error-") + functionname;
@@ -24,11 +23,15 @@ inline void sdl_img_throw_error(const std::string &functionname){
 
 void sdl_init(uint32_t sdl_flags, int img_flags)
 {
+    sp_logger = core::logging_get_logger("sdlwrap");
+
+    sp_logger->info("Initializing SDL");
     auto result = SDL_Init(sdl_flags);
     if (result){
         sdl_throw_error("SDL_Init");
     }
 
+    sp_logger->info("Initializing SDL image");
     result = IMG_Init(img_flags);
     if (result != img_flags){
         sdl_img_throw_error("IMG_Init");
@@ -39,6 +42,8 @@ void sdl_init(uint32_t sdl_flags, int img_flags)
 Window::Window(
     const std::string title, int x, int y, int w, int h, Uint32 flags)
 {
+    sp_logger->info("Constructing window '{}'", title);
+
     m_p_window = SDL_CreateWindow(title.c_str(), x, y, w, h, flags);
 
     if (m_p_window == nullptr)
@@ -49,10 +54,13 @@ Window::Window(
 
 Window::~Window()
 {
-    std::cout << "Entering window destructor\n";
+    sp_logger->info("Destroying window");
+
     if (m_p_window != nullptr)
     {
         SDL_DestroyWindow(m_p_window);
+    }else{
+        sp_logger->error("Window pointer is null!");
     }
 }
 
@@ -68,6 +76,8 @@ void Window::get_size(int* p_w, int* p_h)
 
 Renderer::Renderer(Window& window, int index, Uint32 flags)
 {
+    sp_logger->info("Constructing renderer");
+
     m_p_renderer = SDL_CreateRenderer(window.get_pointer(), index, flags);
     if (m_p_renderer == nullptr)
     {
@@ -77,10 +87,13 @@ Renderer::Renderer(Window& window, int index, Uint32 flags)
 
 Renderer::~Renderer()
 {
-    std::cout << "Entering renderer destructor\n";
+    sp_logger->info("Destroying renderer");
+
     if (m_p_renderer == nullptr)
     {
         SDL_DestroyRenderer(m_p_renderer);
+    }else{
+        sp_logger->error("Renderer pointer is null!");
     }
 }
 
@@ -151,6 +164,9 @@ SDL_Renderer* Renderer::get_pointer()
 
 Texture::Texture(std::string path, Renderer& renderer)
 {
+
+    sp_logger->info("Loading texture from path '{}'", path);
+
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (surface == nullptr)
     {

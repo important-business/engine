@@ -2,6 +2,7 @@
 #define SDL_WRAP_HPP
 
 #include "common/exception.hpp"
+#include "common/logging.hpp"
 
 #include <string>
 
