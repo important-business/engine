@@ -130,18 +130,21 @@ Manifold* Collision::check_level_collision(
             {
 
                 float world_x, world_y, tile_size;
-                /* m_sp_logger->info("Collision"); */
                 p_level->get_world_coords(x, y, world_x, world_y);
                 tile_size = p_level->get_scale();
                 core::Rectangle rect1{transform.pos_x + bbox.x,
                     transform.pos_y + bbox.y,
                     bbox.w,
                     bbox.h};
-                core::Rectangle rect2{world_x, world_y, tile_size, tile_size};
+                core::Rectangle rect2{world_x + tile_size / 2.0f,
+                    world_y + tile_size / 2.0f,
+                    tile_size,
+                    tile_size};
 
                 auto p_new_manifold = check_rect_collision(rect1, rect2);
                 if (p_new_manifold)
                 {
+                    m_sp_logger->info("Collision");
                     collision = true;
                     /* if (p_new_manifold->penetration >
                      * p_manifold->penetration) */
@@ -158,7 +161,12 @@ Manifold* Collision::check_level_collision(
     }
     if (collision)
     {
-        p_manifold->penetration = p_manifold->penetration.normalize();
+        p_manifold->normal = p_manifold->normal.normalize();
+        m_sp_logger->info("   Normal:{},{}, penetration:{},{}",
+            p_manifold->normal.x,
+            p_manifold->normal.y,
+            p_manifold->penetration.x,
+            p_manifold->penetration.y);
         return p_manifold;
     }
     else
