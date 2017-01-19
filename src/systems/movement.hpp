@@ -5,7 +5,7 @@
 
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 
 #include <anax/System.hpp>
 

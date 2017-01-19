@@ -1,7 +1,7 @@
 #ifndef COMPONENTS_VELOCITY_HPP
 #define COMPONENTS_VELOCITY_HPP
 
-#include "core/math.hpp"
+#include "common/math.hpp"
 #include <anax/Component.hpp>
 #include <string>
 

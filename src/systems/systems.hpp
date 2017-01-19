@@ -1,7 +1,7 @@
 #ifndef SYSTEMS_SYSTEMS_HPP
 #define SYSTEMS_SYSTEMS_HPP
 
-#include "core/exception.hpp"
+#include "common/exception.hpp"
 #include "components/id.hpp"
 #include <anax/Entity.hpp>
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "core/math.hpp"
+#include "common/math.hpp"
 
 using namespace core;
 

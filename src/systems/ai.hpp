@@ -1,7 +1,7 @@
 #ifndef SYSTEMS_AI_HPP
 #define SYSTEMS_AI_HPP
 #include "components/ai.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 #include "systems.hpp"
 
 #include <anax/System.hpp>

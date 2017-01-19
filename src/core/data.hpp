@@ -1,9 +1,9 @@
 #ifndef CORE_DATA_HPP
 #define CORE_DATA_HPP
 
-#include "json.hpp"
+#include "common/json.hpp"
 #include "level.hpp"
-#include "logging.hpp"
+#include "common/logging.hpp"
 #include "systems/ai.hpp"
 
 #include "core/level.hpp"

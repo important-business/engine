@@ -1,5 +1,5 @@
 #include "core/application.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 
 #include <exception>
 #include <exception>

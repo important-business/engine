@@ -3,7 +3,7 @@
 
 #include "core/configuration.hpp"
 #include "core/level.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 #include "core/resource_manager.hpp"
 #include "systems/ai.hpp"
 #include "systems/movement.hpp"

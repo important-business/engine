@@ -1,7 +1,7 @@
 #ifndef CORE_CONFIGURATION_HPP
 #define CORE_CONFIGURATION_HPP
 
-#include "logging.hpp"
+#include "common/logging.hpp"
 #include <json/json.h>
 #include <memory>
 

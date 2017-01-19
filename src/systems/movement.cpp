@@ -1,6 +1,6 @@
 #include "systems/movement.hpp"
 #include "components/id.hpp"
-#include "core/exception.hpp"
+#include "common/exception.hpp"
 
 #include <cmath>
 #include <iostream>

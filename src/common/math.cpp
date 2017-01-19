@@ -1,4 +1,4 @@
-#include "core/math.hpp"
+#include "common/math.hpp"
 #include <cmath>
 
 namespace core

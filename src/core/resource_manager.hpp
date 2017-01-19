@@ -1,7 +1,7 @@
 #ifndef CORE_RESOURCE_MANAGER_HPP
 #define CORE_RESOURCE_MANAGER_HPP
 
-#include "logging.hpp"
+#include "common/logging.hpp"
 
 #include <memory>
 #include <sdl_wrap/wrap.hpp>

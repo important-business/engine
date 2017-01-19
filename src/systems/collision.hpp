@@ -3,7 +3,7 @@
 
 #include "systems.hpp"
 
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 #include "core/level.hpp"
 #include "components/collision.hpp"
 #include "components/transform.hpp"

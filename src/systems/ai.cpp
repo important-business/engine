@@ -1,7 +1,7 @@
 #include "systems/ai.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "core/exception.hpp"
+#include "common/exception.hpp"
 
 #include <iostream>
 #include <algorithm>

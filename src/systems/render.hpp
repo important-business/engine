@@ -9,7 +9,7 @@
 #include "components/transform.hpp"
 #include "core/configuration.hpp"
 #include "core/level.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 
 #include <string>
 #include <anax/System.hpp>

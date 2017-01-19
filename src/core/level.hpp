@@ -1,7 +1,7 @@
 #ifndef CORE_LEVEL_HPP
 #define CORE_LEVEL_HPP
 
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 #include "sdl_wrap/wrap.hpp"
 
 #include <cstdint>

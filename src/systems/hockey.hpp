@@ -5,7 +5,7 @@
 
 #include "components/player.hpp"
 #include "components/velocity.hpp"
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 
 #include <anax/System.hpp>
 #include <wink/signal.hpp>

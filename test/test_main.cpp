@@ -1,4 +1,4 @@
-#include "core/logging.hpp"
+#include "common/logging.hpp"
 #include <iostream>
 #include <gtest/gtest.h>
 

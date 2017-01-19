@@ -7,7 +7,7 @@
 #include "components/render.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "exception.hpp"
+#include "common/exception.hpp"
 
 #include <cassert>
 #include <fstream>

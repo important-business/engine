@@ -1,7 +1,7 @@
 #ifndef COMPONENTS_COLLISION_HPP
 #define COMPONENTS_COLLISION_HPP
 
-#include "core/math.hpp"
+#include "common/math.hpp"
 #include <anax/Component.hpp>
 #include <string>
 
