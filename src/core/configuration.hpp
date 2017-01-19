@@ -12,8 +12,8 @@ class Configuration
 {
 public:
     explicit Configuration(std::string filename);
-    int get_window_height();
-    int get_window_width();
+    int get_window_height() const;
+    int get_window_width() const;
 
 private:
     const std::string m_str_filename;

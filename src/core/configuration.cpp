@@ -16,13 +16,14 @@ Configuration::Configuration(std::string filename) : m_str_filename(filename)
     reader_json.parse(config_file, m_json_config);
 }
 
-int Configuration::get_window_height()
+int Configuration::get_window_height() const
 {
     return m_json_config["window"].get("size_y", WINDOW_HEIGHT_DEFAULT).asInt();
 }
 
-int Configuration::get_window_width()
+int Configuration::get_window_width() const
 {
     return m_json_config["window"].get("size_x", WINDOW_WIDTH_DEFAULT).asInt();
 }
+
 } // namespace core
