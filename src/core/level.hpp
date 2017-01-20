@@ -34,10 +34,11 @@ private:
     std::shared_ptr<sdl_wrap::Texture> m_sp_texture;
     std::string m_name;
     std::string m_filename;
-    std::shared_ptr<spdlog::logger> m_sp_logger;
     unsigned int m_columns, m_tilecount;
     unsigned int m_tilewidth ,m_tileheight;
     unsigned int m_spacing, m_margin;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 
 class Level

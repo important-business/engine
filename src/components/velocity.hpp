@@ -54,8 +54,8 @@ public:
     float inv_mass;
     float friction;
     float restitution;
-    core::Vector velocity;
-    core::Vector force;
+    common::Vector velocity;
+    common::Vector force;
 
     static const std::string name;
 };

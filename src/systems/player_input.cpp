@@ -6,7 +6,7 @@ namespace systems
 {
 
 PlayerInput::PlayerInput()
-    : m_sp_logger(core::logging_get_logger("playerinput"))
+    : m_sp_logger(common::logging_get_logger("playerinput"))
 {
 }
 

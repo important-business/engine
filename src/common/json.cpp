@@ -6,7 +6,7 @@
 #include <map>
 #include <utility>
 
-namespace core
+namespace common
 {
 
 void JsonReader::check_required_component_property(
@@ -124,4 +124,4 @@ std::string JsonFileReader::load_file(std::string filename)
     return sstream.str();
 }
 
-} // namespace core
+} // namespace common

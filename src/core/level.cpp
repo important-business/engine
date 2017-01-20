@@ -45,7 +45,7 @@ Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
       m_scale(scale),
       m_default_tile(default_tile),
       m_collision_layer(-1),
-      m_sp_logger(logging_get_logger("level"))
+      m_sp_logger(common::logging_get_logger("level"))
 {
     m_p_tiles = new int[size_x * size_y * layers];
     for (int layer = 0; layer < layers; layer++)
@@ -180,9 +180,9 @@ LevelTileSet::LevelTileSet(std::string name,
       m_tilewidth(tilewidth),
       m_tileheight(tileheight),
       m_spacing(spacing),
-      m_margin(margin)
+      m_margin(margin),
+      m_sp_logger(common::logging_get_logger("level"))
 {
-    m_sp_logger = logging_get_logger("level");
 }
 
 bool LevelTileSet::getTileClipping(

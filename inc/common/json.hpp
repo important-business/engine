@@ -5,7 +5,7 @@
 #include <json/json.h>
 #include <string>
 
-namespace core
+namespace common
 {
 
 class JsonReader
@@ -41,5 +41,5 @@ private:
     std::string load_file(std::string filename);
 };
 
-} // namespace core
+} // namespace common
 #endif /* JSON_HPP */

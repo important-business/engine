@@ -25,7 +25,7 @@ class World
 public:
     explicit World(sdl_wrap::Window* pwindow, const core::Configuration &config) : m_p_window(pwindow), m_config(config)
     {
-        m_sp_logger = core::logging_get_logger("world");
+        m_sp_logger = common::logging_get_logger("world");
     }
 
     void init();

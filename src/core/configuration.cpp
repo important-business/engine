@@ -11,7 +11,8 @@ const bool RENDER_SHOW_COLLISION_DEFAULT{false};
 const bool RENDER_VSYNC_DEFAULT{false};
 
 Configuration::Configuration(std::string filename)
-    : m_str_filename(filename), m_sp_logger(logging_get_logger("config"))
+    : m_str_filename(filename),
+      m_sp_logger(common::logging_get_logger("config"))
 {
     Json::Reader reader_json;
     m_sp_logger->info("Loading configuration from {}", filename);

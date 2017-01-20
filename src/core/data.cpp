@@ -356,7 +356,7 @@ void DataReader::factory_component_physics(
 
 DataReader::DataReader(std::string filename) : JsonFileReader(filename)
 {
-    m_sp_logger = logging_get_logger("data");
+    m_sp_logger = common::logging_get_logger("data");
 
     component_factories.insert(std::make_pair(
         components::AiComponent::name, &DataReader::factory_component_ai));
@@ -392,7 +392,7 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
         m_sp_logger->error("JSON data {} missing referenced entity {}",
             m_str_description,
             entityname);
-        throw ExceptionParseFailure(
+        throw common::ExceptionParseFailure(
             m_str_description, "Missing referenced entity");
     }
 
@@ -419,7 +419,7 @@ anax::Entity DataReader::makeEntity(std::string entityname, anax::World& world)
             m_str_description,
             entityname,
             prop_name_components);
-        throw ExceptionParseFailure(
+        throw common::ExceptionParseFailure(
             m_str_description, "JSON data entity missing components");
     }
 
@@ -453,7 +453,7 @@ void DataReader::makeEntities(anax::World& world)
     {
         m_sp_logger->error(
             "JSON data {} missing {}", m_str_description, object_name_world);
-        throw ExceptionParseFailure(
+        throw common::ExceptionParseFailure(
             m_str_description, "JSON Data missing world");
     }
     if (!m_json_data[object_name_world].isMember(prop_name_entities))
@@ -461,7 +461,7 @@ void DataReader::makeEntities(anax::World& world)
         m_sp_logger->error("JSON data {} world missing {}",
             m_str_description,
             prop_name_entities);
-        throw ExceptionParseFailure(
+        throw common::ExceptionParseFailure(
             m_str_description, "JSON Data world missing entities");
     }
 
@@ -477,7 +477,7 @@ void DataReader::makeEntities(anax::World& world)
 
 LevelReader::LevelReader(std::string filename) : JsonFileReader(filename)
 {
-    m_sp_logger = logging_get_logger("data");
+    m_sp_logger = common::logging_get_logger("data");
 }
 
 void LevelReader::build_level(std::unique_ptr<Level>& up_level)
@@ -552,7 +552,7 @@ LevelTileSet* LevelReader::load_tileset(std::string filename)
         m_sp_logger->error(
             "Failed to parse JSON file {}:", filename, "JSON format error");
         m_sp_logger->error(reader_json.getFormattedErrorMessages());
-        throw ExceptionParseFailure(
+        throw common::ExceptionParseFailure(
             m_str_description, std::string("JSON format error"));
     }
     std::string image_filename =

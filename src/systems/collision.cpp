@@ -10,12 +10,12 @@
 namespace systems
 {
 
-Collision::Collision() : m_sp_logger(core::logging_get_logger("collision"))
+Collision::Collision() : m_sp_logger(common::logging_get_logger("collision"))
 {
 }
 
 Manifold* Collision::check_rect_collision(
-    const core::Rectangle& rect1, const core::Rectangle& rect2)
+    const common::Rectangle& rect1, const common::Rectangle& rect2)
 {
     Manifold* p_manifold = nullptr;
     // TODO(Keegan): Don't ignore bounding box x/y positions)
@@ -84,11 +84,11 @@ Manifold* systems::Collision::check_collision(
     throw_if_missing_component<components::Collision>(e2);
     auto& bbox2 = e2.getComponent<components::Collision>().bounding_box;
 
-    core::Rectangle rect1{transform1.pos_x + bbox1.x,
+    common::Rectangle rect1{transform1.pos_x + bbox1.x,
         transform1.pos_y + bbox1.y,
         bbox1.w,
         bbox1.h};
-    core::Rectangle rect2{transform2.pos_x + bbox2.x,
+    common::Rectangle rect2{transform2.pos_x + bbox2.x,
         transform2.pos_y + bbox2.y,
         bbox2.w,
         bbox2.h};
@@ -131,11 +131,11 @@ Manifold* Collision::check_level_collision(
                 float world_x, world_y, tile_size;
                 p_level->get_world_coords(x, y, world_x, world_y);
                 tile_size = p_level->get_scale();
-                core::Rectangle rect1{transform.pos_x + bbox.x,
+                common::Rectangle rect1{transform.pos_x + bbox.x,
                     transform.pos_y + bbox.y,
                     bbox.w,
                     bbox.h};
-                core::Rectangle rect2{world_x + tile_size / 2.0f,
+                common::Rectangle rect2{world_x + tile_size / 2.0f,
                     world_y + tile_size / 2.0f,
                     tile_size,
                     tile_size};

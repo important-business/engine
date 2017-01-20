@@ -11,8 +11,8 @@
 int main(int argc, char* argv[])
 {
     int to_return = 0;
-    core::logging_init();
-    auto logger_main = core::logging_get_logger("main");
+    common::logging_init();
+    auto logger_main = common::logging_get_logger("main");
     try
     {
         core::Application app{argc, argv};

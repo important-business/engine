@@ -1,7 +1,7 @@
 #include "common/math.hpp"
 #include <cmath>
 
-namespace core
+namespace common
 {
 
 Rectangle::Rectangle(float x, float y, float w, float h)

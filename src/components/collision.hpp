@@ -19,7 +19,7 @@ struct Collision : anax::Component
         bounding_box.h = h;
         bounding_box.w = w;
     }
-    core::Rectangle bounding_box;
+    common::Rectangle bounding_box;
     bool can_cause_events;
 
     static const std::string name;

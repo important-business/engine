@@ -14,10 +14,10 @@ namespace sdl_wrap
 
 void sdl_init(uint32_t sdl_flags, int img_flags);
 
-class SdlException : public core::Exception
+class SdlException : public common::Exception
 {
 public:
-    explicit SdlException(std::string message) : core::Exception(message)
+    explicit SdlException(std::string message) : common::Exception(message)
     {
     }
 

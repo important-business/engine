@@ -27,8 +27,8 @@ public:
         penetration.x = 0.0f;
         penetration.y = 0.0f;
     }
-    core::Vector normal;
-    core::Vector penetration;
+    common::Vector normal;
+    common::Vector penetration;
 };
 
 struct Collision
@@ -43,7 +43,7 @@ public:
     wink::signal<wink::slot<void (std::string, anax::Entity)>> m_trigger_signal;
 
 private:
-    Manifold* check_rect_collision(const core::Rectangle &rect1, const core::Rectangle &rect2);
+    Manifold* check_rect_collision(const common::Rectangle &rect1, const common::Rectangle &rect2);
     Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
     Manifold* check_level_collision(anax::Entity& e, core::Level *p_level);
     Manifold* do_check_collision(anax::Entity& e1, anax::Entity& e2);

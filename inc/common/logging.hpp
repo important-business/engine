@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <string>
 
-namespace core
+namespace common
 {
 void logging_init(bool logfiles = true);
 

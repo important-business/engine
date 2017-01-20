@@ -23,7 +23,7 @@ inline void sdl_img_throw_error(const std::string &functionname){
 
 void sdl_init(uint32_t sdl_flags, int img_flags)
 {
-    sp_logger = core::logging_get_logger("sdlwrap");
+    sp_logger = common::logging_get_logger("sdlwrap");
 
     sp_logger->info("Initializing SDL");
     auto result = SDL_Init(sdl_flags);

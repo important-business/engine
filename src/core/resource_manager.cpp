@@ -5,7 +5,7 @@ namespace core
 
 ResourceManagerTexture::ResourceManagerTexture()
     : m_p_default_renderer(nullptr),
-      m_sp_logger(logging_get_logger("resource_manager"))
+      m_sp_logger(common::logging_get_logger("resource_manager"))
 {
 }
 

@@ -326,7 +326,7 @@ AiResult AiNodeFollow::_execute(anax::Entity entity, AiSystem const& aisystem)
     aisystem.m_movement_signal.emit(entity, vel_x, vel_y);
     return result;
 }
-AiSystem::AiSystem() : m_sp_logger(core::logging_get_logger("ai"))
+AiSystem::AiSystem() : m_sp_logger(common::logging_get_logger("ai"))
 {
 }
 

@@ -1,6 +1,6 @@
 #include "common/exception.hpp"
 
-namespace core
+namespace common
 {
 
 const char* Exception::what() const throw()
@@ -17,4 +17,4 @@ ExceptionParseFailure::ExceptionParseFailure(
     m_message.append(msg);
 }
 
-} // namespace core
+} // namespace common

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace core
+namespace common
 {
 
 std::shared_ptr<spdlog::logger> log_logger;
@@ -38,4 +38,4 @@ std::shared_ptr<spdlog::logger> logging_get_logger(
         std::make_shared<spdlog::logger>(loggername, begin(sinks), end(sinks));
     return logger;
 }
-} // namespace core
+} // namespace common

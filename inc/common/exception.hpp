@@ -4,7 +4,7 @@
 #include <exception>
 #include <string>
 
-namespace core
+namespace common
 {
 
 class Exception : public std::exception
@@ -29,5 +29,5 @@ public:
 };
 
 
-} // namespace core
+} // namespace common
 #endif /* EXCEPTION_HPP */

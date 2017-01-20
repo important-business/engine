@@ -12,7 +12,7 @@
 int main(int argc, char* argv[])
 {
     int to_return = 0;
-    core::logging_init(false);
+    common::logging_init(false);
     try
     {
         std::vector<std::string> files;
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         for (auto file : files)
         {
             std::cout << "Parsing file " << file << std::endl;
-            core::JsonFileReader reader(file);
+            common::JsonFileReader reader(file);
             if (update_file)
             {
                 reader.write_file(file);

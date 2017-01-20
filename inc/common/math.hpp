@@ -1,6 +1,6 @@
 #ifndef MATH_HPP
 #define MATH_HPP
-namespace core{
+namespace common{
 struct Rectangle
 {
     explicit Rectangle(float x = 0.0f, float y = 0.0f, float w=0.0f, float h=0.0f);
@@ -45,6 +45,6 @@ struct Vector
     float y;
 };
 
-} // namespace core
+} // namespace common
 
 #endif /* MATH_HPP */

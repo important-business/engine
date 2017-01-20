@@ -13,7 +13,7 @@
 namespace core
 {
 
-class DataReader : public JsonFileReader
+class DataReader : public common::JsonFileReader
 {
 public:
     typedef void (DataReader::*factory_method)(
@@ -43,7 +43,7 @@ private:
     std::map<std::string, anax::Entity> m_map_entities;
 };
 
-class LevelReader : public JsonFileReader
+class LevelReader : public common::JsonFileReader
 {
 public:
     void build_level(std::unique_ptr<Level>& up_level);

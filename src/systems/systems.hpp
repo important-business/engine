@@ -8,7 +8,7 @@
 namespace systems
 {
 template <class T>
-class ExceptionMissingComponent : public core::Exception
+class ExceptionMissingComponent : public common::Exception
 {
 public:
     explicit ExceptionMissingComponent(anax::Entity e)
