@@ -29,20 +29,20 @@ Manifold* Collision::check_rect_collision(
         float y_overlap = rect1.h / 2.0f + rect2.h / 2.0f - std::abs(pos_dy);
         if (y_overlap > 0.0f)
         {
-            m_sp_logger->debug(
+            m_sp_logger->trace(
                 " collision - x overlap {} y overlap {}", x_overlap, y_overlap);
             p_manifold = new Manifold();
             if (x_overlap < y_overlap)
             {
                 if (pos_dx < 0)
                 {
-                    m_sp_logger->debug("Normal in -y");
+                    m_sp_logger->trace("Normal in -y");
                     p_manifold->normal.x = 1;
                     p_manifold->normal.y = 0;
                 }
                 else
                 {
-                    m_sp_logger->debug("Normal in +y");
+                    m_sp_logger->trace("Normal in +y");
                     p_manifold->normal.x = -1;
                     p_manifold->normal.y = 0;
                 }
@@ -52,13 +52,13 @@ Manifold* Collision::check_rect_collision(
             {
                 if (pos_dy < 0)
                 {
-                    m_sp_logger->debug("Normal in -x");
+                    m_sp_logger->trace("Normal in -x");
                     p_manifold->normal.x = 0;
                     p_manifold->normal.y = 1;
                 }
                 else
                 {
-                    m_sp_logger->debug("Normal in +x");
+                    m_sp_logger->trace("Normal in +x");
                     p_manifold->normal.x = 0;
                     p_manifold->normal.y = -1;
                 }
@@ -114,12 +114,12 @@ Manifold* Collision::check_level_collision(
     float world_y1 = transform.pos_y - (bbox.h / 2.0f);
     float world_x2 = transform.pos_x + (bbox.w / 2.0f);
     float world_y2 = transform.pos_y + (bbox.h / 2.0f);
-    /* m_sp_logger->info( */
+    /* m_sp_logger->debug( */
     /*     "World coordinates {},{}-{},{}", world_x1, world_y1, world_x2,
      * world_y2); */
     p_level->get_tile_coords(world_x1, world_y1, level_x1, level_y1);
     p_level->get_tile_coords(world_x2, world_y2, level_x2, level_y2);
-    /* m_sp_logger->info( */
+    /* m_sp_logger->debug( */
     /* "Checking tiles {},{}-{},{}", level_x1, level_y1, level_x2, level_y2); */
     for (int x = level_x1; x <= level_x2; x++)
     {
@@ -143,7 +143,7 @@ Manifold* Collision::check_level_collision(
                 auto p_new_manifold = check_rect_collision(rect1, rect2);
                 if (p_new_manifold != nullptr)
                 {
-                    m_sp_logger->info("Collision");
+                    m_sp_logger->debug("Collision");
                     collision = true;
                     /* if (p_new_manifold->penetration >
                      * p_manifold->penetration) */
@@ -155,13 +155,13 @@ Manifold* Collision::check_level_collision(
                 }
                 delete p_new_manifold;
             }
-            /* m_sp_logger->info("Checking tile {},{}", x, y); */
+            m_sp_logger->trace("Checking tile {},{}", x, y);
         }
     }
     if (collision)
     {
         p_manifold->normal = p_manifold->normal.normalize();
-        m_sp_logger->info("   Normal:{},{}, penetration:{},{}",
+        m_sp_logger->debug("   Normal:{},{}, penetration:{},{}",
             p_manifold->normal.x,
             p_manifold->normal.y,
             p_manifold->penetration.x,
@@ -261,11 +261,11 @@ void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
     float vel_normal =
         vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
 
-    m_sp_logger->debug("Normal velocity is {}", vel_normal);
-    m_sp_logger->debug("rel velocity is x{}, y{}", vel_dx, vel_dy);
+    m_sp_logger->trace("Normal velocity is {}", vel_normal);
+    m_sp_logger->trace("rel velocity is x{}, y{}", vel_dx, vel_dy);
     if (vel_normal > 0)
     {
-        m_sp_logger->debug("Objects are moving away");
+        m_sp_logger->trace("Objects are moving away");
         return;
     }
     // TODO(Keegan): Add restitution calculation
@@ -279,7 +279,7 @@ void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
     float impulse_x = impulse * p_manifold->normal.x;
     float impulse_y = impulse * p_manifold->normal.y;
 
-    m_sp_logger->debug("impulse is x{}, y{}", impulse_x, impulse_y);
+    m_sp_logger->trace("impulse is x{}, y{}", impulse_x, impulse_y);
 
     p_physics1->force.x -= impulse_x;
     p_physics2->force.x += impulse_x;
