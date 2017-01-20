@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Render Source
+ *
+ * Contains implementation of classes for rendering logic
+ */
+
 #include "components/collision.hpp"
 #include "core/resource_manager.hpp"
 #include "systems/render.hpp"

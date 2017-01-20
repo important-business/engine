@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief ID Component Header
+ *
+ * Contains definition of ID component
+ */
+
 #ifndef COMPONENTS_ID_HPP
 #define COMPONENTS_ID_HPP
 

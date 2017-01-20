@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Configuration Header
+ *
+ * Contains definition of Configuration class
+ */
+
 #ifndef CORE_CONFIGURATION_HPP
 #define CORE_CONFIGURATION_HPP
 

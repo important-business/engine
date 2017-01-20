@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Player Input Header
+ *
+ * Contains definition of classes for input logic
+ */
+
 #ifndef SYSTEMS_PLAYER_INPUT_HPP
 #define SYSTEMS_PLAYER_INPUT_HPP
 

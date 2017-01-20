@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Ai Test Source
+ *
+ * Contains implementation of tests for Ai Logic
+ */
+
 #include "systems/ai.hpp"
 
 #include <gtest/gtest.h>

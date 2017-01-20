@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Data Header
+ *
+ * Contains definition of classes for reading game data
+ */
+
 #ifndef CORE_DATA_HPP
 #define CORE_DATA_HPP
 

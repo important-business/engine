@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Level Source
+ *
+ * Contains implementation of classes for representing level data
+ */
+
 #include "level.hpp"
 
 #include <iostream>

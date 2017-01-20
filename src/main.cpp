@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Engine main source
+ *
+ * Engine implementation file
+ */
+
 #include "core/application.hpp"
 #include "core/configuration.hpp"
 #include "common/logging.hpp"

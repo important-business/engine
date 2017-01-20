@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Math Header
+ *
+ * Defines common functions and classes for mathematical operations
+ */
+
 #ifndef MATH_HPP
 #define MATH_HPP
 namespace common{

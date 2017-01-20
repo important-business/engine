@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Ai Header
+ *
+ * Contains definition of classes for Ai Logic
+ */
+
 #ifndef SYSTEMS_AI_HPP
 #define SYSTEMS_AI_HPP
 #include "components/ai.hpp"

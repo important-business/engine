@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief SDL Wrapper source
+ *
+ * Implements functions and classes to wrap SDL2 for C++
+ */
+
 #include "sdl_wrap/wrap.hpp"
 
 namespace sdl_wrap

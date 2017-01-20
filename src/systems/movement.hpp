@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Movement Header
+ *
+ * Contains definition of classes for Movement Logic
+ */
+
 #ifndef SYSTEMS_MOVEMENT_HPP
 #define SYSTEMS_MOVEMENT_HPP
 

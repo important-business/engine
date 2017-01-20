@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Render Component Header
+ *
+ * Contains definition of components relating to Rendering
+ */
+
 #ifndef COMPONENTS_RENDER_HPP
 #define COMPONENTS_RENDER_HPP
 

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Ai Source
+ *
+ * Contains implementation of classes for Ai Logic
+ */
+
 #include "common/exception.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"

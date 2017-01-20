@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Logging Header
+ *
+ * Defines common functions for configuring and using spdlog
+ */
+
 #ifndef CORE_LOGGING_HPP
 #define CORE_LOGGING_HPP
 

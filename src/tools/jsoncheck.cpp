@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Jsoncheck main source
+ *
+ * Implementation of application for validating/formatting Json files
+ */
+
 #include "common/json.hpp"
 
 #include <exception>

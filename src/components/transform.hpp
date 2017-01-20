@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Transform Component Header
+ *
+ * Contains definition of components relating to position in space
+ */
+
 #ifndef COMPONENTS_TRANSFORM_HPP
 #define COMPONENTS_TRANSFORM_HPP
 

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Data Implementation
+ *
+ * Contains implementation of classes for reading game data
+ */
+
 #include "data.hpp"
 #include "components/ai.hpp"
 #include "components/camera.hpp"

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Movement Component Header
+ *
+ * Contains definition of components relating to movement and physics
+ */
+
 #ifndef COMPONENTS_VELOCITY_HPP
 #define COMPONENTS_VELOCITY_HPP
 

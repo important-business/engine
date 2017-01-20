@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core World Source
+ *
+ * Contains implementation of classes for representing world
+ */
+
 #include "world.hpp"
 #include "data.hpp"
 

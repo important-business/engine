@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Json Source
+ *
+ * Implements classes for parsing JSON files using jsoncpp
+ */
+
 #include "common/json.hpp"
 #include "common/exception.hpp"
 

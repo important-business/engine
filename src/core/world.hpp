@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core World Header
+ *
+ * Contains definition of classes for representing world
+ */
+
 #ifndef CORE_WORLD_HPP
 #define CORE_WORLD_HPP
 

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Math Test source
+ *
+ * Defines tests for common math module
+ */
+
 #include "gtest/gtest.h"
 #include "common/math.hpp"
 

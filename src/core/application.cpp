@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Application Source
+ *
+ * Contains implementation of application class methods and constants
+ */
+
 #include "application.hpp"
 #include "configuration.hpp"
 

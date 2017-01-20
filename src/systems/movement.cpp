@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Movement Source
+ *
+ * Contains implementation of classes for Movement Logic
+ */
+
 #include "systems/movement.hpp"
 #include "components/id.hpp"
 #include "common/exception.hpp"

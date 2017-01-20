@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Ai Component Header
+ *
+ * Contains definition of components relating to Ai
+ */
+
 #ifndef COMPONENTS_AI_HPP
 #define COMPONENTS_AI_HPP
 

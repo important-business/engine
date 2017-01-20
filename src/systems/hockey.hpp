@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Hockey Header
+ *
+ * Contains definition of classes for Hockey game Logic
+ */
+
 #ifndef SYSTEMS_HOCKEY_HPP
 #define SYSTEMS_HOCKEY_HPP
 

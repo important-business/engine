@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Resource Manager Header
+ *
+ * Contains definition of classes for managing resources
+ */
+
 #ifndef CORE_RESOURCE_MANAGER_HPP
 #define CORE_RESOURCE_MANAGER_HPP
 

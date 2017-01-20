@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Resource Manager Source
+ *
+ * Contains implementation of classes for managing resources
+ */
+
 #include "resource_manager.hpp"
 
 namespace core

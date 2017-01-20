@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Exception header
+ *
+ * Defines a common base exception and some other common exceptions
+ */
+
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 

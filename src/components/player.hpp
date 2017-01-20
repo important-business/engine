@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Player Component Header
+ *
+ * Contains definition of components relating to player
+ */
+
 #ifndef COMPONENTS_PLAYER_HPP
 #define COMPONENTS_PLAYER_HPP
 

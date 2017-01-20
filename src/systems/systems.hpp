@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Base System Header
+ *
+ * Contains common system definitions
+ */
+
 #ifndef SYSTEMS_SYSTEMS_HPP
 #define SYSTEMS_SYSTEMS_HPP
 

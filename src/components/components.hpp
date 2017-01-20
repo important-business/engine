@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Base Component Header
+ *
+ * Contains definition of base component
+ */
+
 #ifndef COMPONENTS_COMPONENTS_HPP
 #define COMPONENTS_COMPONENTS_HPP
 

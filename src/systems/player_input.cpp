@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Player Input Source
+ *
+ * Contains implementation of classes for input logic
+ */
+
 #include "systems/player_input.hpp"
 
 #include <SDL.h>

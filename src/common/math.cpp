@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Math Source
+ *
+ * Implements common functions and classes for mathematical operations
+ */
+
 #include "common/math.hpp"
 #include <cmath>
 

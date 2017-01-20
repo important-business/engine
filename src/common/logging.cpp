@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Logging Source
+ *
+ * Implements common functions for configuring and using spdlog
+ */
+
 #include "common/logging.hpp"
 
 #include <iostream>

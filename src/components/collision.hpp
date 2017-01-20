@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Collision Component Header
+ *
+ * Contains definition of components relating to the Collisions and triggers
+ */
+
 #ifndef COMPONENTS_COLLISION_HPP
 #define COMPONENTS_COLLISION_HPP
 

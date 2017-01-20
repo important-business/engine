@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Hockey Source
+ *
+ * Contains implementation of classes for Hockey game Logic
+ */
+
 #include "systems/hockey.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"

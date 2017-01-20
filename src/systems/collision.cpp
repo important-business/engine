@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Collision Source
+ *
+ * Contains implementation of classes for Collision logic
+ */
+
 #include "systems/collision.hpp"
 #include "common/exception.hpp"
 #include "components/id.hpp"

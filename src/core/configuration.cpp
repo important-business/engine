@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Configuration Source
+ *
+ * Contains implementation of Configuration methods and constants
+ */
+
 #include "configuration.hpp"
 #include <fstream>
 

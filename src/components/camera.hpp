@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Camera Component Header
+ *
+ * Contains definition of components relating to the Camera
+ */
+
 #ifndef COMPONENTS_CAMERA_HPP
 #define COMPONENTS_CAMERA_HPP
 

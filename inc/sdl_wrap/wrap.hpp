@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief SDL Wrapper header
+ *
+ * Defines functions and classes to wrap SDL2 for C++
+ */
+
 #ifndef SDL_WRAP_HPP
 #define SDL_WRAP_HPP
 

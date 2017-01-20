@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Exception source
+ *
+ * Implements a common base exception and some other common exceptions
+ */
+
 #include "common/exception.hpp"
 
 namespace common

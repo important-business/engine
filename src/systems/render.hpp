@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Render Header
+ *
+ * Contains definition of classes for rendering logic
+ */
+
 #ifndef SYSTEMS_RENDER_HPP
 #define SYSTEMS_RENDER_HPP
 

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Level Header
+ *
+ * Contains definition of classes for representing level data
+ */
+
 #ifndef CORE_LEVEL_HPP
 #define CORE_LEVEL_HPP
 

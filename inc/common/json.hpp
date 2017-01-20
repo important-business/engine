@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Common Json Header
+ *
+ * Defines common classes for parsing JSON files using jsoncpp
+ */
+
 #ifndef JSON_HPP
 #define JSON_HPP
 

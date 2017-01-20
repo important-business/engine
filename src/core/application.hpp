@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Core Application Header
+ *
+ * Contains definition of application class
+ */
+
 #ifndef CORE_APPLICATION_HPP
 #define CORE_APPLICATION_HPP
 

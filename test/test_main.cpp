@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Test main source
+ *
+ * Main source for executing tests
+ */
+
 #include "common/logging.hpp"
 #include <iostream>
 #include <gtest/gtest.h>

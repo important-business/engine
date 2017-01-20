@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief System Collision Header
+ *
+ * Contains definition of classes for Collision Logic
+ */
+
 #ifndef SYSTEMS_COLLISION_HPP
 #define SYSTEMS_COLLISION_HPP
 
