@@ -70,3 +70,21 @@ add_custom_target (
     lint
     )
 add_dependencies(lint clangtidy cppcheck json_validate oclint)
+
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Create and install the HTML based
+documentation (requires Doxygen)" ${DOXYGEN_FOUND})
+
+if(BUILD_DOCUMENTATION)
+    if(NOT DOXYGEN_FOUND)
+         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    endif()
+
+    set(doxyfile ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+
+    add_custom_target(doc
+                      COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                      COMMENT "Generating API documentation with Doxygen"
+                      VERBATIM)
+endif()
