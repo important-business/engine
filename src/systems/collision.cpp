@@ -14,10 +14,15 @@ Collision::Collision() : m_sp_logger(common::logging_get_logger("collision"))
 {
 }
 
-Manifold* Collision::check_rect_collision(
+Manifold::operator bool()
+{
+    return normal.x != 0.0f || normal.y != 0.0f;
+}
+
+Manifold Collision::check_rect_collision(
     const common::Rectangle& rect1, const common::Rectangle& rect2)
 {
-    Manifold* p_manifold = nullptr;
+    Manifold manifold;
     // TODO(Keegan): Don't ignore bounding box x/y positions)
     float pos_dx = rect1.x - rect2.x;
     float pos_dy = rect1.y - rect2.y;
@@ -31,46 +36,44 @@ Manifold* Collision::check_rect_collision(
         {
             m_sp_logger->trace(
                 " collision - x overlap {} y overlap {}", x_overlap, y_overlap);
-            p_manifold = new Manifold();
             if (x_overlap < y_overlap)
             {
                 if (pos_dx < 0)
                 {
                     m_sp_logger->trace("Normal in -y");
-                    p_manifold->normal.x = 1;
-                    p_manifold->normal.y = 0;
+                    manifold.normal.x = 1;
+                    manifold.normal.y = 0;
                 }
                 else
                 {
                     m_sp_logger->trace("Normal in +y");
-                    p_manifold->normal.x = -1;
-                    p_manifold->normal.y = 0;
+                    manifold.normal.x = -1;
+                    manifold.normal.y = 0;
                 }
-                p_manifold->penetration.x = x_overlap;
+                manifold.penetration.x = x_overlap;
             }
             else
             {
                 if (pos_dy < 0)
                 {
                     m_sp_logger->trace("Normal in -x");
-                    p_manifold->normal.x = 0;
-                    p_manifold->normal.y = 1;
+                    manifold.normal.x = 0;
+                    manifold.normal.y = 1;
                 }
                 else
                 {
                     m_sp_logger->trace("Normal in +x");
-                    p_manifold->normal.x = 0;
-                    p_manifold->normal.y = -1;
+                    manifold.normal.x = 0;
+                    manifold.normal.y = -1;
                 }
-                p_manifold->penetration.y = y_overlap;
+                manifold.penetration.y = y_overlap;
             }
         }
     }
-    return p_manifold;
+    return manifold;
 }
 
-Manifold* systems::Collision::check_collision(
-    anax::Entity& e1, anax::Entity& e2)
+Manifold systems::Collision::check_collision(anax::Entity& e1, anax::Entity& e2)
 {
     throw_if_missing_component<components::TransformComponent>(e1);
     auto& transform1 = e1.getComponent<components::TransformComponent>();
@@ -96,8 +99,7 @@ Manifold* systems::Collision::check_collision(
     return check_rect_collision(rect1, rect2);
 }
 
-Manifold* Collision::check_level_collision(
-    anax::Entity& e, core::Level* p_level)
+Manifold Collision::check_level_collision(anax::Entity& e, core::Level* p_level)
 {
     throw_if_missing_component<components::TransformComponent>(e);
     auto& transform = e.getComponent<components::TransformComponent>();
@@ -105,7 +107,7 @@ Manifold* Collision::check_level_collision(
     throw_if_missing_component<components::Collision>(e);
     auto& bbox = e.getComponent<components::Collision>().bounding_box;
 
-    auto p_manifold = new Manifold();
+    auto manifold = Manifold();
     bool collision = false;
 
     int level_x1, level_y1, level_x2, level_y2;
@@ -140,46 +142,38 @@ Manifold* Collision::check_level_collision(
                     tile_size,
                     tile_size};
 
-                auto p_new_manifold = check_rect_collision(rect1, rect2);
-                if (p_new_manifold != nullptr)
+                auto new_manifold = check_rect_collision(rect1, rect2);
+                if (new_manifold)
                 {
                     m_sp_logger->debug("Collision");
                     collision = true;
-                    /* if (p_new_manifold->penetration >
-                     * p_manifold->penetration) */
+                    /* if (new_manifold.penetration >
+                     * manifold.penetration) */
                     /* { */
-                    /*     *p_manifold = *p_new_manifold; */
+                    /*     manifold = new_manifold; */
                     /* } */
-                    p_manifold->normal += p_new_manifold->normal;
-                    p_manifold->penetration += p_new_manifold->penetration;
+                    manifold.normal += new_manifold.normal;
+                    manifold.penetration += new_manifold.penetration;
                 }
-                delete p_new_manifold;
             }
             m_sp_logger->trace("Checking tile {},{}", x, y);
         }
     }
     if (collision)
     {
-        p_manifold->normal = p_manifold->normal.normalize();
+        manifold.normal = manifold.normal.normalize();
         m_sp_logger->debug("   Normal:{},{}, penetration:{},{}",
-            p_manifold->normal.x,
-            p_manifold->normal.y,
-            p_manifold->penetration.x,
-            p_manifold->penetration.y);
+            manifold.normal.x,
+            manifold.normal.y,
+            manifold.penetration.x,
+            manifold.penetration.y);
     }
-    else
-    {
-        delete p_manifold;
-        p_manifold = nullptr;
-    }
-    return p_manifold;
+    return manifold;
 }
 
 void Collision::resolve_collision(
-    anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
+    anax::Entity& e1, anax::Entity& e2, const Manifold& manifold)
 {
-    assert(p_manifold != nullptr);
-
     if (!e1.hasComponent<components::PhysicsComponent>() ||
         !e2.hasComponent<components::PhysicsComponent>())
     {
@@ -194,10 +188,10 @@ void Collision::resolve_collision(
     throw_if_missing_component<components::TransformComponent>(e2);
     auto& transform2 = e2.getComponent<components::TransformComponent>();
     do_resolve_collision(
-        &physics1, &transform1, &physics2, &transform2, p_manifold);
+        &physics1, &transform1, &physics2, &transform2, manifold);
 }
 
-void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
+void Collision::resolve_collision(anax::Entity& e1, const Manifold& manifold)
 {
     const float level_mass = 0.0f;
     const float level_friction = 0.0f;
@@ -214,7 +208,6 @@ void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
     const float level_rotation = 0.0f;
     const bool level_flip_vert = false;
     const bool level_flip_horiz = false;
-    assert(p_manifold != nullptr);
 
     if (!e1.hasComponent<components::PhysicsComponent>())
     {
@@ -240,16 +233,15 @@ void Collision::resolve_collision(anax::Entity& e1, Manifold* p_manifold)
         level_flip_horiz};
 
     do_resolve_collision(
-        &physics1, &transform1, &physics2, &transform2, p_manifold);
+        &physics1, &transform1, &physics2, &transform2, manifold);
 }
 
 void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
     components::TransformComponent* p_transform1,
     components::PhysicsComponent* p_physics2,
     components::TransformComponent* p_transform2,
-    Manifold* p_manifold)
+    const Manifold& manifold)
 {
-    assert(p_manifold != nullptr);
     assert(p_physics1 != nullptr);
     assert(p_transform1 != nullptr);
     assert(p_physics2 != nullptr);
@@ -258,8 +250,7 @@ void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
     float vel_dx = p_physics2->velocity.x - p_physics1->velocity.x;
     float vel_dy = p_physics2->velocity.y - p_physics1->velocity.y;
 
-    float vel_normal =
-        vel_dx * p_manifold->normal.x + vel_dy * p_manifold->normal.y;
+    float vel_normal = vel_dx * manifold.normal.x + vel_dy * manifold.normal.y;
 
     m_sp_logger->trace("Normal velocity is {}", vel_normal);
     m_sp_logger->trace("rel velocity is x{}, y{}", vel_dx, vel_dy);
@@ -276,8 +267,8 @@ void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
 
     // TODO(Keegan): Add mass consideration? Or keep in movement?
 
-    float impulse_x = impulse * p_manifold->normal.x;
-    float impulse_y = impulse * p_manifold->normal.y;
+    float impulse_x = impulse * manifold.normal.x;
+    float impulse_y = impulse * manifold.normal.y;
 
     m_sp_logger->trace("impulse is x{}, y{}", impulse_x, impulse_y);
 
@@ -295,13 +286,13 @@ void Collision::do_resolve_collision(components::PhysicsComponent* p_physics1,
     const float positional_percent = 0.2;
     const float positional_slop = 0.01;
     float x_correction =
-        std::max(p_manifold->penetration.x - positional_slop, 0.0f) /
+        std::max(manifold.penetration.x - positional_slop, 0.0f) /
         (p_physics1->inv_mass + p_physics2->inv_mass) * positional_percent *
-        p_manifold->normal.x;
+        manifold.normal.x;
     float y_correction =
-        std::max(p_manifold->penetration.y - positional_slop, 0.0f) /
+        std::max(manifold.penetration.y - positional_slop, 0.0f) /
         (p_physics1->inv_mass + p_physics2->inv_mass) * positional_percent *
-        p_manifold->normal.y;
+        manifold.normal.y;
     p_transform1->pos_x -= p_physics1->inv_mass * x_correction;
     p_transform1->pos_y -= p_physics1->inv_mass * y_correction;
     p_transform2->pos_x += p_physics2->inv_mass * x_correction;
@@ -323,29 +314,27 @@ void Collision::update(core::Level* p_level)
         }
         if (p_level != nullptr)
         {
-            auto up_manifold =
-                std::unique_ptr<Manifold>(check_level_collision(e1, p_level));
-            if (up_manifold)
+            auto manifold = check_level_collision(e1, p_level);
+            if (manifold)
             {
-                resolve_collision(e1, up_manifold.get());
+                resolve_collision(e1, manifold);
             }
         }
         for (std::size_t j = i + 1; j < colliders.size(); ++j)
         {
             auto& e2 = colliders[j];
-            auto up_manifold =
-                std::unique_ptr<Manifold>(check_collision(e1, e2));
-            if (up_manifold)
+            auto manifold = check_collision(e1, e2);
+            if (manifold)
             {
-                resolve_collision(e1, e2, up_manifold.get());
-                check_trigger(e1, e2, up_manifold.get());
+                resolve_collision(e1, e2, manifold);
+                check_trigger(e1, e2, manifold);
             }
         }
     }
 }
 
 void Collision::check_trigger(
-    anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold)
+    anax::Entity& e1, anax::Entity& e2, const Manifold& manifold)
 {
     if (e1.hasComponent<components::Trigger>())
     {

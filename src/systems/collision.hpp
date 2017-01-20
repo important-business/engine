@@ -29,6 +29,8 @@ public:
     }
     common::Vector normal;
     common::Vector penetration;
+
+    explicit operator bool();
 };
 
 struct Collision
@@ -43,21 +45,20 @@ public:
     wink::signal<wink::slot<void (std::string, anax::Entity)>> m_trigger_signal;
 
 private:
-    Manifold* check_rect_collision(const common::Rectangle &rect1, const common::Rectangle &rect2);
-    Manifold* check_collision(anax::Entity& e1, anax::Entity& e2);
-    Manifold* check_level_collision(anax::Entity& e, core::Level *p_level);
-    Manifold* do_check_collision(anax::Entity& e1, anax::Entity& e2);
+    Manifold check_rect_collision(const common::Rectangle &rect1, const common::Rectangle &rect2);
+    Manifold check_collision(anax::Entity& e1, anax::Entity& e2);
+    Manifold check_level_collision(anax::Entity& e, core::Level *p_level);
     void resolve_collision(
-        anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
+        anax::Entity& e1, anax::Entity& e2, const Manifold& manifold);
     void resolve_collision(
-        anax::Entity& e1, Manifold* p_manifold);
+        anax::Entity& e1, const Manifold& manifold);
     void do_resolve_collision(components::PhysicsComponent *p_physics1,
             components::TransformComponent *p_transform1,
             components::PhysicsComponent *p_physics2,
             components::TransformComponent *p_transform2,
-            Manifold* p_manifold);
+            const Manifold& manifold);
     void check_trigger(
-        anax::Entity& e1, anax::Entity& e2, Manifold* p_manifold);
+        anax::Entity& e1, anax::Entity& e2, const Manifold& manifold);
 
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
