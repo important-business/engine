@@ -1,0 +1,5 @@
+set(SRCS_TEST_COMMON
+    "${CMAKE_CURRENT_SOURCE_DIR}/math.cpp"
+    PARENT_SCOPE
+)
+

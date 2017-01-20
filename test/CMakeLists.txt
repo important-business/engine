@@ -6,11 +6,13 @@ add_custom_target (
 # Allow all children to headers relative to the src directory
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+add_subdirectory(common)
 add_subdirectory(core)
 add_subdirectory(systems)
 
 # Define an executable for engine test
 set(SRCS_TEST_ENGINE
+    ${SRCS_TEST_COMMON}
     ${SRCS_TEST_CORE}
     ${SRCS_TEST_SYSTEMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
