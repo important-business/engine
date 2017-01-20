@@ -1,4 +1,23 @@
 {
+    "logging" : 
+    {
+        "loggers" : 
+        {
+            "ai" : "info",
+            "collision" : "info",
+            "config" : "info",
+            "data" : "info",
+            "hockey" : "info",
+            "json" : "info",
+            "main" : "info",
+            "movement" : "info",
+            "playerinput" : "info",
+            "render" : "info",
+            "resource_manager" : "info",
+            "sdlwrap" : "info",
+            "world" : "info"
+        }
+    },
     "render" : 
     {
         "acceleration" : false,

@@ -18,6 +18,7 @@ public:
     bool get_render_collision() const;
     int get_window_height() const;
     int get_window_width() const;
+    void set_logging_levels();
 
 private:
     const std::string m_str_filename;

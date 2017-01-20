@@ -49,4 +49,45 @@ int Configuration::get_window_width() const
     return m_json_config["window"].get("size_x", WINDOW_WIDTH_DEFAULT).asInt();
 }
 
+void Configuration::set_logging_levels()
+{
+    auto& levels = m_json_config["logging"]["loggers"];
+    Json::Value::Members loggers = levels.getMemberNames();
+    for (auto loggername : loggers)
+    {
+        auto level = levels[loggername].asString();
+        m_sp_logger->debug("Reading level {} for logger {}", level, loggername);
+        auto logger = common::logging_get_logger(loggername);
+
+        if (level.compare("off") == 0)
+        {
+            logger->set_level(spdlog::level::off);
+        }
+        else if (level.compare("trace") == 0)
+        {
+            logger->set_level(spdlog::level::trace);
+        }
+        else if (level.compare("debug") == 0)
+        {
+            logger->set_level(spdlog::level::debug);
+        }
+        else if (level.compare("info") == 0)
+        {
+            logger->set_level(spdlog::level::info);
+        }
+        else if (level.compare("warning") == 0)
+        {
+            logger->set_level(spdlog::level::warn);
+        }
+        else if (level.compare("error") == 0)
+        {
+            logger->set_level(spdlog::level::err);
+        }
+        else if (level.compare("critical") == 0)
+        {
+            logger->set_level(spdlog::level::err);
+        }
+    }
+}
+
 } // namespace core

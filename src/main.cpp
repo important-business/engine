@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
     try
     {
         core::Configuration config{CONFIG_PATH};
+        config.set_logging_levels();
         core::Application app{argc, argv, config};
         logger_main->info("Initializing application");
         app.init();
