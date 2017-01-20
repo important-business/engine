@@ -16,9 +16,7 @@ class World;
 class Application
 {
 public:
-    Application(int argc, char** argv) : argc(argc), argv(argv)
-    {
-    }
+    Application(int argc, char** argv, Configuration &config);
 
     void init();
 
@@ -38,6 +36,8 @@ private:
     int argc;
 
     char** argv;
+
+    Configuration &m_config;
 
     void handle_events();
 };

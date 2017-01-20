@@ -8,18 +8,20 @@ namespace core
 {
 
 const char* WINDOW_TITLE{"Engine"};
-const char* CONFIG_PATH{"config.json"};
 const float MS_TO_SECONDS{1000.0};
 const float S_PER_UPDATE{0.016667};
+
+Application::Application(int argc, char** argv, Configuration& config)
+    : argc(argc), argv(argv), m_config(config)
+{
+}
 
 void Application::init()
 {
     sdl_wrap::sdl_init(SDL_INIT_EVERYTHING, IMG_INIT_PNG);
 
-    Configuration config{CONFIG_PATH};
-
-    auto window_width = config.get_window_width();
-    auto window_height = config.get_window_height();
+    auto window_width = m_config.get_window_width();
+    auto window_height = m_config.get_window_height();
 
     m_up_window = std::make_unique<sdl_wrap::Window>(WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
@@ -27,7 +29,7 @@ void Application::init()
         window_width,
         window_height,
         SDL_WINDOW_SHOWN);
-    m_up_world = std::make_unique<core::World>(m_up_window.get(), config);
+    m_up_world = std::make_unique<core::World>(m_up_window.get(), m_config);
     m_up_world->init();
     m_has_quit = false;
 }

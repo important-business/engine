@@ -1,4 +1,5 @@
 #include "core/application.hpp"
+#include "core/configuration.hpp"
 #include "common/logging.hpp"
 
 #include <exception>
@@ -8,6 +9,8 @@
 #include <sstream>
 #include <string>
 
+const char* CONFIG_PATH{"config.json"};
+
 int main(int argc, char* argv[])
 {
     int to_return = 0;
@@ -15,7 +18,8 @@ int main(int argc, char* argv[])
     auto logger_main = common::logging_get_logger("main");
     try
     {
-        core::Application app{argc, argv};
+        core::Configuration config{CONFIG_PATH};
+        core::Application app{argc, argv, config};
         logger_main->info("Initializing application");
         app.init();
         to_return = app.loop();
