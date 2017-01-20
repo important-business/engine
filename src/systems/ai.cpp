@@ -1,7 +1,7 @@
-#include "systems/ai.hpp"
+#include "common/exception.hpp"
 #include "components/transform.hpp"
 #include "components/velocity.hpp"
-#include "common/exception.hpp"
+#include "systems/ai.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -118,6 +118,7 @@ AiResult AiNodeLoop::_execute(anax::Entity entity, AiSystem const& aisystem)
         case AI_RESULT_READY:
         default:
             result = AI_RESULT_READY;
+            break;
         }
     }
     return result;
@@ -155,6 +156,7 @@ AiResult AiNodeSelector::_execute(anax::Entity entity, AiSystem const& aisystem)
         case AI_RESULT_READY:
         default:
             result = AI_RESULT_READY;
+            break;
         }
     }
     return result;
@@ -207,6 +209,7 @@ AiResult AiNodeDecoratorInvert::_execute(
         case AI_RESULT_READY:
         default:
             result = status;
+            break;
         }
     }
     return result;
@@ -323,9 +326,8 @@ AiResult AiNodeFollow::_execute(anax::Entity entity, AiSystem const& aisystem)
     aisystem.m_movement_signal.emit(entity, vel_x, vel_y);
     return result;
 }
-AiSystem::AiSystem()
+AiSystem::AiSystem() : m_sp_logger(core::logging_get_logger("ai"))
 {
-    m_sp_logger = core::logging_get_logger("ai");
 }
 
 void AiSystem::update()

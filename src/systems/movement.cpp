@@ -8,9 +8,8 @@
 namespace systems
 {
 
-Movement::Movement()
+Movement::Movement() : m_sp_logger(core::logging_get_logger("movement"))
 {
-    m_sp_logger = core::logging_get_logger("movement");
 }
 
 void Movement::move_actor(anax::Entity entity, float vel_x, float vel_y)

@@ -24,7 +24,7 @@ Vector& Vector::operator+=(const Vector& other)
 {
     x += other.x;
     y += other.y;
-    return (*this);
+    return *this;
 }
 
 Vector Vector::operator-(const Vector& other)
@@ -38,7 +38,7 @@ Vector& Vector::operator-=(const Vector& other)
 {
     x -= other.x;
     y -= other.y;
-    return (*this);
+    return *this;
 }
 
 Vector Vector::operator*(const Vector& other)
@@ -52,7 +52,7 @@ Vector& Vector::operator*=(const Vector& other)
 {
     x *= other.x;
     y *= other.y;
-    return (*this);
+    return *this;
 }
 
 Vector Vector::operator/(const Vector& other)
@@ -66,7 +66,7 @@ Vector& Vector::operator/=(const Vector& other)
 {
     x /= other.x;
     y /= other.y;
-    return (*this);
+    return *this;
 }
 
 bool operator==(const Vector& v1, const Vector& v2)
@@ -102,16 +102,15 @@ float Vector::mag() const
 Vector Vector::normalize() const
 {
     auto magnitude = mag();
+    Vector result{0.0f, 0.0f};
     if (magnitude != 0.0f)
     {
         auto norm_x = x / magnitude;
         auto norm_y = y / magnitude;
-        return Vector(norm_x, norm_y);
+        result.x = norm_x;
+        result.y = norm_y;
     }
-    else
-    {
-        return Vector(0.0f, 0.0f);
-    }
+    return result;
 }
 
 } // namespace core

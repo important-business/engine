@@ -22,9 +22,9 @@ void JsonReader::check_required_component_property(
 }
 
 JsonReader::JsonReader(std::string json_string, std::string description)
-    : m_str_description(std::move(description))
+    : m_str_description(std::move(description)),
+      m_sp_logger(logging_get_logger("json"))
 {
-    m_sp_logger = logging_get_logger("json");
 
     Json::Reader reader_json;
     if (!reader_json.parse(json_string, m_json_data))

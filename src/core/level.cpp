@@ -31,14 +31,7 @@ bool Level::get_collision(int pos_x, int pos_y) const
 {
     const auto tile = get_tile(pos_x, pos_y, m_collision_layer);
 
-    if (tile > 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return tile > 0;
 }
 int Level::get_collision_layer() const
 {
@@ -51,7 +44,8 @@ Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
       m_layers(layers),
       m_scale(scale),
       m_default_tile(default_tile),
-      m_collision_layer(-1)
+      m_collision_layer(-1),
+      m_sp_logger(logging_get_logger("level"))
 {
     m_p_tiles = new int[size_x * size_y * layers];
     for (int layer = 0; layer < layers; layer++)
@@ -64,7 +58,6 @@ Level::Level(int size_x, int size_y, int layers, float scale, int default_tile)
             }
         }
     }
-    m_sp_logger = logging_get_logger("level");
 }
 
 Level::~Level()

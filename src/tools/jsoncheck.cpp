@@ -50,8 +50,10 @@ int main(int argc, char* argv[])
                               << optopt << "." << std::endl;
                 }
                 return 1;
+                break;
             default:
                 abort();
+                break;
             }
         }
 

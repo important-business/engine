@@ -50,7 +50,7 @@ class AiNodeSequence : public AiNodeComposite
 public:
     virtual ~AiNodeSequence(){}
 private:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
 };
 
 class AiNodeLoop : public AiNodeSequence
@@ -58,7 +58,7 @@ class AiNodeLoop : public AiNodeSequence
 public:
     virtual ~AiNodeLoop(){}
 private:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
 };
 
 class AiNodeSelector : public AiNodeComposite
@@ -66,7 +66,7 @@ class AiNodeSelector : public AiNodeComposite
 public:
     virtual ~AiNodeSelector(){}
 private:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
 };
 
 class AiNodeDecorator : public AiNode
@@ -78,9 +78,9 @@ public:
     virtual ~AiNodeDecorator(){}
 
 protected:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
-    virtual void _success(anax::Entity entity, AiSystem const& aisystem);
-    virtual void _failure(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
+    virtual void _success(anax::Entity entity, AiSystem const& aisystem) override;
+    virtual void _failure(anax::Entity entity, AiSystem const& aisystem) override;
     std::unique_ptr<AiNode> m_up_decoratee;
 };
 
@@ -93,9 +93,9 @@ public:
 
     virtual ~AiNodeDecoratorInvert(){}
 protected:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
-    virtual void _success(anax::Entity entity, AiSystem const& aisystem);
-    virtual void _failure(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
+    virtual void _success(anax::Entity entity, AiSystem const& aisystem) override;
+    virtual void _failure(anax::Entity entity, AiSystem const& aisystem) override;
 };
 
 class AiNodeMoveTo : public AiNode
@@ -107,7 +107,7 @@ public:
 
 private:
     double m_pos_x, m_pos_y, m_tolerance;
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
 };
 
 struct AiSystem : anax::System<anax::Requires<components::AiComponent>>
@@ -131,7 +131,7 @@ public:
     virtual ~AiNodeFollow(){}
 
 private:
-    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem);
+    virtual AiResult _execute(anax::Entity entity, AiSystem const& aisystem) override;
 
     anax::Entity m_target;
     double m_tolerance;

@@ -1,6 +1,6 @@
 #include "systems/collision.hpp"
-#include "components/id.hpp"
 #include "common/exception.hpp"
+#include "components/id.hpp"
 
 #include <anax/System.hpp>
 
@@ -10,9 +10,8 @@
 namespace systems
 {
 
-Collision::Collision()
+Collision::Collision() : m_sp_logger(core::logging_get_logger("collision"))
 {
-    m_sp_logger = core::logging_get_logger("collision");
 }
 
 Manifold* Collision::check_rect_collision(
@@ -109,7 +108,7 @@ Manifold* Collision::check_level_collision(
     auto p_manifold = new Manifold();
     bool collision = false;
 
-    int level_x1, level_y1, level_x2, level_y2, level_layers;
+    int level_x1, level_y1, level_x2, level_y2;
     assert(p_level != nullptr);
     float world_x1 = transform.pos_x - (bbox.w / 2.0f);
     float world_y1 = transform.pos_y - (bbox.h / 2.0f);
@@ -142,7 +141,7 @@ Manifold* Collision::check_level_collision(
                     tile_size};
 
                 auto p_new_manifold = check_rect_collision(rect1, rect2);
-                if (p_new_manifold)
+                if (p_new_manifold != nullptr)
                 {
                     m_sp_logger->info("Collision");
                     collision = true;
@@ -167,13 +166,13 @@ Manifold* Collision::check_level_collision(
             p_manifold->normal.y,
             p_manifold->penetration.x,
             p_manifold->penetration.y);
-        return p_manifold;
     }
     else
     {
         delete p_manifold;
-        return nullptr;
+        p_manifold = nullptr;
     }
+    return p_manifold;
 }
 
 void Collision::resolve_collision(

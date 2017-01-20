@@ -4,9 +4,9 @@ namespace core
 {
 
 ResourceManagerTexture::ResourceManagerTexture()
+    : m_p_default_renderer(nullptr),
+      m_sp_logger(logging_get_logger("resource_manager"))
 {
-    m_p_default_renderer = nullptr;
-    m_sp_logger = logging_get_logger("resource_manager");
 }
 
 std::shared_ptr<sdl_wrap::Texture> ResourceManagerTexture::get(
