@@ -22,8 +22,9 @@ public:
     void update(double delta_time);
 
 private:
-    std::shared_ptr<spdlog::logger> m_sp_logger;
     const float m_min_vel = 0.001f;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
 #endif /* SYSTEMS_MOVEMENT_HPP */

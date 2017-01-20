@@ -23,6 +23,7 @@ public:
     void update();
 
     wink::signal<wink::slot<void (anax::Entity, float, float)>> m_movement_signal;
+
 private:
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };

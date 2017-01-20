@@ -12,10 +12,10 @@ Render::Render(sdl_wrap::Window* p_window,
     Camera& camerasystem,
     core::ResourceManagerTexture* p_resourcemanager)
     : m_up_window(p_window),
-      m_sp_logger(common::logging_get_logger("render")),
       m_camerasystem(camerasystem),
       m_up_resourcemanager(p_resourcemanager),
-      m_render_collision(false)
+      m_render_collision(false),
+      m_sp_logger(common::logging_get_logger("render"))
 {
 
     uint32_t render_flags = 0;

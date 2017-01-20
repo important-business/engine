@@ -23,9 +23,9 @@ class World
 
 {
 public:
-    explicit World(sdl_wrap::Window* pwindow, const core::Configuration &config) : m_p_window(pwindow), m_config(config)
+    explicit World(sdl_wrap::Window* pwindow, const core::Configuration &config) : m_p_window(pwindow), m_config(config),
+        m_sp_logger(common::logging_get_logger("world"))
     {
-        m_sp_logger = common::logging_get_logger("world");
     }
 
     void init();
@@ -63,9 +63,9 @@ private:
 
     anax::Entity m_player;
 
-    std::shared_ptr<spdlog::logger> m_sp_logger;
-
     const core::Configuration &m_config;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }
 

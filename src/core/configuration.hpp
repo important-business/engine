@@ -22,6 +22,7 @@ public:
 private:
     const std::string m_str_filename;
     Json::Value m_json_config;
+
     std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 }

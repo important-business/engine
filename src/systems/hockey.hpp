@@ -24,8 +24,9 @@ public:
     void check_trigger(std::string msg, anax::Entity e_target);
 
 private:
-    std::shared_ptr<spdlog::logger> m_sp_logger;
     int m_score_a, m_score_b, m_score_limit;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 
 };
 }

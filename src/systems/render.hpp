@@ -71,13 +71,13 @@ private:
 
     std::unique_ptr<sdl_wrap::Renderer> m_up_renderer;
 
-    std::shared_ptr<spdlog::logger> m_sp_logger;
-
     Camera& m_camerasystem;
 
     std::unique_ptr<core::ResourceManagerTexture> m_up_resourcemanager;
 
     bool m_render_collision;
+
+    std::shared_ptr<spdlog::logger> m_sp_logger;
 };
 
 }

@@ -119,7 +119,9 @@ struct AiSystem : anax::System<anax::Requires<components::AiComponent>>
     wink::signal<wink::slot<void (anax::Entity, float, float)>> m_movement_signal;
 
 private:
+
     std::shared_ptr<spdlog::logger> m_sp_logger;
+
 };
 
 class AiNodeFollow : public AiNode

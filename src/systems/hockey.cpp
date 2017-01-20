@@ -6,10 +6,10 @@ namespace systems
 {
 
 Hockey::Hockey(int score_limit)
-    : m_sp_logger(common::logging_get_logger("hockey")),
-      m_score_a(0),
+    : m_score_a(0),
       m_score_b(0),
-      m_score_limit(score_limit)
+      m_score_limit(score_limit),
+      m_sp_logger(common::logging_get_logger("hockey"))
 {
 }
 
